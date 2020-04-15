@@ -1,48 +1,129 @@
 import argparse
+import enum
 import os
 import subprocess
+import sys
 import textwrap
 from ansimarkup import ansiprint
-from jinja2 import Environment, Template, FunctionLoader
+from jinja2 import Environment, DictLoader
 
-DEFAULT_FORMAT = (
-    "<bold>{% if success %}<green>✓</green>{% else %}<red>✗</red>{% endif %} {{ cmd }}</bold>{% if failure %} ({{ code }}){% endif %}"
-    "{% if failure and stderr %}\n{{ stderr|indent(4 * ' ') }}\n{% endif %}"
-)
+from ptyprocess import PtyProcessUnicode
 
-TAP_FORMAT = (
-    "{% if failure %}not {% endif %}ok {{ n }} - {{ cmd }}"
-    "{% if failure and stderr %}  ---\nstderr: |\n{{ stderr|indent(4 * ' ') }}\n  ...\n{% endif %}"
-)
+DEFAULT_FORMAT = "pretty"
 
-TEMPLATE = os.environ.get("WOOF_FORMAT", TAP_FORMAT)
-ENV = Environment(loader=FunctionLoader(lambda n: TEMPLATE))
-ENV.filters["indent"] = textwrap.indent
+FORMATS = {
+    "custom": None,
+    "pretty": (
+        "<bold>{% if success %}<green>✓</green>{% else %}<red>✗</red>{% endif %} {{ title }}</bold>"
+        "{% if failure %} ({{ code }}){% endif %}"
+        "{% if failure and output %}\n{{ output|indent(2 * ' ') }}{% endif %}"
+    ),
+    "tap": (
+        "{% if failure %}not {% endif %}ok {{ n }} - {{ title }}"
+        "{% if failure and output %}\n  ---\n  output: |\n{{ output|indent(4 * ' ') }}\n  ...{% endif %}"
+    ),
+}
 
 
-def run(cmd, n=1):
-    process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = process.communicate()
-    code = process.returncode
-    stdout, stderr = [s.decode("utf8") for s in (stdout, stderr)]
-    return ansiprint(
-        ENV.get_template("").render(
+class Output(enum.Enum):
+    STDOUT: str = "stdout"
+    STDERR: str = "stderr"
+    COMBINE: str = "combine"
+
+    def __str__(self):
+        return self.value.lower()
+
+
+def run(cmd, number=1, output_type=None, title=None, fmt=None):
+    if fmt is None:
+        fmt = os.environ.get("WOOF_FORMAT", DEFAULT_FORMAT)
+
+    env = Environment(loader=DictLoader(FORMATS))
+    env.filters["indent"] = textwrap.indent
+
+    if output_type is not None:
+        output_type = Output.COMBINE
+
+    if output_type == Output.COMBINE:
+        process = PtyProcessUnicode.spawn(cmd)
+
+        output = []
+
+        while True:
+            try:
+                output.append(process.read())
+            except EOFError:
+                break
+
+        process.close()
+
+        output = "".join(output)
+        code = process.exitstatus
+
+    else:
+        stdout_opt = subprocess.PIPE
+        stderr_opt = subprocess.PIPE
+
+        process = subprocess.Popen(
+            cmd, stdin=sys.stdin, stdout=stdout_opt, stderr=stderr_opt
+        )
+        stdout, stderr = process.communicate()
+
+        if output_type == Output.STDERR:
+            output = stderr
+        else:
+            output = stdout
+
+        output = output.decode("utf8")
+        code = process.returncode
+
+    if title is None:
+        title = " ".join(cmd)
+
+    ansiprint(
+        env.get_template(fmt).render(
             dict(
-                cmd=" ".join(cmd),
+                title=title,
                 code=code,
                 success=code == 0,
-                failure=code > 0,
-                n=n,
-                stdout=stdout,
-                stderr=stderr,
+                failure=code != 0,
+                n=number,
+                output=output,
             )
         )
     )
 
+    return code
+
 
 def get_parser():
+    def allow_custom_format(s):
+        if s.startswith("custom="):
+            FORMATS["custom"] = s[7:]
+            return "custom"
+        return s
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--multi", action="store_true", help="Consider each positional argument as a command.")
+    parser.add_argument(
+        "-f",
+        "--format",
+        choices=FORMATS.keys(),
+        type=allow_custom_format,
+        default=None,
+        help="Output format. Pass your own Jinja2 template as a string with '-f custom=TEMPLATE'. "
+        "Available variables: title (command or title passed with -t), code (exit status), "
+        "success (boolean), failure (boolean), n (command number passed with -n), "
+        "output (command output). Available filters: indent (textwrap.indent).",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        choices=[m for m in Output],
+        type=Output,
+        help="Which output to use. Colors are supported with 'combine' only, unless the command has a 'force color' option.",
+    )
+    parser.add_argument("-n", "--number", type=int, default=1, help="Command number. Useful for the 'tap' format.")
+    parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
     parser.add_argument("COMMAND", nargs="+")
     return parser
 
@@ -50,9 +131,10 @@ def get_parser():
 def main(args=None):
     parser = get_parser()
     options = parser.parse_args(args)
-
-    if options.multi:
-        for i, cmd in enumerate(options.COMMAND):
-            run(cmd.split(" "), i)
-    else:
-        run(options.COMMAND)
+    return run(
+        options.COMMAND,
+        number=options.number,
+        output_type=options.output,
+        title=options.title,
+        fmt=options.format,
+    )
