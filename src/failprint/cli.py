@@ -41,7 +41,7 @@ def run(cmd, number=1, output_type=None, title=None, fmt=None):
     env = Environment(loader=DictLoader(FORMATS))
     env.filters["indent"] = textwrap.indent
 
-    if output_type is not None:
+    if output_type is None:
         output_type = Output.COMBINE
 
     if output_type == Output.COMBINE:
