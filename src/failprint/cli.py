@@ -4,9 +4,9 @@ import os
 import subprocess
 import sys
 import textwrap
-from ansimarkup import ansiprint
-from jinja2 import Environment, DictLoader
 
+from ansimarkup import ansiprint
+from jinja2 import DictLoader, Environment
 from ptyprocess import PtyProcessUnicode
 
 DEFAULT_FORMAT = "pretty"
@@ -64,9 +64,7 @@ def run(cmd, number=1, output_type=None, title=None, fmt=None):
         stdout_opt = subprocess.PIPE
         stderr_opt = subprocess.PIPE
 
-        process = subprocess.Popen(
-            cmd, stdin=sys.stdin, stdout=stdout_opt, stderr=stderr_opt
-        )
+        process = subprocess.Popen(cmd, stdin=sys.stdin, stdout=stdout_opt, stderr=stderr_opt)
         stdout, stderr = process.communicate()
 
         if output_type == Output.STDERR:
@@ -82,14 +80,7 @@ def run(cmd, number=1, output_type=None, title=None, fmt=None):
 
     ansiprint(
         env.get_template(fmt).render(
-            dict(
-                title=title,
-                code=code,
-                success=code == 0,
-                failure=code != 0,
-                n=number,
-                output=output,
-            )
+            dict(title=title, code=code, success=code == 0, failure=code != 0, n=number, output=output,)
         )
     )
 
@@ -132,9 +123,5 @@ def main(args=None):
     parser = get_parser()
     options = parser.parse_args(args)
     return run(
-        options.COMMAND,
-        number=options.number,
-        output_type=options.output,
-        title=options.title,
-        fmt=options.format,
+        options.COMMAND, number=options.number, output_type=options.output, title=options.title, fmt=options.format,
     )
