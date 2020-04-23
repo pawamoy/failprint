@@ -36,7 +36,7 @@ class Output(enum.Enum):
 
 def run(cmd, number=1, output_type=None, title=None, fmt=None):
     if fmt is None:
-        fmt = os.environ.get("failprint_FORMAT", DEFAULT_FORMAT)
+        fmt = os.environ.get("FAILPRINT_FORMAT", DEFAULT_FORMAT)
 
     env = Environment(loader=DictLoader(FORMATS))
     env.filters["indent"] = textwrap.indent
