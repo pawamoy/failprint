@@ -1,9 +1,9 @@
 [tool.poetry]
-name = "woof"
+name = "failprint"
 version = "0.1.0"
 description = ""
 authors = ["Timothée Mazzucotelli <pawamoy@pm.me>"]
-packages = [ { include = "woof", from = "src" } ]
+packages = [ { include = "failprint", from = "src" } ]
 include = [
     "README.md",
     "pyproject.toml"
@@ -24,7 +24,7 @@ bandit = "^1.6.2"
 ipython = "^7.13.0"
 
 [tool.poetry.scripts]
-woof = "woof.cli:main"
+failprint = "failprint.cli:main"
 
 [build-system]
 requires = ["poetry>=0.12"]

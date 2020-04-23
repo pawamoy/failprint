@@ -1,6 +1,6 @@
-# Woof
+# failprint
 
-Write Only On Failure.
+Print only on failure.
 
 *:warning: Work in progress!*
 
@@ -9,37 +9,39 @@ to lighten up the output of your `make check` or `make lint` commands?
 
 Tired of finding out that standard output and error are mixed up in some of them?
 
-Simply run your command through `woof`. If it succeeds, nothing is printed. If it fails, standard error is printed.
+Simply run your command through `failprint`.
+If it succeeds, nothing is printed.
+If it fails, standard error is printed.
 Plus other configuration goodies :wink:
 
 ## Example
 
 Some tools output a lot of things. You don't want to see it when the command succeeds.
 
-Without `woof`:
+Without `failprint`:
 
 - `poetry run bandit -s B404 -r src/`
 - `poetry run black --check $(PY_SRC)`
 
 ![basic](https://user-images.githubusercontent.com/3999221/79385294-a2a0e080-7f68-11ea-827d-f72134a02eef.png)
 
-With `woof`:
+With `failprint`:
 
-- `poetry run woof -- bandit -s B404 -r src/`
-- `poetry run woof -- black --check $(PY_SRC)`
+- `poetry run failprint -- bandit -s B404 -r src/`
+- `poetry run failprint -- black --check $(PY_SRC)`
 
-![woof_fail](https://user-images.githubusercontent.com/3999221/79385302-a5033a80-7f68-11ea-98cd-1f4148629724.png)
+![failprint_fail](https://user-images.githubusercontent.com/3999221/79385302-a5033a80-7f68-11ea-98cd-1f4148629724.png)
 
 It's already better, no? Much more readable!
 
 And when everything passes, it's even better:
 
-![woof_success](https://user-images.githubusercontent.com/3999221/79385308-a59bd100-7f68-11ea-8012-90cbe9e0ac08.png)
+![failprint_success](https://user-images.githubusercontent.com/3999221/79385308-a59bd100-7f68-11ea-8012-90cbe9e0ac08.png)
 
 ## Usage
 
 ```
-usage: woof [-h] [-f {custom,pretty,tap}] [-o {stdout,stderr,combine}] [-n NUMBER] [-t TITLE] COMMAND [COMMAND ...]
+usage: failprint [-h] [-f {custom,pretty,tap}] [-o {stdout,stderr,combine}] [-n NUMBER] [-t TITLE] COMMAND [COMMAND ...]
 
 positional arguments:
   COMMAND
