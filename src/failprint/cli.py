@@ -34,7 +34,7 @@ class Output(enum.Enum):
         return self.value.lower()
 
 
-def run(cmd, number=1, output_type=None, title=None, fmt=None):
+def run(cmd, number=1, output_type=None, title=None, fmt=None, use_pty=True):
     if fmt is None:
         fmt = os.environ.get("FAILPRINT_FORMAT", DEFAULT_FORMAT)
 
@@ -44,7 +44,7 @@ def run(cmd, number=1, output_type=None, title=None, fmt=None):
     if output_type is None:
         output_type = Output.COMBINE
 
-    if output_type == Output.COMBINE:
+    if output_type == Output.COMBINE and use_pty:
         process = PtyProcessUnicode.spawn(cmd)
 
         output = []
@@ -62,7 +62,11 @@ def run(cmd, number=1, output_type=None, title=None, fmt=None):
 
     else:
         stdout_opt = subprocess.PIPE
-        stderr_opt = subprocess.PIPE
+
+        if output_type == Output.COMBINE:
+            stderr_opt = subprocess.STDOUT
+        else:
+            stderr_opt = subprocess.PIPE
 
         process = subprocess.Popen(cmd, stdin=sys.stdin, stdout=stdout_opt, stderr=stderr_opt)
         stdout, stderr = process.communicate()
@@ -107,6 +111,13 @@ def get_parser():
         "output (command output). Available filters: indent (textwrap.indent).",
     )
     parser.add_argument(
+        "--no-pty",
+        action="store_false",
+        dest="use_pty",
+        default=True,
+        help="Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.",
+    )
+    parser.add_argument(
         "-o",
         "--output",
         choices=[m for m in Output],
@@ -123,5 +134,10 @@ def main(args=None):
     parser = get_parser()
     options = parser.parse_args(args)
     return run(
-        options.COMMAND, number=options.number, output_type=options.output, title=options.title, fmt=options.format,
+        options.COMMAND,
+        number=options.number,
+        output_type=options.output,
+        title=options.title,
+        fmt=options.format,
+        use_pty=options.use_pty,
     )
