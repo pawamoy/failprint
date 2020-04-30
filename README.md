@@ -1,6 +1,9 @@
 # failprint
+![ci](https://github.com/pawamoy/failprint/workflows/ci/badge.svg)
+[![documentation](https://img.shields.io/readthedocs/failprint.svg?style=flat)](https://failprint.readthedocs.io/en/latest/index.html)
+[![pypi version](https://img.shields.io/pypi/v/failprint.svg)](https://pypi.org/project/failprint/)
 
-Print only on failure.
+Run a command, print its output only if it fails.
 
 *:warning: Work in progress!*
 
@@ -37,6 +40,42 @@ It's already better, no? Much more readable!
 And when everything passes, it's even better:
 
 ![failprint_success](https://user-images.githubusercontent.com/3999221/79385308-a59bd100-7f68-11ea-8012-90cbe9e0ac08.png)
+
+## Requirements
+failprint requires Python 3.6 or above.
+
+<details>
+<summary>To install Python 3.6, I recommend using <a href="https://github.com/pyenv/pyenv"><code>pyenv</code></a>.</summary>
+
+```bash
+# install pyenv
+git clone https://github.com/pyenv/pyenv ~/.pyenv
+
+# setup pyenv (you should also put these three lines in .bashrc or similar)
+export PATH="${HOME}/.pyenv/bin:${PATH}"
+export PYENV_ROOT="${HOME}/.pyenv"
+eval "$(pyenv init -)"
+
+# install Python 3.6
+pyenv install 3.6.8
+
+# make it available globally
+pyenv global system 3.6.8
+```
+</details>
+
+## Installation
+With `pip`:
+```bash
+python3.6 -m pip install failprint
+```
+
+With [`pipx`](https://github.com/pipx-project/pipx):
+```bash
+python3.6 -m pip install --user pipx
+
+pipx install --python python3.6 failprint
+```
 
 ## Usage
 
