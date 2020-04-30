@@ -4,7 +4,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "failprint"
-version = "0.2.0"
+version = "0.3.0"
 description = "Run a command, print its output only if it fails."
 authors = ["Timothée Mazzucotelli <pawamoy@pm.me>"]
 license = "ISC License"
