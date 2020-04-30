@@ -86,8 +86,8 @@ endif
 	@poetry run failprint -t "Tagging commit" -- git tag v$(v)
 	@poetry run failprint -t "Building dist/wheel" -- poetry build
 	-@if ! $(CI) && ! $(TESTING); then \
-		poetry run failprint -t "Pushing commit" -- git push; \
-		poetry run failprint -t "Pushing tag" -- git push --tags; \
+		poetry run failprint -t "Pushing commits" -- git push; \
+		poetry run failprint -t "Pushing tags" -- git push --tags; \
 		poetry run failprint -t "Publishing version" -- poetry publish; \
 		poetry run failprint -t "Deploying docs" -- poetry run mkdocs gh-deploy; \
 	fi

@@ -1,4 +1,5 @@
 # failprint
+
 ![ci](https://github.com/pawamoy/failprint/workflows/ci/badge.svg)
 [![documentation](https://img.shields.io/readthedocs/failprint.svg?style=flat)](https://failprint.readthedocs.io/en/latest/index.html)
 [![pypi version](https://img.shields.io/pypi/v/failprint.svg)](https://pypi.org/project/failprint/)
@@ -42,6 +43,7 @@ And when everything passes, it's even better:
 ![failprint_success](https://user-images.githubusercontent.com/3999221/79385308-a59bd100-7f68-11ea-8012-90cbe9e0ac08.png)
 
 ## Requirements
+
 failprint requires Python 3.6 or above.
 
 <details>
@@ -65,6 +67,7 @@ pyenv global system 3.6.8
 </details>
 
 ## Installation
+
 With `pip`:
 ```bash
 python3.6 -m pip install failprint
