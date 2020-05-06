@@ -1,7 +1,7 @@
 # failprint
 
 ![ci](https://github.com/pawamoy/failprint/workflows/ci/badge.svg)
-[![documentation](https://img.shields.io/readthedocs/failprint.svg?style=flat)](https://failprint.readthedocs.io/en/latest/index.html)
+[![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://pawamoy.github.io/failprint/)
 [![pypi version](https://img.shields.io/pypi/v/failprint.svg)](https://pypi.org/project/failprint/)
 
 Run a command, print its output only if it fails.
