@@ -1,12 +1,10 @@
 # failprint
 
-![ci](https://github.com/pawamoy/failprint/workflows/ci/badge.svg)
+[![ci](https://github.com/pawamoy/failprint/workflows/ci/badge.svg)](https://github.com/pawamoy/failprint/actions?query=workflow%3Aci)
 [![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://pawamoy.github.io/failprint/)
 [![pypi version](https://img.shields.io/pypi/v/failprint.svg)](https://pypi.org/project/failprint/)
 
 Run a command, print its output only if it fails.
-
-*:warning: Work in progress!*
 
 Tired of searching the `quiet` options of your programs
 to lighten up the output of your `make check` or `make lint` commands?
@@ -73,7 +71,7 @@ With `pip`:
 python3.6 -m pip install failprint
 ```
 
-With [`pipx`](https://github.com/pipx-project/pipx):
+With [`pipx`](https://github.com/pipxproject/pipx):
 ```bash
 python3.6 -m pip install --user pipx
 

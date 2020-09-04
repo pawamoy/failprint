@@ -11,8 +11,13 @@ def test_main():
         cli.main([])
 
 
-def test_main_help(capsys):
-    """Shows help."""
+def test_show_help(capsys):
+    """
+    Shows help.
+
+    Arguments:
+        capsys: Pytest fixture to capture output.
+    """
     with pytest.raises(SystemExit):
         cli.main(["-h"])
     captured = capsys.readouterr()

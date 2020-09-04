@@ -1,6 +1,6 @@
 # Why does this file exist, and why not put this in `__main__`?
 #
-# You might be tempted to import things from __main__ later,
+# You might be tempted to import things from `__main__` later,
 # but that will cause problems: the code will get executed twice:
 #
 # - When you run `python -m failprint` python will execute
@@ -178,7 +178,12 @@ def accept_custom_format(string: str) -> str:
 
 
 def get_parser() -> argparse.ArgumentParser:
-    """Return the CLI argument parser."""
+    """
+    Return the CLI argument parser.
+
+    Returns:
+        An argparse parser.
+    """
     parser = argparse.ArgumentParser(prog="failprint")
     parser.add_argument(
         "-f",
@@ -212,8 +217,18 @@ def get_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(args: Optional[List[str]] = None):
-    """The main function, which is executed when you type `failprint` or `python -m failprint`."""
+def main(args: Optional[List[str]] = None) -> int:
+    """
+    Run the main program.
+
+    This function is executed when you type `failprint` or `python -m failprint`.
+
+    Arguments:
+        args: Arguments passed from the command line.
+
+    Returns:
+        An exit code.
+    """
     parser = get_parser()
     options = parser.parse_args(args)
     return run(
