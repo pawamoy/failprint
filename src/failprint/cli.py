@@ -49,7 +49,7 @@ formats: Dict[str, Format] = {
         "<bold>{% if success %}<green>✓</green>{% elif nofail %}<yellow>✗</yellow>{% else %}<red>✗</red>{% endif %} "
         "{{ title or command }}</bold>"
         "{% if failure %} ({{ code }}){% endif %}"
-        "{% if failure and output %}\n"
+        "{% if failure and output and not quiet %}\n"
         "{{ ('  > ' + command + '\n') if title else '' }}"
         "{{ output|indent(2 * ' ') }}{% endif %}",
         progress_template="> {{ title or command }}",
@@ -110,6 +110,7 @@ def run(
     use_pty: bool = True,
     progress: bool = True,
     nofail: bool = False,
+    quiet: bool = False,
 ) -> int:
     """
     Run a command in a subprocess, and print its output if it fails.
@@ -123,6 +124,7 @@ def run(
         use_pty: Whether to run in a PTY.
         progress: Whether to show progress.
         nofail: Whether to always succeed.
+        quiet: Whether to not print the command output.
 
     Returns:
         The command exit code, or 0 if `nofail` is True.
@@ -162,6 +164,7 @@ def run(
                 "number": number,
                 "output": output,
                 "nofail": nofail,
+                "quiet": quiet,
             },
         ),
     )
@@ -283,6 +286,14 @@ def get_parser() -> argparse.ArgumentParser:
         help="Which output to use. Colors are supported with 'combine' only, unless the command has a 'force color' option.",
     )
     parser.add_argument(
+        "-q",
+        "--quiet",
+        action="store_true",
+        dest="quiet",
+        default=False,
+        help="Don't print the command output, even if it failed.",
+    )
+    parser.add_argument(
         "-z",
         "--zero",
         "--nofail",
@@ -320,4 +331,5 @@ def main(args: Optional[List[str]] = None) -> int:
         fmt=options.format,
         use_pty=options.use_pty,
         nofail=options.nofail,
+        quiet=options.quiet,
     )
