@@ -8,9 +8,9 @@
 <meta content="Run a command, print its output only if it fails." name="description"/>
 <link href="https://pawamoy.github.io/failprint/reference/cli/" rel="canonical"/>
 <link href="../../assets/images/favicon.png" rel="shortcut icon"/>
-<meta content="mkdocs-1.1, mkdocs-material-5.1.4" name="generator"/>
+<meta content="mkdocs-1.1.2, mkdocs-material-5.5.12" name="generator"/>
 <title>cli.py - failprint</title>
-<link href="../../assets/stylesheets/main.c4007cdc.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/main.4dd2dd8d.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&amp;display=fallback" rel="stylesheet"/>
 <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
@@ -119,35 +119,27 @@
 <li class="md-nav__item md-nav__item--active md-nav__item--nested">
 <input checked="" class="md-nav__toggle md-toggle" data-md-toggle="nav-2" id="nav-2" type="checkbox"/>
 <label class="md-nav__link" for="nav-2">
-      Reference
-      <span class="md-nav__icon md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"></path></svg>
-</span>
+      API Reference
+      <span class="md-nav__icon md-icon"></span>
 </label>
-<nav aria-label="Reference" class="md-nav" data-md-level="1">
+<nav aria-label="API Reference" class="md-nav" data-md-level="1">
 <label class="md-nav__title" for="nav-2">
-<span class="md-nav__icon md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</span>
-        Reference
+<span class="md-nav__icon md-icon"></span>
+        API Reference
       </label>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
         cli.py
-        <span class="md-nav__icon md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"></path></svg>
-</span>
+        <span class="md-nav__icon md-icon"></span>
 </label>
 <a class="md-nav__link md-nav__link--active" href="./" title="cli.py">
       cli.py
     </a>
 <nav aria-label="Table of contents" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</span>
+<span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
 <ul class="md-nav__list" data-md-scrollfix="">
@@ -198,6 +190,16 @@
 <li class="md-nav__item">
 <a class="md-nav__link" href="#failprint.cli.run">
     run()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#failprint.cli.run_pty_subprocess">
+    run_pty_subprocess()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#failprint.cli.run_subprocess">
+    run_subprocess()
   </a>
 </li>
 </ul>
@@ -236,9 +238,7 @@
 <div class="md-sidebar__inner">
 <nav aria-label="Table of contents" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"></path></svg>
-</span>
+<span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
 <ul class="md-nav__list" data-md-scrollfix="">
@@ -291,6 +291,16 @@
     run()
   </a>
 </li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#failprint.cli.run_pty_subprocess">
+    run_pty_subprocess()
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#failprint.cli.run_subprocess">
+    run_subprocess()
+  </a>
+</li>
 </ul>
 </nav>
 </div>
@@ -324,32 +334,61 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 </span>
 <a class="headerlink" href="#failprint.cli.Format.__init__" title="Permanent link">¤</a></h3>
 <div class="doc doc-contents">
-<p>Initialization method.</p>
+<p>Initialize the object.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>template</code></td>
+<td><code>str</code></td>
+<td>
+<p>The main template.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>progress_template</code></td>
+<td><code>Optional[str]</code></td>
+<td>
+<p>The template to show progress.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>accept_ansi</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether to accept ANSI sequences.</p>
+</td>
+<td><code>True</code></td>
+</tr>
+</tbody>
+</table>
 <details class="quote">
 <summary>Source code in <code>failprint/cli.py</code></summary>
-<table class="highlighttable">
-<tr>
-<td class="linenos">
-<div class="linenodiv">
-<pre><span></span>32
-33
-34
-35
-36</pre>
-</div>
-</td>
-<td class="code">
 <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">progress_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">accept_ansi</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">"""Initialization method."""</span>
+<pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">progress_template</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">accept_ansi</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Initialize the object.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        template: The main template.</span>
+<span class="sd">        progress_template: The template to show progress.</span>
+<span class="sd">        accept_ansi: Whether to accept ANSI sequences.</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">template</span> <span class="o">=</span> <span class="n">template</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">progress_template</span> <span class="o">=</span> <span class="n">progress_template</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">accept_ansi</span> <span class="o">=</span> <span class="n">accept_ansi</span>
 </code></pre>
 </div>
-</td>
-</tr>
-</table>
 </details>
 </div>
 </div>
@@ -372,34 +411,64 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 accept_custom_format<span class="p">(</span><span class="n">string</span><span class="p">)</span> </code>
 <a class="headerlink" href="#failprint.cli.accept_custom_format" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents">
-<p>Store the value in <code>FORMATS</code> if it starts with custom.</p>
+<p>Store the value in <code>formats</code> if it starts with custom.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>string</code></td>
+<td><code>str</code></td>
+<td>
+<p>A format name.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code></td>
+<td>
+<p>The format name, or <code>custom</code> if it started with <code>custom=</code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <details class="quote">
 <summary>Source code in <code>failprint/cli.py</code></summary>
-<table class="highlighttable">
-<tr>
-<td class="linenos">
-<div class="linenodiv">
-<pre><span></span>172
-173
-174
-175
-176
-177</pre>
-</div>
-</td>
-<td class="code">
 <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">accept_custom_format</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">"""Store the value in `FORMATS` if it starts with custom."""</span>
-    <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"custom="</span><span class="p">)</span> <span class="ow">and</span> <span class="n">FORMATS</span><span class="p">[</span><span class="s2">"custom"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">FORMATS</span><span class="p">[</span><span class="s2">"custom"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Format</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="mi">7</span><span class="p">:])</span>
+    <span class="sd">"""</span>
+<span class="sd">    Store the value in `formats` if it starts with custom.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        string: A format name.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The format name, or `custom` if it started with `custom=`.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"custom="</span><span class="p">)</span> <span class="ow">and</span> <span class="n">formats</span><span class="p">[</span><span class="s2">"custom"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">formats</span><span class="p">[</span><span class="s2">"custom"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Format</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="mi">7</span><span class="p">:])</span>
         <span class="k">return</span> <span class="s2">"custom"</span>
     <span class="k">return</span> <span class="n">string</span>
 </code></pre>
 </div>
-</td>
-</tr>
-</table>
 </details>
 </div>
 </div>
@@ -410,56 +479,38 @@ get_parser<span class="p">()</span> </code>
 <a class="headerlink" href="#failprint.cli.get_parser" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents">
 <p>Return the CLI argument parser.</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ArgumentParser</code></td>
+<td>
+<p>An argparse parser.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <details class="quote">
 <summary>Source code in <code>failprint/cli.py</code></summary>
-<table class="highlighttable">
-<tr>
-<td class="linenos">
-<div class="linenodiv">
-<pre><span></span>180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212</pre>
-</div>
-</td>
-<td class="code">
 <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">get_parser</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">:</span>
-    <span class="sd">"""Return the CLI argument parser."""</span>
+    <span class="sd">"""</span>
+<span class="sd">    Return the CLI argument parser.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An argparse parser.</span>
+<span class="sd">    """</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">"failprint"</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">"-f"</span><span class="p">,</span>
         <span class="s2">"--format"</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="n">FORMATS</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">formats</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">accept_custom_format</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Output format. Pass your own Jinja2 template as a string with '-f custom=TEMPLATE'. "</span>
@@ -481,6 +532,23 @@ get_parser<span class="p">()</span> </code>
         <span class="nb">type</span><span class="o">=</span><span class="n">Output</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Which output to use. Colors are supported with 'combine' only, unless the command has a 'force color' option."</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">"-q"</span><span class="p">,</span>
+        <span class="s2">"--quiet"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Don't print the command output, even if it failed."</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">"-z"</span><span class="p">,</span>
+        <span class="s2">"--zero"</span><span class="p">,</span>
+        <span class="s2">"--nofail"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">"nofail"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Don't fail. Always return a success (0) exit code."</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-n"</span><span class="p">,</span> <span class="s2">"--number"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command number. Useful for the 'tap' format."</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--title"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command title. Default is the command itself."</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"COMMAND"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">)</span>
@@ -488,9 +556,6 @@ get_parser<span class="p">()</span> </code>
     <span class="k">return</span> <span class="n">parser</span>
 </code></pre>
 </div>
-</td>
-</tr>
-</table>
 </details>
 </div>
 </div>
@@ -500,31 +565,61 @@ get_parser<span class="p">()</span> </code>
 main<span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> </code>
 <a class="headerlink" href="#failprint.cli.main" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents">
-<p>The main function, which is executed when you type <code>failprint</code> or <code>python -m failprint</code>.</p>
+<p>Run the main program.</p>
+<p>This function is executed when you type <code>failprint</code> or <code>python -m failprint</code>.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>args</code></td>
+<td><code>Optional[List[str]]</code></td>
+<td>
+<p>Arguments passed from the command line.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>An exit code.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <details class="quote">
 <summary>Source code in <code>failprint/cli.py</code></summary>
-<table class="highlighttable">
-<tr>
-<td class="linenos">
-<div class="linenodiv">
-<pre><span></span>215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226</pre>
-</div>
-</td>
-<td class="code">
 <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="sd">"""The main function, which is executed when you type `failprint` or `python -m failprint`."""</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Run the main program.</span>
+
+<span class="sd">    This function is executed when you type `failprint` or `python -m failprint`.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        args: Arguments passed from the command line.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An exit code.</span>
+<span class="sd">    """</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span>
     <span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">run</span><span class="p">(</span>
@@ -534,12 +629,11 @@ main<span class="p">(</span><span class="n">args</span><span class="o">=</span><
         <span class="n">title</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
         <span class="n">fmt</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
         <span class="n">use_pty</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">use_pty</span><span class="p">,</span>
+        <span class="n">nofail</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">nofail</span><span class="p">,</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">quiet</span><span class="p">,</span>
     <span class="p">)</span>
 </code></pre>
 </div>
-</td>
-</tr>
-</table>
 </details>
 </div>
 </div>
@@ -550,34 +644,57 @@ printable_command<span class="p">(</span><span class="n">cmd</span><span class="
 <a class="headerlink" href="#failprint.cli.printable_command" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents">
 <p>Rebuild a command line from system arguments.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cmd</code></td>
+<td><code>List[str]</code></td>
+<td>
+<p>The command as a list of strings.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code></td>
+<td>
+<p>A printable and shell-runnable command.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <details class="quote">
 <summary>Source code in <code>failprint/cli.py</code></summary>
-<table class="highlighttable">
-<tr>
-<td class="linenos">
-<div class="linenodiv">
-<pre><span></span>71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86</pre>
-</div>
-</td>
-<td class="code">
 <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">printable_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
-    <span class="sd">"""Rebuild a command line from system arguments."""</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">printable_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># noqa: WPS231 (not that complex)</span>
+    <span class="sd">"""</span>
+<span class="sd">    Rebuild a command line from system arguments.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        cmd: The command as a list of strings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A printable and shell-runnable command.</span>
+<span class="sd">    """</span>
     <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">cmd</span><span class="p">:</span>
         <span class="k">if</span> <span class="s2">" "</span> <span class="ow">in</span> <span class="n">part</span><span class="p">:</span>
@@ -586,7 +703,7 @@ printable_command<span class="p">(</span><span class="n">cmd</span><span class="
             <span class="k">if</span> <span class="n">has_double_quotes</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_single_quotes</span><span class="p">:</span>
                 <span class="n">part</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s2">'"</span>
             <span class="k">elif</span> <span class="n">has_single_quotes</span> <span class="ow">and</span> <span class="n">has_double_quotes</span><span class="p">:</span>
-                <span class="n">part</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="s1">'</span><span class="se">\\</span><span class="s1">"'</span><span class="p">)</span>
+                <span class="n">part</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'"'</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"</span><span class="se">\"</span><span class="s2">"</span><span class="p">)</span>
                 <span class="n">part</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s1">"'</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">part</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">part</span><span class="si">}</span><span class="s1">"'</span>
@@ -594,109 +711,120 @@ printable_command<span class="p">(</span><span class="n">cmd</span><span class="
     <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
 </code></pre>
 </div>
-</td>
-</tr>
-</table>
 </details>
 </div>
 </div>
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.cli.run">
 <code class="highlight language-python">
-run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_pty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> </code>
+run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_pty</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nofail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> </code>
 <a class="headerlink" href="#failprint.cli.run" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents">
 <p>Run a command in a subprocess, and print its output if it fails.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cmd</code></td>
+<td><code>List[str]</code></td>
+<td>
+<p>The command to run.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td><code>int</code></td>
+<td>
+<p>The command number.</p>
+</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>output_type</code></td>
+<td><code>Optional[failprint.cli.Output]</code></td>
+<td>
+<p>The type of output.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>Optional[str]</code></td>
+<td>
+<p>The command title.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>fmt</code></td>
+<td><code>Optional[str]</code></td>
+<td>
+<p>The output format.</p>
+</td>
+<td><code>None</code></td>
+</tr>
+<tr>
+<td><code>use_pty</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether to run in a PTY.</p>
+</td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>progress</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether to show progress.</p>
+</td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td><code>nofail</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether to always succeed.</p>
+</td>
+<td><code>False</code></td>
+</tr>
+<tr>
+<td><code>quiet</code></td>
+<td><code>bool</code></td>
+<td>
+<p>Whether to not print the command output.</p>
+</td>
+<td><code>False</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>
+<p>The command exit code, or 0 if <code>nofail</code> is True.</p>
+</td>
+</tr>
+</tbody>
+</table>
 <details class="quote">
 <summary>Source code in <code>failprint/cli.py</code></summary>
-<table class="highlighttable">
-<tr>
-<td class="linenos">
-<div class="linenodiv">
-<pre><span></span> 89
- 90
- 91
- 92
- 93
- 94
- 95
- 96
- 97
- 98
- 99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169</pre>
-</div>
-</td>
-<td class="code">
 <div class="highlight">
 <pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span>
     <span class="n">cmd</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
@@ -706,11 +834,29 @@ run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <s
     <span class="n">fmt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">use_pty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">nofail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="sd">"""Run a command in a subprocess, and print its output if it fails."""</span>
+    <span class="sd">"""</span>
+<span class="sd">    Run a command in a subprocess, and print its output if it fails.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        cmd: The command to run.</span>
+<span class="sd">        number: The command number.</span>
+<span class="sd">        output_type: The type of output.</span>
+<span class="sd">        title: The command title.</span>
+<span class="sd">        fmt: The output format.</span>
+<span class="sd">        use_pty: Whether to run in a PTY.</span>
+<span class="sd">        progress: Whether to show progress.</span>
+<span class="sd">        nofail: Whether to always succeed.</span>
+<span class="sd">        quiet: Whether to not print the command output.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The command exit code, or 0 if `nofail` is True.</span>
+<span class="sd">    """</span>
     <span class="n">format_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">fmt</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"FAILPRINT_FORMAT"</span><span class="p">,</span> <span class="n">DEFAULT_FORMAT</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
     <span class="n">format_name</span> <span class="o">=</span> <span class="n">accept_custom_format</span><span class="p">(</span><span class="n">format_name</span><span class="p">)</span>
-    <span class="n">format_obj</span> <span class="o">=</span> <span class="n">FORMATS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">format_name</span><span class="p">,</span> <span class="n">FORMATS</span><span class="p">[</span><span class="n">DEFAULT_FORMAT</span><span class="p">])</span>
+    <span class="n">format_obj</span> <span class="o">=</span> <span class="n">formats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">format_name</span><span class="p">,</span> <span class="n">formats</span><span class="p">[</span><span class="n">DEFAULT_FORMAT</span><span class="p">])</span>
     <span class="n">command</span> <span class="o">=</span> <span class="n">printable_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
 
     <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">(</span><span class="n">autoescape</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># noqa: S701 (no HTML: no need to escape)</span>
@@ -718,7 +864,7 @@ run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <s
 
     <span class="k">if</span> <span class="n">progress</span> <span class="ow">and</span> <span class="n">format_obj</span><span class="o">.</span><span class="n">progress_template</span><span class="p">:</span>
         <span class="n">progress_template</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">format_obj</span><span class="o">.</span><span class="n">progress_template</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">progress_template</span><span class="o">.</span><span class="n">render</span><span class="p">({</span><span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s2">"command"</span><span class="p">:</span> <span class="n">command</span><span class="p">}),</span> <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\r</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">ansiprint</span><span class="p">(</span><span class="n">progress_template</span><span class="o">.</span><span class="n">render</span><span class="p">({</span><span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s2">"command"</span><span class="p">:</span> <span class="n">command</span><span class="p">}),</span> <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\r</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">format_obj</span><span class="o">.</span><span class="n">accept_ansi</span> <span class="ow">and</span> <span class="n">use_pty</span><span class="p">:</span>
         <span class="n">use_pty</span> <span class="o">=</span> <span class="kc">False</span>
@@ -727,43 +873,11 @@ run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <s
         <span class="n">output_type</span> <span class="o">=</span> <span class="n">Output</span><span class="o">.</span><span class="n">COMBINE</span>
 
     <span class="k">if</span> <span class="n">output_type</span> <span class="o">==</span> <span class="n">Output</span><span class="o">.</span><span class="n">COMBINE</span> <span class="ow">and</span> <span class="n">use_pty</span><span class="p">:</span>
-        <span class="n">process</span> <span class="o">=</span> <span class="n">PtyProcessUnicode</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
-
-        <span class="n">pty_output</span> <span class="o">=</span> <span class="p">[]</span>
-
-        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">pty_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
-            <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
-                <span class="k">break</span>
-
-        <span class="n">process</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-
-        <span class="n">output</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pty_output</span><span class="p">)</span>
-        <span class="n">code</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">exitstatus</span>
-
+        <span class="n">code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">run_pty_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">stdout_opt</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
-
-        <span class="k">if</span> <span class="n">output_type</span> <span class="o">==</span> <span class="n">Output</span><span class="o">.</span><span class="n">COMBINE</span><span class="p">:</span>
-            <span class="n">stderr_opt</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">stderr_opt</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
-
-        <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>  <span class="c1"># noqa: S603 (we trust the input)</span>
-            <span class="n">cmd</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">stdout_opt</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">stderr_opt</span>
-        <span class="p">)</span>
-        <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
-
-        <span class="k">if</span> <span class="n">output_type</span> <span class="o">==</span> <span class="n">Output</span><span class="o">.</span><span class="n">STDERR</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf8"</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf8"</span><span class="p">)</span>
-
-        <span class="n">code</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">returncode</span>
+        <span class="n">code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">run_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">output_type</span><span class="p">)</span>
 
     <span class="n">template</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">format_obj</span><span class="o">.</span><span class="n">template</span><span class="p">)</span>
-
     <span class="n">ansiprint</span><span class="p">(</span>
         <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
             <span class="p">{</span>
@@ -774,16 +888,189 @@ run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <s
                 <span class="s2">"failure"</span><span class="p">:</span> <span class="n">code</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span>
                 <span class="s2">"number"</span><span class="p">:</span> <span class="n">number</span><span class="p">,</span>
                 <span class="s2">"output"</span><span class="p">:</span> <span class="n">output</span><span class="p">,</span>
-            <span class="p">}</span>
-        <span class="p">)</span>
+                <span class="s2">"nofail"</span><span class="p">:</span> <span class="n">nofail</span><span class="p">,</span>
+                <span class="s2">"quiet"</span><span class="p">:</span> <span class="n">quiet</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">code</span>
+    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">nofail</span> <span class="k">else</span> <span class="n">code</span>
 </code></pre>
 </div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h2 class="doc doc-heading" id="failprint.cli.run_pty_subprocess">
+<code class="highlight language-python">
+run_pty_subprocess<span class="p">(</span><span class="n">cmd</span><span class="p">)</span> </code>
+<a class="headerlink" href="#failprint.cli.run_pty_subprocess" title="Permanent link">¤</a></h2>
+<div class="doc doc-contents">
+<p>Run a command in a PTY subprocess.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cmd</code></td>
+<td><code>List[str]</code></td>
+<td>
+<p>The command to run.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Tuple[int, str]</code></td>
+<td>
+<p>The exit code and the command output.</p>
 </td>
 </tr>
+</tbody>
 </table>
+<details class="quote">
+<summary>Source code in <code>failprint/cli.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">run_pty_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Run a command in a PTY subprocess.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        cmd: The command to run.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The exit code and the command output.</span>
+<span class="sd">    """</span>
+    <span class="n">process</span> <span class="o">=</span> <span class="n">PtyProcessUnicode</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+
+    <span class="n">pty_output</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pty_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">process</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="n">process</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pty_output</span><span class="p">)</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">exitstatus</span>
+
+    <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">output</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h2 class="doc doc-heading" id="failprint.cli.run_subprocess">
+<code class="highlight language-python">
+run_subprocess<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">output_type</span><span class="p">)</span> </code>
+<a class="headerlink" href="#failprint.cli.run_subprocess" title="Permanent link">¤</a></h2>
+<div class="doc doc-contents">
+<p>Run a command in a subprocess.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cmd</code></td>
+<td><code>List[str]</code></td>
+<td>
+<p>The command to run.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>output_type</code></td>
+<td><code>Output</code></td>
+<td>
+<p>The type of output.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Tuple[int, str]</code></td>
+<td>
+<p>The exit code and the command output.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+<summary>Source code in <code>failprint/cli.py</code></summary>
+<div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">run_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">output_type</span><span class="p">:</span> <span class="n">Output</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Run a command in a subprocess.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        cmd: The command to run.</span>
+<span class="sd">        output_type: The type of output.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The exit code and the command output.</span>
+<span class="sd">    """</span>
+    <span class="n">stdout_opt</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+
+    <span class="k">if</span> <span class="n">output_type</span> <span class="o">==</span> <span class="n">Output</span><span class="o">.</span><span class="n">COMBINE</span><span class="p">:</span>
+        <span class="n">stderr_opt</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">stderr_opt</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span>
+
+    <span class="n">process</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>  <span class="c1"># noqa: S603 (we trust the input)</span>
+        <span class="n">cmd</span><span class="p">,</span>
+        <span class="n">stdin</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">,</span>
+        <span class="n">stdout</span><span class="o">=</span><span class="n">stdout_opt</span><span class="p">,</span>
+        <span class="n">stderr</span><span class="o">=</span><span class="n">stderr_opt</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">stdout</span><span class="p">,</span> <span class="n">stderr</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">output_type</span> <span class="o">==</span> <span class="n">Output</span><span class="o">.</span><span class="n">STDERR</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">stderr</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf8"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf8"</span><span class="p">)</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">process</span><span class="o">.</span><span class="n">returncode</span>
+
+    <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">output</span>
+</code></pre>
+</div>
 </details>
 </div>
 </div>
@@ -838,14 +1125,14 @@ run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <s
 </div>
 </footer>
 </div>
-<script src="../../assets/javascripts/vendor.83fe6e3c.min.js"></script>
-<script src="../../assets/javascripts/bundle.7e1cb91c.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+<script src="../../assets/javascripts/vendor.3636a4ec.min.js"></script>
+<script src="../../assets/javascripts/bundle.e9fe3281.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
 <script>
         app = initialize({
           base: "../..",
           features: [],
           search: Object.assign({
-            worker: "../../assets/javascripts/worker/search.37585f48.min.js"
+            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
