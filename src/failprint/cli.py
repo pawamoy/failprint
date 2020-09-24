@@ -46,7 +46,7 @@ class Format:
 formats: Dict[str, Format] = {
     "custom": None,  # type: ignore
     "pretty": Format(
-        "<bold>{% if success %}<green>✓</green>{% else %}<red>✗</red>{% endif %} "
+        "<bold>{% if success %}<green>✓</green>{% elif nofail %}<yellow>✗</yellow>{% else %}<red>✗</red>{% endif %} "
         "{{ title or command }}</bold>"
         "{% if failure %} ({{ code }}){% endif %}"
         "{% if failure and output %}\n"
@@ -109,6 +109,7 @@ def run(
     fmt: Optional[str] = None,
     use_pty: bool = True,
     progress: bool = True,
+    nofail: bool = False,
 ) -> int:
     """
     Run a command in a subprocess, and print its output if it fails.
@@ -121,6 +122,8 @@ def run(
         fmt: The output format.
         use_pty: Whether to run in a PTY.
         progress: Whether to show progress.
+        nofail: Whether to always succeed.
+
     Returns:
         The command exit code, or 0 if `nofail` is True.
     """
@@ -158,11 +161,12 @@ def run(
                 "failure": code != 0,
                 "number": number,
                 "output": output,
+                "nofail": nofail,
             },
         ),
     )
 
-    return code
+    return 0 if nofail else code
 
 
 def run_subprocess(cmd: List[str], output_type: Output) -> Tuple[int, str]:
@@ -278,6 +282,15 @@ def get_parser() -> argparse.ArgumentParser:
         type=Output,
         help="Which output to use. Colors are supported with 'combine' only, unless the command has a 'force color' option.",
     )
+    parser.add_argument(
+        "-z",
+        "--zero",
+        "--nofail",
+        action="store_true",
+        dest="nofail",
+        default=False,
+        help="Don't fail. Always return a success (0) exit code.",
+    )
     parser.add_argument("-n", "--number", type=int, default=1, help="Command number. Useful for the 'tap' format.")
     parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
     parser.add_argument("COMMAND", nargs="+")
@@ -306,4 +319,5 @@ def main(args: Optional[List[str]] = None) -> int:
         title=options.title,
         fmt=options.format,
         use_pty=options.use_pty,
+        nofail=options.nofail,
     )
