@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.4.0](https://github.com/pawamoy/failprint/releases/tag/0.4.0) - 2020-09-25
+
+<small>[Compare with 0.3.0](https://github.com/pawamoy/failprint/compare/0.3.0...0.4.0)</small>
+
+### Features
+- Add quiet option ([b676335](https://github.com/pawamoy/failprint/commit/b676335f4bfb960259c66dbe6d6b942f8cdcc916) by Timothée Mazzucotelli).
+- Add option to allow failure ([79b3ae7](https://github.com/pawamoy/failprint/commit/79b3ae719888eddab1e8ff0040e15e32e4976002) by Timothée Mazzucotelli).
+
+
 ## [0.3.0](https://github.com/pawamoy/failprint/releases/tag/0.3.0) - 2020-05-01
 
 <small>[Compare with 0.2.0](https://github.com/pawamoy/failprint/compare/0.2.0...0.3.0)</small>
