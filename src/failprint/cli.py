@@ -21,7 +21,11 @@ from typing import Dict, List, Optional, Tuple
 
 from ansimarkup import ansiprint
 from jinja2 import Environment
-from ptyprocess import PtyProcessUnicode
+
+try:
+    from ptyprocess import PtyProcessUnicode
+except ModuleNotFoundError:
+    PtyProcessUnicode = None
 
 DEFAULT_FORMAT = "pretty"
 
@@ -141,7 +145,7 @@ def run(
         progress_template = env.from_string(format_obj.progress_template)
         ansiprint(progress_template.render({"title": title, "command": command}), end="\r")
 
-    if not format_obj.accept_ansi and use_pty:
+    if use_pty and not (format_obj.accept_ansi and PtyProcessUnicode):
         use_pty = False
 
     if output_type is None:
