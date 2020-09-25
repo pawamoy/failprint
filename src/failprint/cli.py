@@ -25,7 +25,7 @@ from jinja2 import Environment
 try:
     from ptyprocess import PtyProcessUnicode
 except ModuleNotFoundError:
-    PtyProcessUnicode = None
+    PtyProcessUnicode = None  # noqa: WPS440 (block variable overlap)
 
 DEFAULT_FORMAT = "pretty"
 
