@@ -25,6 +25,7 @@ from jinja2 import Environment
 try:
     from ptyprocess import PtyProcessUnicode
 except ModuleNotFoundError:
+    # it does not work on Windows
     PtyProcessUnicode = None  # noqa: WPS440 (block variable overlap)
 
 DEFAULT_FORMAT = "pretty"
@@ -154,7 +155,7 @@ def run(
     if output_type == Output.COMBINE and use_pty:
         code, output = run_pty_subprocess(cmd)
     else:
-        code, output = run_subprocess(cmd, output_type)
+        code, output = run_subprocess(cmd, output_type, shell=PtyProcessUnicode is None)
 
     template = env.from_string(format_obj.template)
     ansiprint(
@@ -176,7 +177,7 @@ def run(
     return 0 if nofail else code
 
 
-def run_subprocess(cmd: List[str], output_type: Output) -> Tuple[int, str]:
+def run_subprocess(cmd: List[str], output_type: Output, shell: bool = False) -> Tuple[int, str]:
     """
     Run a command in a subprocess.
 
@@ -194,11 +195,15 @@ def run_subprocess(cmd: List[str], output_type: Output) -> Tuple[int, str]:
     else:
         stderr_opt = subprocess.PIPE
 
+    if shell:
+        cmd = printable_command(cmd)
+
     process = subprocess.Popen(  # noqa: S603 (we trust the input)
         cmd,
         stdin=sys.stdin,
         stdout=stdout_opt,
         stderr=stderr_opt,
+        shell=shell,
     )
     stdout, stderr = process.communicate()
 
