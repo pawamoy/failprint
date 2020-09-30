@@ -17,7 +17,7 @@ import os
 import subprocess  # noqa: S404 (we don't mind the security implication)
 import sys
 import textwrap
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
 from ansimarkup import ansiprint
 from jinja2 import Environment
@@ -155,16 +155,22 @@ def run(
         progress_template = env.from_string(format_obj.progress_template)
         ansiprint(progress_template.render({"title": title, "command": command}), end="\r")
 
+    # if chosen format doesn't accept ansi, or on Windows, don't use pty
     if use_pty and not (format_obj.accept_ansi and PtyProcessUnicode):
         use_pty = False
 
+    # default output method is to combine
     if output_type is None:
         output_type = Output.COMBINE
 
     if output_type == Output.COMBINE and use_pty:
+        # pty can only combine, so only use pty when combining
         code, output = run_pty_subprocess(cmd)
+    elif PtyProcessUnicode is None:
+        # we're on Windows, run a shell command
+        code, output = run_subprocess(command, output_type, shell=True)  # noqa: S604 (shell=True)
     else:
-        code, output = run_subprocess(cmd, output_type, shell=PtyProcessUnicode is None)  # noqa: S604 (shell)
+        code, output = run_subprocess(cmd, output_type)
 
     template = env.from_string(format_obj.template)
     ansiprint(
@@ -186,7 +192,11 @@ def run(
     return 0 if nofail else code
 
 
-def run_subprocess(cmd: List[str], output_type: Output, shell: bool = False) -> Tuple[int, str]:
+def run_subprocess(
+    cmd: Union[str, List[str]],
+    output_type: Output,
+    shell: bool = False,
+) -> Tuple[int, str]:
     """
     Run a command in a subprocess.
 
@@ -205,7 +215,7 @@ def run_subprocess(cmd: List[str], output_type: Output, shell: bool = False) -> 
     else:
         stderr_opt = subprocess.PIPE
 
-    if shell:
+    if shell and not isinstance(cmd, str):
         cmd = printable_command(cmd)
 
     process = subprocess.Popen(  # noqa: S603 (we trust the input)
