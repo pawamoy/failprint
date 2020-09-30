@@ -155,7 +155,7 @@ def run(
     if output_type == Output.COMBINE and use_pty:
         code, output = run_pty_subprocess(cmd)
     else:
-        code, output = run_subprocess(cmd, output_type, shell=PtyProcessUnicode is None)
+        code, output = run_subprocess(cmd, output_type, shell=PtyProcessUnicode is None)  # noqa: S604 (shell)
 
     template = env.from_string(format_obj.template)
     ansiprint(
@@ -184,6 +184,7 @@ def run_subprocess(cmd: List[str], output_type: Output, shell: bool = False) -> 
     Arguments:
         cmd: The command to run.
         output_type: The type of output.
+        shell: Whether to run the command in a shell.
 
     Returns:
         The exit code and the command output.
@@ -203,7 +204,7 @@ def run_subprocess(cmd: List[str], output_type: Output, shell: bool = False) -> 
         stdin=sys.stdin,
         stdout=stdout_opt,
         stderr=stderr_opt,
-        shell=shell,
+        shell=shell,  # noqa: S602 (required for it to work on Windows)
     )
     stdout, stderr = process.communicate()
 
