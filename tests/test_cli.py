@@ -22,3 +22,18 @@ def test_show_help(capsys):
         cli.main(["-h"])
     captured = capsys.readouterr()
     assert "failprint" in captured.out
+
+
+@pytest.mark.parametrize(
+    ("cmd", "expected"),
+    [
+        (["a", "normal", "command"], "a normal command"),
+        (["a", "command", "with", " "], "a command with \" \""),  # spaces
+        (["a", "command", "with", "'"], "a command with \"'\""),  # single quotes
+        (["a", "command", "with", '"'], "a command with '\"'"),  # double quotes
+        (["a", "command", "with", "\"'"], "a command with \"\\\"'\""),  # both quotes
+        (["a", "command", "with", "\" '"], "a command with \"\\\" '\""), # both quotes and spaces
+    ]
+)
+def test_printable_command(cmd, expected):
+    assert cli.printable_command(cmd) == expected

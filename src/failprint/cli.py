@@ -92,16 +92,25 @@ def printable_command(cmd: List[str]) -> str:  # noqa: WPS231 (not that complex)
     """
     parts = []
     for part in cmd:
-        if " " in part:
-            has_double_quotes = '"' in part
-            has_single_quotes = "'" in part
-            if has_double_quotes and not has_single_quotes:
-                part = f"'{part}'"
-            elif has_single_quotes and has_double_quotes:
-                part = part.replace('"', r"\"")
-                part = f'"{part}"'
-            else:
-                part = f'"{part}"'
+        if not part:
+            parts.append('""')
+            continue
+        has_spaces = " " in part
+        has_double_quotes = '"' in part
+        has_single_quotes = "'" in part
+        if has_double_quotes and not has_single_quotes:
+            # double quotes, no single quotes
+            # -> wrap in single quotes
+            part = f"'{part}'"
+        elif has_single_quotes and has_double_quotes:
+            # double and single quotes
+            # -> escape double quotes, wrap in double quotes
+            part = part.replace('"', r"\"")
+            part = f'"{part}"'
+        elif has_single_quotes or has_spaces:
+            # spaces or single quotes
+            # -> wrap in double quotes
+            part = f'"{part}"'
         parts.append(part)
     return " ".join(parts)
 
