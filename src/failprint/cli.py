@@ -14,6 +14,7 @@
 import argparse
 import enum
 import os
+import shutil
 import subprocess  # noqa: S404 (we don't mind the security implication)
 import sys
 import textwrap
@@ -115,7 +116,7 @@ def printable_command(cmd: List[str]) -> str:  # noqa: WPS231 (not that complex)
     return " ".join(parts)
 
 
-def run(
+def run(  # noqa: WPS231 (high complexity)
     cmd: List[str],
     number: int = 1,
     output_type: Optional[Output] = None,
@@ -167,8 +168,9 @@ def run(
         # pty can only combine, so only use pty when combining
         code, output = run_pty_subprocess(cmd)
     elif PtyProcessUnicode is None:
-        # we're on Windows, run a shell command
-        code, output = run_subprocess(command, output_type, shell=True)  # noqa: S604 (shell=True)
+        # make sure the process can find the executable on windows
+        cmd[0] = shutil.which(cmd[0]) or cmd[0]
+        code, output = run_subprocess(cmd, output_type)
     else:
         code, output = run_subprocess(cmd, output_type)
 
@@ -223,7 +225,7 @@ def run_subprocess(
         stdin=sys.stdin,
         stdout=stdout_opt,
         stderr=stderr_opt,
-        shell=shell,  # noqa: S602 (required for it to work on Windows)
+        shell=shell,  # noqa: S602 (shell=True)
     )
     stdout, stderr = process.communicate()
 
