@@ -13,6 +13,9 @@ TESTING = os.environ.get("TESTING", "0") in {"1", "true"}
 CI = os.environ.get("CI", "0") in {"1", "true"}
 WINDOWS = os.name == "nt"
 PTY = not WINDOWS
+RUN_KWARGS = {} if WINDOWS else {}
+os.environ["ComSpec"] = "bash.exe"
+os.environ["COMSPEC"] = "bash.exe"
 
 
 @invoke.task
@@ -27,6 +30,7 @@ def changelog(context):
         "failprint -t 'Updating changelog' -- python scripts/update_changelog.py "
         r"CHANGELOG.md '<!-- insertion marker -->' '^## \[v?(?P<version>[^\]]+)'",
         pty=PTY,
+        **RUN_KWARGS,
     )
 
 
@@ -37,7 +41,7 @@ def check_code_quality(context):
     Arguments:
         context: The context of the Invoke task.
     """
-    context.run(f"failprint -t 'Checking code quality' -- flakehell lint {PY_SRC}", pty=PTY)
+    context.run(f"failprint -t 'Checking code quality' -- flakehell lint {PY_SRC}", pty=PTY, **RUN_KWARGS)
 
 
 @invoke.task
@@ -52,6 +56,7 @@ def check_dependencies(context):
         "poetry export -f requirements.txt --without-hashes |"
         f"failprint --no-pty -t 'Checking dependencies' -- {safety} check --stdin --full-report",
         pty=PTY,
+        **RUN_KWARGS,
     )
 
 
@@ -62,7 +67,7 @@ def check_docs(context):
     Arguments:
         context: The context of the Invoke task.
     """
-    context.run("failprint -t 'Building documentation' -- mkdocs build -s", pty=PTY)
+    context.run("failprint -t 'Building documentation' -- mkdocs build -s", pty=PTY, **RUN_KWARGS)
 
 
 @invoke.task
@@ -72,7 +77,7 @@ def check_types(context):
     Arguments:
         context: The context of the Invoke task.
     """
-    context.run(f"failprint -t 'Type-checking' -- mypy --config-file config/mypy.ini {PY_SRC}", pty=PTY)
+    context.run(f"failprint -t 'Type-checking' -- mypy --config-file config/mypy.ini {PY_SRC}", pty=PTY, **RUN_KWARGS)
 
 
 @invoke.task(check_code_quality, check_types, check_docs, check_dependencies)
@@ -110,7 +115,7 @@ def docs_regen(context):
     Arguments:
         context: The context of the Invoke task.
     """
-    context.run("failprint -t 'Regenerating docfiles' -- python scripts/regen_docs.py", pty=PTY)
+    context.run("failprint -t 'Regenerating docfiles' -- python scripts/regen_docs.py", pty=PTY, **RUN_KWARGS)
 
 
 @invoke.task(docs_regen)
@@ -157,8 +162,8 @@ def format(context):  # noqa: W0622 (we don't mind shadowing the format builtin)
         "autoflake -ir --exclude tests/fixtures --remove-all-unused-imports " + PY_SRC,
         pty=PTY,
     )
-    context.run("failprint -t 'Ordering imports' -- isort -y -rc " + PY_SRC, pty=PTY)
-    context.run("failprint -t 'Formatting code' -- black " + PY_SRC, pty=PTY)
+    context.run("failprint -t 'Ordering imports' -- isort -y -rc " + PY_SRC, pty=PTY, **RUN_KWARGS)
+    context.run("failprint -t 'Formatting code' -- black " + PY_SRC, pty=PTY, **RUN_KWARGS)
 
 
 @invoke.task
@@ -169,16 +174,20 @@ def release(context, version):
         context: The context of the Invoke task.
         version: The new version number to use.
     """
-    context.run(f"failprint -t 'Bumping version in pyproject.toml' -- poetry version {version}", pty=PTY)
+    context.run(f"failprint -t 'Bumping version in pyproject.toml' -- poetry version {version}", pty=PTY, **RUN_KWARGS)
     context.run("failprint -t 'Staging files' -- git add pyproject.toml CHANGELOG.md", pty=PTY)
-    context.run(f"failprint -t 'Committing changes' -- git commit -m 'chore: Prepare release {version}'", pty=PTY)
-    context.run(f"failprint -t 'Tagging commit' -- git tag {version}", pty=PTY)
+    context.run(
+        f"failprint -t 'Committing changes' -- git commit -m 'chore: Prepare release {version}'",
+        pty=PTY,
+        **RUN_KWARGS,
+    )
+    context.run(f"failprint -t 'Tagging commit' -- git tag {version}", pty=PTY, **RUN_KWARGS)
     if not TESTING:
-        context.run("failprint -t 'Pushing commits' --no-pty -- git push", pty=PTY)
-        context.run("failprint -t 'Pushing tags' --no-pty -- git push --tags", pty=PTY)
-        context.run("failprint -t 'Building dist/wheel' -- poetry build", pty=PTY)
-        context.run("failprint -t 'Publishing version' -- poetry publish", pty=PTY)
-        context.run("failprint -t 'Deploying docs' -- poetry run mkdocs gh-deploy", pty=PTY)
+        context.run("failprint -t 'Pushing commits' --no-pty -- git push", pty=PTY, **RUN_KWARGS)
+        context.run("failprint -t 'Pushing tags' --no-pty -- git push --tags", pty=PTY, **RUN_KWARGS)
+        context.run("failprint -t 'Building dist/wheel' -- poetry build", pty=PTY, **RUN_KWARGS)
+        context.run("failprint -t 'Publishing version' -- poetry publish", pty=PTY, **RUN_KWARGS)
+        context.run("failprint -t 'Deploying docs' -- poetry run mkdocs gh-deploy", pty=PTY, **RUN_KWARGS)
 
 
 @invoke.task
@@ -210,4 +219,8 @@ def test(context, match=""):
         context: The context of the Invoke task.
         match: A pytest expression to filter selected tests.
     """
-    context.run(f"failprint -t 'Running tests' -- pytest -c config/pytest.ini -n auto -k '{match}' {PY_SRC}", pty=PTY)
+    context.run(
+        f"failprint -t 'Running tests' -- pytest -c config/pytest.ini -n auto -k '{match}' {PY_SRC}",
+        pty=PTY,
+        **RUN_KWARGS,
+    )
