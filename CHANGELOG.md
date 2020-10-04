@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.5.1](https://github.com/pawamoy/failprint/releases/tag/0.5.1) - 2020-10-04
+
+<small>[Compare with 0.5.0](https://github.com/pawamoy/failprint/compare/0.5.0...0.5.1)</small>
+
+### Bug Fixes
+- Fix progress parser argument ([d5fe999](https://github.com/pawamoy/failprint/commit/d5fe999645388b42c06b33c75628aa9478d972db) by Timothée Mazzucotelli).
+
+
 ## [0.5.0](https://github.com/pawamoy/failprint/releases/tag/0.5.0) - 2020-10-04
 
 <small>[Compare with 0.4.1](https://github.com/pawamoy/failprint/compare/0.4.1...0.5.0)</small>
