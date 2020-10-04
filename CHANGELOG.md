@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.5.0](https://github.com/pawamoy/failprint/releases/tag/0.5.0) - 2020-10-04
+
+<small>[Compare with 0.4.1](https://github.com/pawamoy/failprint/compare/0.4.1...0.5.0)</small>
+
+### Bug Fixes
+- Use which to find exec path on Windows ([5327b0c](https://github.com/pawamoy/failprint/commit/5327b0c8fc9ed45b352383142560728013f0d8ec) by Timothée Mazzucotelli).
+- Fix quoting when running as shell command ([0f11995](https://github.com/pawamoy/failprint/commit/0f119954fe1c7f8d59c28aac1a0bd392c14675c7) by Timothée Mazzucotelli).
+- Run with `shell=True` on Windows ([5e97141](https://github.com/pawamoy/failprint/commit/5e97141fa9c2f351ea513c7146230ff1179c75f2) by Timothée Mazzucotelli).
+
+### Features
+- Refactor and add features ([22a5e8d](https://github.com/pawamoy/failprint/commit/22a5e8d4acda90134cadf80b11878ad60e95eee5) by Timothée Mazzucotelli).
+    - Add ability to run a function or callable
+    - Add `nocapture` output type
+    - Add silent option to API
+    - Accept `None` as truthful function result
+    - Add silent CLI flag
+    - Add no progress CLI flag
+
+
 ## [0.4.1](https://github.com/pawamoy/failprint/releases/tag/0.4.1) - 2020-09-29
 
 <small>[Compare with 0.4.0](https://github.com/pawamoy/failprint/compare/0.4.0...0.4.1)</small>
