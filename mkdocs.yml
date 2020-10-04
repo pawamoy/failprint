@@ -8,6 +8,9 @@ nav:
   - Overview: index.md
   - API Reference:
     - cli.py: reference/cli.md
+    - formats.py: reference/formats.md
+    - runners.py: reference/runners.md
+    - types.py: reference/types.md
   - Contributing: contributing.md
   - Code of Conduct: code_of_conduct.md
   - Changelog: changelog.md

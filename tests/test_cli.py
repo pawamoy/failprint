@@ -3,6 +3,7 @@
 import pytest
 
 from failprint import cli
+from failprint.formats import printable_command
 
 
 def test_main():
@@ -51,4 +52,4 @@ def test_printable_command(cmd, expected) -> None:
         cmd: The command as a list of arguments.
         expected: The expected result after transformation.
     """
-    assert cli.printable_command(cmd) == expected
+    assert printable_command(cmd) == expected

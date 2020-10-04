@@ -12,275 +12,10 @@
 """Module that contains the command line application."""
 
 import argparse
-import enum
-import os
-import shutil
-import subprocess  # noqa: S404 (we don't mind the security implication)
-import sys
-import textwrap
-from typing import Dict, List, Optional, Tuple, Union
+from typing import List, Optional
 
-from ansimarkup import ansiprint
-from jinja2 import Environment
-
-try:
-    from ptyprocess import PtyProcessUnicode
-except ModuleNotFoundError:
-    # it does not work on Windows
-    PtyProcessUnicode = None  # noqa: WPS440 (block variable overlap)
-
-DEFAULT_FORMAT = "pretty"
-
-
-class Format:
-    """Class to define a display format."""
-
-    def __init__(self, template: str, progress_template: Optional[str] = None, accept_ansi: bool = True) -> None:
-        """
-        Initialize the object.
-
-        Arguments:
-            template: The main template.
-            progress_template: The template to show progress.
-            accept_ansi: Whether to accept ANSI sequences.
-        """
-        self.template = template
-        self.progress_template = progress_template
-        self.accept_ansi = accept_ansi
-
-
-formats: Dict[str, Format] = {
-    "custom": None,  # type: ignore
-    "pretty": Format(
-        "<bold>{% if success %}<green>✓</green>{% elif nofail %}<yellow>✗</yellow>{% else %}<red>✗</red>{% endif %} "
-        "{{ title or command }}</bold>"
-        "{% if failure %} ({{ code }}){% endif %}"
-        "{% if failure and output and not quiet %}\n"
-        "{{ ('  > ' + command + '\n') if title else '' }}"
-        "{{ output|indent(2 * ' ') }}{% endif %}",
-        progress_template="> {{ title or command }}",
-    ),
-    "tap": Format(
-        "{% if failure %}not {% endif %}ok {{ number }} - {{ title or command }}"
-        "{% if failure and output %}\n  ---\n  "
-        "{{ ('command: ' + command + '\n  ') if title else '' }}"
-        "output: |\n{{ output|indent(4 * ' ') }}\n  ...{% endif %}",
-        accept_ansi=False,
-    ),
-}
-
-
-class Output(enum.Enum):
-    """An enum to store the different possible output types."""
-
-    STDOUT: str = "stdout"  # noqa: WPS115
-    STDERR: str = "stderr"  # noqa: WPS115
-    COMBINE: str = "combine"  # noqa: WPS115
-
-    def __str__(self):
-        return self.value.lower()  # noqa: E1101 (false-positive)
-
-
-def printable_command(cmd: List[str]) -> str:  # noqa: WPS231 (not that complex)
-    """
-    Rebuild a command line from system arguments.
-
-    Arguments:
-        cmd: The command as a list of strings.
-
-    Returns:
-        A printable and shell-runnable command.
-    """
-    parts = []
-    for part in cmd:
-        if not part:
-            parts.append('""')
-            continue
-        has_spaces = " " in part
-        has_double_quotes = '"' in part
-        has_single_quotes = "'" in part
-        if has_double_quotes and not has_single_quotes:
-            # double quotes, no single quotes
-            # -> wrap in single quotes
-            part = f"'{part}'"
-        elif has_single_quotes and has_double_quotes:
-            # double and single quotes
-            # -> escape double quotes, wrap in double quotes
-            part = part.replace('"', r"\"")
-            part = f'"{part}"'
-        elif has_single_quotes or has_spaces:
-            # spaces or single quotes
-            # -> wrap in double quotes
-            part = f'"{part}"'
-        parts.append(part)
-    return " ".join(parts)
-
-
-def run(  # noqa: WPS231 (high complexity)
-    cmd: List[str],
-    number: int = 1,
-    output_type: Optional[Output] = None,
-    title: Optional[str] = None,
-    fmt: Optional[str] = None,
-    use_pty: bool = True,
-    progress: bool = True,
-    nofail: bool = False,
-    quiet: bool = False,
-) -> int:
-    """
-    Run a command in a subprocess, and print its output if it fails.
-
-    Arguments:
-        cmd: The command to run.
-        number: The command number.
-        output_type: The type of output.
-        title: The command title.
-        fmt: The output format.
-        use_pty: Whether to run in a PTY.
-        progress: Whether to show progress.
-        nofail: Whether to always succeed.
-        quiet: Whether to not print the command output.
-
-    Returns:
-        The command exit code, or 0 if `nofail` is True.
-    """
-    format_name: str = fmt or os.environ.get("FAILPRINT_FORMAT", DEFAULT_FORMAT)  # type: ignore
-    format_name = accept_custom_format(format_name)
-    format_obj = formats.get(format_name, formats[DEFAULT_FORMAT])
-    command = printable_command(cmd)
-
-    env = Environment(autoescape=False)  # noqa: S701 (no HTML: no need to escape)
-    env.filters["indent"] = textwrap.indent
-
-    if progress and format_obj.progress_template:
-        progress_template = env.from_string(format_obj.progress_template)
-        ansiprint(progress_template.render({"title": title, "command": command}), end="\r")
-
-    # if chosen format doesn't accept ansi, or on Windows, don't use pty
-    if use_pty and not (format_obj.accept_ansi and PtyProcessUnicode):
-        use_pty = False
-
-    # default output method is to combine
-    if output_type is None:
-        output_type = Output.COMBINE
-
-    if output_type == Output.COMBINE and use_pty:
-        # pty can only combine, so only use pty when combining
-        code, output = run_pty_subprocess(cmd)
-    elif PtyProcessUnicode is None:
-        # make sure the process can find the executable on windows
-        cmd[0] = shutil.which(cmd[0]) or cmd[0]
-        code, output = run_subprocess(cmd, output_type)
-    else:
-        code, output = run_subprocess(cmd, output_type)
-
-    template = env.from_string(format_obj.template)
-    ansiprint(
-        template.render(
-            {
-                "title": title,
-                "command": command,
-                "code": code,
-                "success": code == 0,
-                "failure": code != 0,
-                "number": number,
-                "output": output,
-                "nofail": nofail,
-                "quiet": quiet,
-            },
-        ),
-    )
-
-    return 0 if nofail else code
-
-
-def run_subprocess(
-    cmd: Union[str, List[str]],
-    output_type: Output,
-    shell: bool = False,
-) -> Tuple[int, str]:
-    """
-    Run a command in a subprocess.
-
-    Arguments:
-        cmd: The command to run.
-        output_type: The type of output.
-        shell: Whether to run the command in a shell.
-
-    Returns:
-        The exit code and the command output.
-    """
-    stdout_opt = subprocess.PIPE
-
-    if output_type == Output.COMBINE:
-        stderr_opt = subprocess.STDOUT
-    else:
-        stderr_opt = subprocess.PIPE
-
-    if shell and not isinstance(cmd, str):
-        cmd = printable_command(cmd)
-
-    process = subprocess.Popen(  # noqa: S603 (we trust the input)
-        cmd,
-        stdin=sys.stdin,
-        stdout=stdout_opt,
-        stderr=stderr_opt,
-        shell=shell,  # noqa: S602 (shell=True)
-    )
-    stdout, stderr = process.communicate()
-
-    if output_type == Output.STDERR:
-        output = stderr.decode("utf8")
-    else:
-        output = stdout.decode("utf8")
-
-    code = process.returncode
-
-    return code, output
-
-
-def run_pty_subprocess(cmd: List[str]) -> Tuple[int, str]:
-    """
-    Run a command in a PTY subprocess.
-
-    Arguments:
-        cmd: The command to run.
-
-    Returns:
-        The exit code and the command output.
-    """
-    process = PtyProcessUnicode.spawn(cmd)
-
-    pty_output = []
-
-    while True:
-        try:
-            pty_output.append(process.read())
-        except EOFError:
-            break
-
-    process.close()
-
-    output = "".join(pty_output)
-    code = process.exitstatus
-
-    return code, output
-
-
-def accept_custom_format(string: str) -> str:
-    """
-    Store the value in `formats` if it starts with custom.
-
-    Arguments:
-        string: A format name.
-
-    Returns:
-        The format name, or `custom` if it started with `custom=`.
-    """
-    if string.startswith("custom=") and formats["custom"] is None:
-        formats["custom"] = Format(string[7:])
-        return "custom"
-    return string
+from failprint.formats import accept_custom_format, formats
+from failprint.runners import Output, run
 
 
 def get_parser() -> argparse.ArgumentParser:
@@ -305,9 +40,16 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--no-pty",
         action="store_false",
-        dest="use_pty",
+        dest="pty",
         default=True,
         help="Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.",
+    )
+    parser.add_argument(
+        "--no-progress",
+        action="store_false",
+        dest="prgress",
+        default=True,
+        help="Don't print any progress while running a command.",
     )
     parser.add_argument(
         "-o",
@@ -323,6 +65,14 @@ def get_parser() -> argparse.ArgumentParser:
         dest="quiet",
         default=False,
         help="Don't print the command output, even if it failed.",
+    )
+    parser.add_argument(
+        "-s",
+        "--silent",
+        action="store_true",
+        dest="silent",
+        default=False,
+        help="Don't print anything.",
     )
     parser.add_argument(
         "-z",
@@ -360,7 +110,9 @@ def main(args: Optional[List[str]] = None) -> int:
         output_type=options.output,
         title=options.title,
         fmt=options.format,
-        use_pty=options.use_pty,
+        pty=options.pty,
         nofail=options.nofail,
         quiet=options.quiet,
+        silent=options.silent,
+        progress=options.progress,
     )
