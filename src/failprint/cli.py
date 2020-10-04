@@ -47,7 +47,7 @@ def get_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--no-progress",
         action="store_false",
-        dest="prgress",
+        dest="progress",
         default=True,
         help="Don't print any progress while running a command.",
     )
