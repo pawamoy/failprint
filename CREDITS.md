@@ -13,7 +13,7 @@ These projects were used to build `failprint`. **Thank you!**
 [`ansimarkup`](https://github.com/gvalkov/python-ansimarkup) |
 [`autoflake`](https://github.com/myint/autoflake) |
 [`black`](https://github.com/psf/black) |
-[`coverage`](https://github.com/nedbat/coveragepy) |
+[`duty`](https://github.com/pawamoy/duty) |
 [`flake8-black`](https://github.com/peterjc/flake8-black) |
 [`flake8-builtins`](https://github.com/gforcada/flake8-builtins) |
 [`flake8-pytest-style`](https://pypi.org/project/flake8-pytest-style) |
@@ -22,7 +22,6 @@ These projects were used to build `failprint`. **Thank you!**
 [`flakehell`](None) |
 [`git-changelog`](https://github.com/pawamoy/git-changelog) |
 [`httpx`](https://github.com/encode/httpx) |
-[`invoke`](http://docs.pyinvoke.org) |
 [`ipython`](https://ipython.org) |
 [`isort`](https://github.com/timothycrosley/isort) |
 [`Jinja2`](https://palletsprojects.com/p/jinja/) |
@@ -57,6 +56,7 @@ These projects were used to build `failprint`. **Thank you!**
 [`click`](https://palletsprojects.com/p/click/) |
 [`colorama`](https://github.com/tartley/colorama) |
 [`contextvars`](http://github.com/MagicStack/contextvars) |
+[`coverage`](https://github.com/nedbat/coveragepy) |
 [`darglint`](None) |
 [`dataclasses`](https://github.com/ericvsmith/dataclasses) |
 [`decorator`](https://github.com/micheles/decorator) |
