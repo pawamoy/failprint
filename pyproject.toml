@@ -22,7 +22,7 @@ include = [
 python = "^3.6"
 ansimarkup = "^1.4.0"
 jinja2 = "^2.11.2"
-ptyprocess = "^0.6.0"
+ptyprocess = {version = "^0.6.0", markers = "sys_platform != 'win32'"}
 
 [tool.poetry.dev-dependencies]
 autoflake = "^1.4"
