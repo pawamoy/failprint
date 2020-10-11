@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.6.0](https://github.com/pawamoy/failprint/releases/tag/0.6.0) - 2020-10-11
+
+<small>[Compare with 0.5.1](https://github.com/pawamoy/failprint/compare/0.5.1...0.6.0)</small>
+
+### Features
+- Refactor, add tests and fix bugs ([523e97b](https://github.com/pawamoy/failprint/commit/523e97bc2f2fe4db02a3db8373229244a5ff74e6) by Timothée Mazzucotelli).
+    - Restructure modules: create `capture` and `process`
+    - Rename argument `output_type` to `capture`
+    - Rename `Output` enum to `Capture`
+    - Rename `combine` enum value to `both`
+    - Rename `nocombine` enum value to `none`
+    - Accept `True` and `False` as `capture` values
+    - Use more defaults in functions arguments
+    - Fix decoding error on Windows
+
+
 ## [0.5.1](https://github.com/pawamoy/failprint/releases/tag/0.5.1) - 2020-10-04
 
 <small>[Compare with 0.5.0](https://github.com/pawamoy/failprint/compare/0.5.0...0.5.1)</small>
