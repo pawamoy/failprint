@@ -7,8 +7,10 @@ repo_name: "pawamoy/failprint"
 nav:
   - Overview: index.md
   - API Reference:
+    - capture.py: reference/capture.md
     - cli.py: reference/cli.md
     - formats.py: reference/formats.md
+    - process.py: reference/process.md
     - runners.py: reference/runners.md
     - types.py: reference/types.md
   - Contributing: contributing.md

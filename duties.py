@@ -207,6 +207,7 @@ def clean(ctx):
         ctx: The [context][duty.logic.Context] instance (passed automatically).
     """
     ctx.run("rm -rf .coverage*")
+    ctx.run("rm -rf .hypothesis")
     ctx.run("rm -rf .mypy_cache")
     ctx.run("rm -rf .pytest_cache")
     ctx.run("rm -rf build")
@@ -309,7 +310,7 @@ def docs_serve(ctx, host="127.0.0.1", port=8000):
         host: The host to serve the docs from.
         port: The port to serve the docs on.
     """
-    ctx.run(f"mkdocs serve -a {host}:{port}", title="Serving documentation", output_type="nocapture")
+    ctx.run(f"mkdocs serve -a {host}:{port}", title="Serving documentation", capture=False)
 
 
 @duty(pre=[docs_regen])
@@ -380,7 +381,7 @@ def coverage(ctx):
     Arguments:
         ctx: The [context][duty.logic.Context] instance (passed automatically).
     """
-    ctx.run("coverage report --rcfile=config/coverage.ini", output_type="nocapture")
+    ctx.run("coverage report --rcfile=config/coverage.ini", capture=False)
     ctx.run("coverage html --rcfile=config/coverage.ini")
 
 

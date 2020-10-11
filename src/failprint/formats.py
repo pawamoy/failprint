@@ -25,7 +25,6 @@ class Format:
 
 
 formats: Dict[str, Format] = {
-    "custom": None,  # type: ignore
     "pretty": Format(
         "<bold>"
         "{% if success %}<green>✓</green>"
@@ -58,7 +57,7 @@ def accept_custom_format(string: str) -> str:
     Returns:
         The format name, or `custom` if it started with `custom=`.
     """
-    if string.startswith("custom=") and formats["custom"] is None:
+    if string.startswith("custom="):
         formats["custom"] = Format(string[7:])
         return "custom"
     return string

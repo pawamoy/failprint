@@ -1,39 +1,22 @@
 """Functions to run commands and capture output."""
 
-import enum
 import os
 import shutil
-import subprocess  # noqa: S404 (we don't mind the security implication)
 import sys
 import textwrap
 import traceback
 from contextlib import contextmanager
 from io import StringIO
-from typing import Callable, List, Optional, Tuple, Union
+from typing import Callable, Optional, Tuple, Union
 
 from ansimarkup import ansiprint
 from jinja2 import Environment
 
-from failprint.formats import DEFAULT_FORMAT, Format, accept_custom_format, formats, printable_command
+from failprint import WINDOWS
+from failprint.capture import Capture, cast_capture
+from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
+from failprint.process import run_pty_subprocess, run_subprocess
 from failprint.types import CmdFuncType, CmdType
-
-try:
-    from ptyprocess import PtyProcessUnicode
-except ModuleNotFoundError:
-    # it does not work on Windows
-    PtyProcessUnicode = None  # noqa: WPS440 (block variable overlap)
-
-
-class Output(enum.Enum):
-    """An enum to store the different possible output types."""
-
-    STDOUT: str = "stdout"  # noqa: WPS115
-    STDERR: str = "stderr"  # noqa: WPS115
-    COMBINE: str = "combine"  # noqa: WPS115
-    NOCAPTURE: str = "nocapture"  # noqa: WPS115
-
-    def __str__(self):
-        return self.value.lower()  # noqa: E1101 (false-positive)
 
 
 class StdBuffer:
@@ -81,7 +64,7 @@ def run(  # noqa: WPS231 (high complexity)
     args=None,
     kwargs=None,
     number: int = 1,
-    output_type: Optional[Union[str, Output]] = None,
+    capture: Optional[Union[str, bool, Capture]] = None,
     title: Optional[str] = None,
     fmt: Optional[str] = None,
     pty: bool = False,
@@ -98,7 +81,7 @@ def run(  # noqa: WPS231 (high complexity)
         args: Arguments to pass to the callable.
         kwargs: Keyword arguments to pass to the callable.
         number: The command number.
-        output_type: The type of output.
+        capture: The output to capture.
         title: The command title.
         fmt: The output format.
         pty: Whether to run in a PTY.
@@ -123,18 +106,12 @@ def run(  # noqa: WPS231 (high complexity)
         progress_template = env.from_string(format_obj.progress_template)
         ansiprint(progress_template.render({"title": title, "command": command}), end="\r")
 
-    # default output method is to combine
-    if output_type is None:
-        output_type = Output.COMBINE
-
-    # make sure output_type is an enum value
-    elif isinstance(output_type, str):
-        output_type = Output(output_type)
+    capture = cast_capture(capture)
 
     if callable(cmd):
-        code, output = _run_function(cmd, args, kwargs, output_type)
+        code, output = run_function(cmd, args, kwargs, capture)
     else:
-        code, output = _run_command(cmd, output_type, format_obj, pty)
+        code, output = run_command(cmd, capture, format_obj.accept_ansi, pty)
 
     if not silent:
         template = env.from_string(format_obj.template)
@@ -158,14 +135,19 @@ def run(  # noqa: WPS231 (high complexity)
     return 0 if nofail else code
 
 
-def _run_command(cmd: CmdType, output_type: Output, format_obj: Format, pty: bool) -> Tuple[int, str]:
+def run_command(
+    cmd: CmdType,
+    capture: Capture = Capture.BOTH,
+    ansi: bool = False,
+    pty: bool = False,
+) -> Tuple[int, str]:
     """
     Run a command.
 
     Arguments:
         cmd: The command to run.
-        output_type: The type of output.
-        format_obj: The format to use.
+        capture: The output to capture.
+        ansi: Whether to accept ANSI sequences.
         pty: Whether to run in a PTY.
 
     Returns:
@@ -174,111 +156,26 @@ def _run_command(cmd: CmdType, output_type: Output, format_obj: Format, pty: boo
     shell = isinstance(cmd, str)
 
     # if chosen format doesn't accept ansi, or on Windows, don't use pty
-    if pty and not (format_obj.accept_ansi and PtyProcessUnicode):
+    if pty and (not ansi or WINDOWS):
         pty = False
 
     # pty can only combine, so only use pty when combining
-    if pty and output_type in {Output.COMBINE, Output.NOCAPTURE}:
+    if pty and capture in {Capture.BOTH, Capture.NONE}:
         if shell:
             cmd = ["sh", "-c", cmd]  # type: ignore  # we know cmd is str
-        return _run_pty_subprocess(cmd, output_type)  # type: ignore  # we made sure cmd is a list
+        return run_pty_subprocess(cmd, capture)  # type: ignore  # we made sure cmd is a list
 
     # we are on Windows
-    if PtyProcessUnicode is None:
+    if WINDOWS:
         # make sure the process can find the executable
         if not shell:
             cmd[0] = shutil.which(cmd[0]) or cmd[0]  # type: ignore  # we know cmd is a list
-        return _run_subprocess(cmd, output_type, shell=shell)  # noqa: S604 (shell=True)
+        return run_subprocess(cmd, capture, shell=shell)  # noqa: S604 (shell=True)
 
-    return _run_subprocess(cmd, output_type, shell=shell)  # noqa: S604 (shell=True)
-
-
-def _run_subprocess(
-    cmd: CmdType,
-    output_type: Output,
-    shell: bool = False,
-) -> Tuple[int, str]:
-    """
-    Run a command in a subprocess.
-
-    Arguments:
-        cmd: The command to run.
-        output_type: The type of output.
-        shell: Whether to run the command in a shell.
-
-    Returns:
-        The exit code and the command output.
-    """
-    if output_type == Output.NOCAPTURE:
-        stdout_opt = None
-        stderr_opt = None
-
-    else:
-        stdout_opt = subprocess.PIPE
-
-        if output_type == Output.COMBINE:
-            stderr_opt = subprocess.STDOUT
-        else:
-            stderr_opt = subprocess.PIPE
-
-    if shell and not isinstance(cmd, str):
-        cmd = printable_command(cmd)
-
-    process = subprocess.Popen(  # noqa: S603 (we trust the input)
-        cmd,
-        stdin=sys.stdin,
-        stdout=stdout_opt,
-        stderr=stderr_opt,
-        shell=shell,  # noqa: S602 (shell=True)
-    )
-    stdout, stderr = process.communicate()
-
-    if output_type == Output.NOCAPTURE:
-        output = ""
-    elif output_type == Output.STDERR:
-        output = stderr.decode("utf8")
-    else:
-        output = stdout.decode("utf8")
-
-    code = process.returncode
-
-    return code, output
+    return run_subprocess(cmd, capture, shell=shell)  # noqa: S604 (shell=True)
 
 
-def _run_pty_subprocess(cmd: List[str], output_type: Output) -> Tuple[int, str]:
-    """
-    Run a command in a PTY subprocess.
-
-    Arguments:
-        cmd: The command to run.
-        output_type: The type of output.
-
-    Returns:
-        The exit code and the command output.
-    """
-    process = PtyProcessUnicode.spawn(cmd)
-
-    pty_output: List[str] = []
-
-    while True:
-        try:
-            output_data = process.read()
-        except EOFError:
-            break
-        if output_type == Output.NOCAPTURE:
-            print(output_data, end="", flush=True)  # noqa: WPS421 (print)
-        else:
-            pty_output.append(output_data)
-
-    process.close()
-
-    output = "".join(pty_output)
-    code = process.exitstatus
-
-    return code, output
-
-
-def _run_function(func, args=None, kwargs=None, output_type: Output = None) -> Tuple[int, str]:
+def run_function(func, args=None, kwargs=None, capture: Capture = Capture.BOTH) -> Tuple[int, str]:
     """
     Run a function.
 
@@ -286,7 +183,7 @@ def _run_function(func, args=None, kwargs=None, output_type: Output = None) -> T
         func: The function to run.
         args: Positional arguments passed to the function.
         kwargs: Keyword arguments passed to the function.
-        output_type: The type of output.
+        capture: The output to capture.
 
     Returns:
         The exit code and the function output.
@@ -294,18 +191,19 @@ def _run_function(func, args=None, kwargs=None, output_type: Output = None) -> T
     args = args or []
     kwargs = kwargs or {}
 
-    if output_type == Output.NOCAPTURE:
-        return _run_function_get_code(func, sys.stderr, args, kwargs), ""
+    if capture == Capture.NONE:
+        return run_function_get_code(func, sys.stderr, args, kwargs), ""
 
     with stdbuffer() as buffer:
-        if output_type is None or output_type == Output.COMBINE:
+        if capture == Capture.BOTH:
             # combining stdout and stderr
             # -> redirect stderr to stdout
             buffer.err = buffer.out
+            sys.stderr = buffer.out
 
-        code = _run_function_get_code(func, buffer.err, args, kwargs)
+        code = run_function_get_code(func, buffer.err, args, kwargs)
 
-        if output_type == Output.STDERR:
+        if capture == Capture.STDERR:
             output = buffer.err.getvalue()
         else:
             output = buffer.out.getvalue()
@@ -313,7 +211,7 @@ def _run_function(func, args=None, kwargs=None, output_type: Output = None) -> T
     return code, output
 
 
-def _run_function_get_code(func: Callable, stderr, args=None, kwargs=None) -> int:
+def run_function_get_code(func: Callable, stderr, args=None, kwargs=None) -> int:  # noqa: WPS212 (return statements)
     """
     Run a function and return a exit code.
 
@@ -329,7 +227,14 @@ def _run_function_get_code(func: Callable, stderr, args=None, kwargs=None) -> in
     try:
         result = func(*args, **kwargs)
     except Exception:  # noqa: W0703 (catching Exception on purpose)
-        print(traceback.format_exc(), file=stderr)  # noqa: WPS421 (print)
+        stderr.write(traceback.format_exc() + "\n")
+        return 1
+
+    # first check True and False
+    # because int(True) == 1 and int(False) == 0
+    if result is True:
+        return 0
+    if result is False:
         return 1
     try:
         return int(result)

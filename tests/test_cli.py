@@ -3,10 +3,9 @@
 import pytest
 
 from failprint import cli
-from failprint.formats import printable_command
 
 
-def test_main():
+def test_fail_without_arguments():
     """Fails without arguments."""
     with pytest.raises(SystemExit):
         cli.main([])
@@ -14,7 +13,7 @@ def test_main():
 
 def test_show_help(capsys):
     """
-    Shows help.
+    Show help.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -25,31 +24,18 @@ def test_show_help(capsys):
     assert "failprint" in captured.out
 
 
-@pytest.mark.parametrize(
-    ("cmd", "expected"),
-    [
-        # empty arg
-        (["an", "empty", ""], 'an empty ""'),
-        # normal command
-        (["a", "normal", "command"], "a normal command"),
-        # spaces
-        (["a", "command", "with", " "], 'a command with " "'),
-        # single quotes
-        (["a", "command", "with", "'"], 'a command with "\'"'),
-        # double quotes
-        (["a", "command", "with", '"'], "a command with '\"'"),
-        # both quotes
-        (["a", "command", "with", "\"'"], 'a command with "\\"\'"'),  # noqa: WPS342 (raw string)
-        # both quotes and spaces
-        (["a", "command", "with", "\" '"], 'a command with "\\" \'"'),  # noqa: WPS342 (raw string)
-    ],
-)
-def test_printable_command(cmd, expected) -> None:
+def test_run_command():
+    """Run a simple command."""
+    assert cli.main(["echo", "hello"]) == 0
+
+
+def test_accept_custom_format(capsys):
     """
-    Correctly transform a list of arguments into a runnable shell command.
+    Run a command with a custom output format.
 
     Arguments:
-        cmd: The command as a list of arguments.
-        expected: The expected result after transformation.
+        capsys: Pytest fixture to capture output.
     """
-    assert printable_command(cmd) == expected
+    assert cli.main(["--no-progress", "-f", "custom={{output}}", "echo", "custom"]) == 0
+    outerr = capsys.readouterr()
+    assert "custom" in outerr.out

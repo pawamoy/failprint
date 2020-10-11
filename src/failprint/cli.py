@@ -14,8 +14,9 @@
 import argparse
 from typing import List, Optional
 
+from failprint.capture import Capture
 from failprint.formats import accept_custom_format, formats
-from failprint.runners import Output, run
+from failprint.runners import run
 
 
 def get_parser() -> argparse.ArgumentParser:
@@ -27,16 +28,25 @@ def get_parser() -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(prog="failprint")
     parser.add_argument(
+        "-c",
+        "--capture",
+        choices=list(Capture),
+        type=Capture,
+        help="Which output to capture. Colors are supported with 'both' only, unless the command has a 'force color' option.",
+    )
+    parser.add_argument(
         "-f",
         "--format",
         choices=formats.keys(),
         type=accept_custom_format,
         default=None,
         help="Output format. Pass your own Jinja2 template as a string with '-f custom=TEMPLATE'. "
-        "Available variables: title (command or title passed with -t), code (exit status), "
-        "success (boolean), failure (boolean), n (command number passed with -n), "
-        "output (command output). Available filters: indent (textwrap.indent).",
+        "Available variables: command, title (command or title passed with -t), code (exit status), "
+        "success (boolean), failure (boolean), number (command number passed with -n), "
+        "output (command output), nofail (boolean), quiet (boolean), silent (boolean). "
+        "Available filters: indent (textwrap.indent).",
     )
+    parser.add_argument("-n", "--number", type=int, default=1, help="Command number. Useful for the 'tap' format.")
     parser.add_argument(
         "--no-pty",
         action="store_false",
@@ -50,13 +60,6 @@ def get_parser() -> argparse.ArgumentParser:
         dest="progress",
         default=True,
         help="Don't print any progress while running a command.",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        choices=list(Output),
-        type=Output,
-        help="Which output to use. Colors are supported with 'combine' only, unless the command has a 'force color' option.",
     )
     parser.add_argument(
         "-q",
@@ -74,6 +77,7 @@ def get_parser() -> argparse.ArgumentParser:
         default=False,
         help="Don't print anything.",
     )
+    parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
     parser.add_argument(
         "-z",
         "--zero",
@@ -83,8 +87,6 @@ def get_parser() -> argparse.ArgumentParser:
         default=False,
         help="Don't fail. Always return a success (0) exit code.",
     )
-    parser.add_argument("-n", "--number", type=int, default=1, help="Command number. Useful for the 'tap' format.")
-    parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
     parser.add_argument("COMMAND", nargs="+")
 
     return parser
@@ -107,7 +109,7 @@ def main(args: Optional[List[str]] = None) -> int:
     return run(
         options.COMMAND,
         number=options.number,
-        output_type=options.output,
+        capture=options.capture,
         title=options.title,
         fmt=options.format,
         pty=options.pty,
