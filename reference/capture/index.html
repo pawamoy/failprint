@@ -12,21 +12,21 @@
         <meta name="description" content="Run a command, print its output only if it fails.">
       
       
-        <link rel="canonical" href="https://pawamoy.github.io/failprint/contributing/">
+        <link rel="canonical" href="https://pawamoy.github.io/failprint/reference/capture/">
       
       
-      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.14">
     
     
       
-        <title>Contributing - failprint</title>
+        <title>capture.py - failprint</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.d3202873.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.d3202873.min.css">
       
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ff0a5ce4.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ff0a5ce4.min.css">
       
       
         
@@ -44,7 +44,7 @@
     
     
     
-      <link rel="stylesheet" href="../css/mkdocstrings.css">
+      <link rel="stylesheet" href="../../css/mkdocstrings.css">
     
     
       
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing" class="md-skip">
+        <a href="#failprint.capture" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Contributing
+              capture.py
             
           </span>
         </div>
@@ -193,7 +193,7 @@
 
 
   <li class="md-nav__item">
-    <a href=".." title="Overview" class="md-nav__link">
+    <a href="../.." title="Overview" class="md-nav__link">
       Overview
     </a>
   </li>
@@ -203,10 +203,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       API Reference
@@ -224,11 +226,59 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../reference/capture/" title="capture.py" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        capture.py
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" title="capture.py" class="md-nav__link md-nav__link--active">
       capture.py
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#failprint.capture" class="md-nav__link">
+    failprint.capture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failprint.capture.Capture" class="md-nav__link">
+    Capture
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failprint.capture.cast_capture" class="md-nav__link">
+    cast_capture()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -238,7 +288,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../reference/cli/" title="cli.py" class="md-nav__link">
+    <a href="../cli/" title="cli.py" class="md-nav__link">
       cli.py
     </a>
   </li>
@@ -250,7 +300,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../reference/formats/" title="formats.py" class="md-nav__link">
+    <a href="../formats/" title="formats.py" class="md-nav__link">
       formats.py
     </a>
   </li>
@@ -262,7 +312,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../reference/process/" title="process.py" class="md-nav__link">
+    <a href="../process/" title="process.py" class="md-nav__link">
       process.py
     </a>
   </li>
@@ -274,7 +324,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../reference/runners/" title="runners.py" class="md-nav__link">
+    <a href="../runners/" title="runners.py" class="md-nav__link">
       runners.py
     </a>
   </li>
@@ -286,7 +336,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../reference/types/" title="types.py" class="md-nav__link">
+    <a href="../types/" title="types.py" class="md-nav__link">
       types.py
     </a>
   </li>
@@ -301,77 +351,11 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Contributing
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-    
-    <a href="./" title="Contributing" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../contributing/" title="Contributing" class="md-nav__link">
       Contributing
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#environment-setup" class="md-nav__link">
-    Environment setup
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tasks" class="md-nav__link">
-    Tasks
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#development" class="md-nav__link">
-    Development
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commit-message-convention" class="md-nav__link">
-    Commit message convention
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pull-requests-guidelines" class="md-nav__link">
-    Pull requests guidelines
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
     
@@ -381,7 +365,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../code_of_conduct/" title="Code of Conduct" class="md-nav__link">
+    <a href="../../code_of_conduct/" title="Code of Conduct" class="md-nav__link">
       Code of Conduct
     </a>
   </li>
@@ -393,7 +377,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../changelog/" title="Changelog" class="md-nav__link">
+    <a href="../../changelog/" title="Changelog" class="md-nav__link">
       Changelog
     </a>
   </li>
@@ -405,7 +389,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../credits/" title="Credits" class="md-nav__link">
+    <a href="../../credits/" title="Credits" class="md-nav__link">
       Credits
     </a>
   </li>
@@ -425,8 +409,6 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -435,36 +417,22 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#environment-setup" class="md-nav__link">
-    Environment setup
+  <a href="#failprint.capture" class="md-nav__link">
+    failprint.capture
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#tasks" class="md-nav__link">
-    Tasks
+  <a href="#failprint.capture.Capture" class="md-nav__link">
+    Capture
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#development" class="md-nav__link">
-    Development
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commit-message-convention" class="md-nav__link">
-    Commit message convention
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pull-requests-guidelines" class="md-nav__link">
-    Pull requests guidelines
+  <a href="#failprint.capture.cast_capture" class="md-nav__link">
+    cast_capture()
   </a>
   
 </li>
@@ -481,7 +449,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/pawamoy/failprint/edit/master/docs/contributing.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/pawamoy/failprint/edit/master/docs/reference/capture.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -489,109 +457,118 @@
                   
                 
                 
-                <h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">¤</a></h1>
-<p>Contributions are welcome, and they are greatly appreciated!
-Every little bit helps, and credit will always be given.</p>
-<h2 id="environment-setup">Environment setup<a class="headerlink" href="#environment-setup" title="Permanent link">¤</a></h2>
-<p>Nothing easier!</p>
-<p>Fork and clone the repository, then:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> failprint
-make setup
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If it fails for some reason,
-you'll need to install
-<a href="https://github.com/python-poetry/poetry">Poetry</a>
-manually.</p>
-<p>You can install it with:</p>
-<div class="highlight"><pre><span></span><code>python3 -m pip install --user pipx
-pipx install poetry
-</code></pre></div>
-<p>Now you can try running <code>make setup</code> again,
-or simply <code>poetry install</code>.</p>
+                  <h1>capture.py</h1>
+                
+                <div class="doc doc-object doc-module">
+<h2 class="hidden-toc" href="#failprint.capture" id="failprint.capture" style="visibility: hidden; position: absolute;">
+        <a class="headerlink" href="#failprint.capture" title="Permanent link">¤</a></h2>
+<div class="doc doc-contents first">
+<p>Enumeration of possible output captures.</p>
+<div class="doc doc-children">
+<div class="doc doc-object doc-class">
+<h2 class="doc doc-heading" id="failprint.capture.Capture">
+
+        <code>Capture</code>
+
+
+      <a class="headerlink" href="#failprint.capture.Capture" title="Permanent link">¤</a></h2>
+<div class="doc doc-contents ">
+<p>An enum to store the different possible output types.</p>
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+  </div>
 </div>
-<p>You now have the dependencies installed.</p>
-<p>You can run the application with <code>poetry run failprint [ARGS...]</code>.</p>
-<p>Run <code>make help</code> to see all the available actions!</p>
-<h2 id="tasks">Tasks<a class="headerlink" href="#tasks" title="Permanent link">¤</a></h2>
-<p>This project uses <a href="https://github.com/pawamoy/duty">Duty</a> to run tasks.
-A Makefile is also provided. The Makefile will try to run certain tasks
-on multiple Python versions. If for some reason you don't want to run the task
-on multiple Python versions, you can do one of the following:</p>
-<ol>
-<li><code>export PYTHON_VERSIONS=</code>: this will run the task
-   with only the current Python version</li>
-<li>run the task directly with <code>poetry run duty TASK</code>,
-   or <code>duty TASK</code> if the environment was already activated
-   through <code>poetry shell</code></li>
-</ol>
-<p>The Makefile detects if the Poetry environment is activated,
-so <code>make</code> will work the same with the virtualenv activated or not.</p>
-<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">¤</a></h2>
-<p>As usual:</p>
-<ol>
-<li>create a new branch: <code>git checkout -b feature-or-bugfix-name</code></li>
-<li>edit the code and/or the documentation</li>
-</ol>
-<p>If you updated the documentation or the project dependencies:</p>
-<ol>
-<li>run <code>make docs-regen</code></li>
-<li>run <code>make docs-serve</code>,
-   go to <a href="http://localhost:8000">http://localhost:8000</a> and check that everything looks good</li>
-</ol>
-<p><strong>Before committing:</strong></p>
-<ol>
-<li>run <code>make format</code> to auto-format the code</li>
-<li>run <code>make check</code> to check everything (fix any warning)</li>
-<li>run <code>make test</code> to run the tests (fix any issue)</li>
-<li>follow our <a href="#commit-message-convention">commit message convention</a></li>
-</ol>
-<p>If you are unsure about how to fix or ignore a warning,
-just let the continuous integration fail,
-and we will help you during review.</p>
-<p>Don't bother updating the changelog, we will take care of this.</p>
-<h2 id="commit-message-convention">Commit message convention<a class="headerlink" href="#commit-message-convention" title="Permanent link">¤</a></h2>
-<p>Commits messages must follow the
-<a href="https://gist.github.com/stephenparish/9941e89d80e2bc58a153#format-of-the-commit-message">Angular style</a>:</p>
-<div class="highlight"><pre><span></span><code>&lt;type&gt;[(scope)]: Subject
+</div>
+<div class="doc doc-object doc-function">
+<h2 class="doc doc-heading" id="failprint.capture.cast_capture">
 
-[Body]
-</code></pre></div>
-<p>Scope and body are optional. Type can be:</p>
-<ul>
-<li><code>build</code>: About packaging, building wheels, etc.</li>
-<li><code>chore</code>: About packaging or repo/files management.</li>
-<li><code>ci</code>: About Continuous Integration.</li>
-<li><code>docs</code>: About documentation.</li>
-<li><code>feat</code>: New feature.</li>
-<li><code>fix</code>: Bug fix.</li>
-<li><code>perf</code>: About performance.</li>
-<li><code>refactor</code>: Changes which are not features nor bug fixes.</li>
-<li><code>style</code>: A change in code style/format.</li>
-<li><code>tests</code>: About tests.</li>
-</ul>
-<p><strong>Subject (and body) must be valid Markdown.</strong>
-If you write a body, please add issues references at the end:</p>
-<div class="highlight"><pre><span></span><code>Body.
+        <code class="highlight language-python">
+cast_capture<span class="p">(</span><span class="n">value</span><span class="p">)</span>        </code>
 
-References: #10, #11.
-Fixes #15.
-</code></pre></div>
-<h2 id="pull-requests-guidelines">Pull requests guidelines<a class="headerlink" href="#pull-requests-guidelines" title="Permanent link">¤</a></h2>
-<p>Link to any related issue in the Pull Request message.</p>
-<p>During review, we recommend using fixups:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># SHA is the SHA of the commit you want to fix</span>
-git commit --fixup<span class="o">=</span>SHA
-</code></pre></div>
-<p>Once all the changes are approved, you can squash your commits:</p>
-<div class="highlight"><pre><span></span><code>git rebase -i --autosquash master
-</code></pre></div>
-<p>And force-push:</p>
-<div class="highlight"><pre><span></span><code>git push -f
-</code></pre></div>
-<p>If this seems all too complicated, you can push or force-push each new commit,
-and we will squash them ourselves if needed, before merging.</p>
+
+      <a class="headerlink" href="#failprint.capture.cast_capture" title="Permanent link">¤</a></h2>
+<div class="doc doc-contents ">
+<p>Cast a value to an actual Capture enumeration value.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>value</code></td>
+<td><code>Union[str, bool, failprint.capture.Capture]</code></td>
+<td>
+<p>The value to cast.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Capture</code></td>
+<td>
+<p>A Capture enumeration value.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>failprint/capture.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">cast_capture</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">Capture</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Capture</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Cast a value to an actual Capture enumeration value.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        value: The value to cast.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        A Capture enumeration value.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Capture</span><span class="o">.</span><span class="n">NONE</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Capture</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="c1"># consider it's a string</span>
+    <span class="c1"># let potential errors bubble up</span>
+    <span class="k">return</span> <span class="n">Capture</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
                 
               
               
@@ -610,7 +587,7 @@ and we will squash them ourselves if needed, before merging.</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../reference/types/" title="types.py" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../.." title="Overview" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -619,19 +596,19 @@ and we will squash them ourselves if needed, before merging.</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                types.py
+                Overview
               </div>
             </div>
           </a>
         
         
-          <a href="../code_of_conduct/" title="Code of Conduct" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../cli/" title="cli.py" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Code of Conduct
+                cli.py
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
@@ -658,15 +635,15 @@ and we will squash them ourselves if needed, before merging.</p>
       
     </div>
     
-      <script src="../assets/javascripts/vendor.2d1db4bd.min.js"></script>
-      <script src="../assets/javascripts/bundle.6627ddf3.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../../assets/javascripts/vendor.2d1db4bd.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6627ddf3.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
       
       <script>
         app = initialize({
-          base: "..",
+          base: "../..",
           features: [],
           search: Object.assign({
-            worker: "../assets/javascripts/worker/search.5eca75d3.min.js"
+            worker: "../../assets/javascripts/worker/search.5eca75d3.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>

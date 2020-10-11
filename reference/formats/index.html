@@ -228,6 +228,18 @@
 
 
   <li class="md-nav__item">
+    <a href="../capture/" title="capture.py" class="md-nav__link">
+      capture.py
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="../cli/" title="cli.py" class="md-nav__link">
       cli.py
     </a>
@@ -325,6 +337,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../process/" title="process.py" class="md-nav__link">
+      process.py
+    </a>
   </li>
 
         
@@ -653,7 +677,7 @@ accept_custom_format<span class="p">(</span><span class="n">string</span><span c
 <span class="sd">    Returns:</span>
 <span class="sd">        The format name, or `custom` if it started with `custom=`.</span>
 <span class="sd">    """</span>
-    <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"custom="</span><span class="p">)</span> <span class="ow">and</span> <span class="n">formats</span><span class="p">[</span><span class="s2">"custom"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">string</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"custom="</span><span class="p">):</span>
         <span class="n">formats</span><span class="p">[</span><span class="s2">"custom"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Format</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="mi">7</span><span class="p">:])</span>
         <span class="k">return</span> <span class="s2">"custom"</span>
     <span class="k">return</span> <span class="n">string</span>
@@ -964,13 +988,13 @@ printable_command<span class="p">(</span><span class="n">cmd</span><span class="
           </a>
         
         
-          <a href="../runners/" title="runners.py" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../process/" title="process.py" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                runners.py
+                process.py
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

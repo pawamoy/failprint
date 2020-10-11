@@ -285,6 +285,18 @@
 
 
   <li class="md-nav__item">
+    <a href="reference/capture/" title="capture.py" class="md-nav__link">
+      capture.py
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
     <a href="reference/cli/" title="cli.py" class="md-nav__link">
       cli.py
     </a>
@@ -299,6 +311,18 @@
   <li class="md-nav__item">
     <a href="reference/formats/" title="formats.py" class="md-nav__link">
       formats.py
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="reference/process/" title="process.py" class="md-nav__link">
+      process.py
     </a>
   </li>
 
@@ -464,22 +488,11 @@ If it succeeds, nothing is printed.
 If it fails, standard error is printed.
 Plus other configuration goodies <img alt="😉" class="emojione" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/1f609.png" title=":wink:" /></p>
 <h2 id="example">Example<a class="headerlink" href="#example" title="Permanent link">¤</a></h2>
-<p>Some tools output a lot of things. You don't want to see it when the command succeeds.</p>
-<p>Without <code>failprint</code>:</p>
-<ul>
-<li><code>poetry run bandit -s B404 -r src/</code></li>
-<li><code>poetry run black --check $(PY_SRC)</code></li>
-</ul>
-<p><img alt="basic" src="https://user-images.githubusercontent.com/3999221/79385294-a2a0e080-7f68-11ea-827d-f72134a02eef.png" /></p>
-<p>With <code>failprint</code>:</p>
-<ul>
-<li><code>poetry run failprint -- bandit -s B404 -r src/</code></li>
-<li><code>poetry run failprint -- black --check $(PY_SRC)</code></li>
-</ul>
-<p><img alt="failprint_fail" src="https://user-images.githubusercontent.com/3999221/79385302-a5033a80-7f68-11ea-98cd-1f4148629724.png" /></p>
-<p>It's already better, no? Much more readable!</p>
-<p>And when everything passes, it's even better:</p>
-<p><img alt="failprint_success" src="https://user-images.githubusercontent.com/3999221/79385308-a59bd100-7f68-11ea-8012-90cbe9e0ac08.png" /></p>
+<p>You don't want to see output when the command succeeds.</p>
+<p><img alt="demo" src="demo.svg" /></p>
+<p>The task runner <a href="https://github.com/pawamoy/duty"><code>duty</code></a> uses <code>failprint</code>,
+allowing you to define tasks in Python and run them with minimalist and beautiful output:</p>
+<p><img alt="demo_duty" src="demo_duty.svg" /></p>
 <h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">¤</a></h2>
 <p>failprint requires Python 3.6 or above.</p>
 <details>
@@ -511,23 +524,55 @@ pyenv global system <span class="m">3</span>.6.12
 pipx install --python python3.6 failprint
 </code></pre></div></p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code>usage: failprint [-h] [-f {custom,pretty,tap}] [-o {stdout,stderr,combine}] [-n NUMBER] [-t TITLE] COMMAND [COMMAND ...]
+<div class="highlight"><pre><span></span><code><span class="gp">%</span> poetry run failprint -h
+<span class="go">usage: failprint [-h] [-c {stdout,stderr,both,none}] [-f {pretty,tap}] [-n NUMBER]</span>
+<span class="go">                 [--no-pty] [--no-progress] [-q] [-s] [-t TITLE] [-z]</span>
+<span class="go">                 COMMAND [COMMAND ...]</span>
 
-positional arguments:
-  COMMAND
+<span class="go">positional arguments:</span>
+<span class="go">  COMMAND</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -f {custom,pretty,tap}, --format {custom,pretty,tap}
-                        Output format. Pass your own Jinja2 template as a string with &#39;-f custom=TEMPLATE&#39;.
-                        Available variables: title (command or title passed with -t), code (exit status), success (boolean), failure (boolean),
-                        n (command number passed with -n), output (command output). Available filters: indent (textwrap.indent).
-  -o {stdout,stderr,combine}, --output {stdout,stderr,combine}
-                        Which output to use. Colors are supported with &#39;combine&#39; only, unless the command has a &#39;force color&#39; option.
-  -n NUMBER, --number NUMBER
-                        Command number. Useful for the &#39;tap&#39; format.
-  -t TITLE, --title TITLE
-                        Command title. Default is the command itself.
+<span class="go">optional arguments:</span>
+<span class="go">  -h, --help            show this help message and exit</span>
+<span class="go">  -c {stdout,stderr,both,none}, --capture {stdout,stderr,both,none}</span>
+<span class="go">                        Which output to capture. Colors are supported with &#39;both&#39; only,</span>
+<span class="go">                        unless the command has a &#39;force color&#39; option.</span>
+<span class="go">  -f {pretty,tap}, --format {pretty,tap}</span>
+<span class="go">                        Output format. Pass your own Jinja2 template as a string with</span>
+<span class="go">                        &#39;-f custom=TEMPLATE&#39;. Available variables: command, title</span>
+<span class="go">                        (command or title passed with -t), code (exit status), success</span>
+<span class="go">                        (boolean), failure (boolean), number (command number passed with</span>
+<span class="go">                        -n), output (command output), nofail (boolean), quiet (boolean),</span>
+<span class="go">                        silent (boolean). Available filters: indent (textwrap.indent).</span>
+<span class="go">  -n NUMBER, --number NUMBER</span>
+<span class="go">                        Command number. Useful for the &#39;tap&#39; format.</span>
+<span class="go">  --no-pty              Disable the use of a pseudo-terminal. PTY doesn&#39;t allow programs</span>
+<span class="go">                        to use standard input.</span>
+<span class="go">  --no-progress         Don&#39;t print any progress while running a command.</span>
+<span class="go">  -q, --quiet           Don&#39;t print the command output, even if it failed.</span>
+<span class="go">  -s, --silent          Don&#39;t print anything.</span>
+<span class="go">  -t TITLE, --title TITLE</span>
+<span class="go">                        Command title. Default is the command itself.</span>
+<span class="go">  -z, --zero, --nofail  Don&#39;t fail. Always return a success (0) exit code.</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">failprint.runners</span> <span class="kn">import</span> <span class="n">run</span>
+
+<span class="n">cmd</span> <span class="o">=</span> <span class="s2">&quot;echo hello&quot;</span>
+
+<span class="n">exit_code</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span>
+    <span class="n">cmd</span><span class="p">,</span>            <span class="c1"># str, list of str, or Python callable</span>
+    <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>      <span class="c1"># args for callable</span>
+    <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>    <span class="c1"># kwargs for callable</span>
+    <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>       <span class="c1"># command number, useful for tap format</span>
+    <span class="n">capture</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>   <span class="c1"># stdout, stderr, both, none, True or False</span>
+    <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>     <span class="c1"># command title</span>
+    <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>       <span class="c1"># pretty, tap, or custom=&quot;MY_CUSTOM_FORMAT&quot;</span>
+    <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>      <span class="c1"># use a PTY</span>
+    <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># print the &quot;progress&quot; template before running the command</span>
+    <span class="n">nofail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>   <span class="c1"># always return zero</span>
+    <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>    <span class="c1"># don&#39;t print output when the command fails</span>
+    <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>   <span class="c1"># don&#39;t print anything</span>
+<span class="p">)</span>
 </code></pre></div>
                 
               
@@ -548,13 +593,13 @@ optional arguments:
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
         
-          <a href="reference/cli/" title="cli.py" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="reference/capture/" title="capture.py" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                cli.py
+                capture.py
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

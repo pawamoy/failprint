@@ -226,6 +226,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../capture/" title="capture.py" class="md-nav__link">
+      capture.py
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -290,6 +302,18 @@
   <li class="md-nav__item">
     <a href="../formats/" title="formats.py" class="md-nav__link">
       formats.py
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../process/" title="process.py" class="md-nav__link">
+      process.py
     </a>
   </li>
 
@@ -480,16 +504,25 @@ get_parser<span class="p">()</span>        </code>
 <span class="sd">    """</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">"failprint"</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">"-c"</span><span class="p">,</span>
+        <span class="s2">"--capture"</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">Capture</span><span class="p">),</span>
+        <span class="nb">type</span><span class="o">=</span><span class="n">Capture</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Which output to capture. Colors are supported with 'both' only, unless the command has a 'force color' option."</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">"-f"</span><span class="p">,</span>
         <span class="s2">"--format"</span><span class="p">,</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">formats</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">accept_custom_format</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Output format. Pass your own Jinja2 template as a string with '-f custom=TEMPLATE'. "</span>
-        <span class="s2">"Available variables: title (command or title passed with -t), code (exit status), "</span>
-        <span class="s2">"success (boolean), failure (boolean), n (command number passed with -n), "</span>
-        <span class="s2">"output (command output). Available filters: indent (textwrap.indent)."</span><span class="p">,</span>
+        <span class="s2">"Available variables: command, title (command or title passed with -t), code (exit status), "</span>
+        <span class="s2">"success (boolean), failure (boolean), number (command number passed with -n), "</span>
+        <span class="s2">"output (command output), nofail (boolean), quiet (boolean), silent (boolean). "</span>
+        <span class="s2">"Available filters: indent (textwrap.indent)."</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-n"</span><span class="p">,</span> <span class="s2">"--number"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command number. Useful for the 'tap' format."</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">"--no-pty"</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s2">"store_false"</span><span class="p">,</span>
@@ -503,13 +536,6 @@ get_parser<span class="p">()</span>        </code>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"progress"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Don't print any progress while running a command."</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">"-o"</span><span class="p">,</span>
-        <span class="s2">"--output"</span><span class="p">,</span>
-        <span class="n">choices</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">Output</span><span class="p">),</span>
-        <span class="nb">type</span><span class="o">=</span><span class="n">Output</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">"Which output to use. Colors are supported with 'combine' only, unless the command has a 'force color' option."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">"-q"</span><span class="p">,</span>
@@ -527,6 +553,7 @@ get_parser<span class="p">()</span>        </code>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Don't print anything."</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--title"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command title. Default is the command itself."</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">"-z"</span><span class="p">,</span>
         <span class="s2">"--zero"</span><span class="p">,</span>
@@ -536,8 +563,6 @@ get_parser<span class="p">()</span>        </code>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">"Don't fail. Always return a success (0) exit code."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-n"</span><span class="p">,</span> <span class="s2">"--number"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command number. Useful for the 'tap' format."</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--title"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command title. Default is the command itself."</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"COMMAND"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">parser</span>
@@ -615,7 +640,7 @@ main<span class="p">(</span><span class="n">args</span><span class="o">=</span><
     <span class="k">return</span> <span class="n">run</span><span class="p">(</span>
         <span class="n">options</span><span class="o">.</span><span class="n">COMMAND</span><span class="p">,</span>
         <span class="n">number</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
-        <span class="n">output_type</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">output</span><span class="p">,</span>
+        <span class="n">capture</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">capture</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
         <span class="n">fmt</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
         <span class="n">pty</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">pty</span><span class="p">,</span>
@@ -650,7 +675,7 @@ main<span class="p">(</span><span class="n">args</span><span class="o">=</span><
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../.." title="Overview" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../capture/" title="capture.py" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -659,7 +684,7 @@ main<span class="p">(</span><span class="n">args</span><span class="o">=</span><
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Overview
+                capture.py
               </div>
             </div>
           </a>
