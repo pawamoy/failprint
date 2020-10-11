@@ -18,27 +18,14 @@ Plus other configuration goodies :wink:
 
 ## Example
 
-Some tools output a lot of things. You don't want to see it when the command succeeds.
+You don't want to see output when the command succeeds.
 
-Without `failprint`:
+![demo](demo.svg)
 
-- `poetry run bandit -s B404 -r src/`
-- `poetry run black --check $(PY_SRC)`
+The task runner [`duty`](https://github.com/pawamoy/duty) uses `failprint`,
+allowing you to define tasks in Python and run them with minimalist and beautiful output:
 
-![basic](https://user-images.githubusercontent.com/3999221/79385294-a2a0e080-7f68-11ea-827d-f72134a02eef.png)
-
-With `failprint`:
-
-- `poetry run failprint -- bandit -s B404 -r src/`
-- `poetry run failprint -- black --check $(PY_SRC)`
-
-![failprint_fail](https://user-images.githubusercontent.com/3999221/79385302-a5033a80-7f68-11ea-98cd-1f4148629724.png)
-
-It's already better, no? Much more readable!
-
-And when everything passes, it's even better:
-
-![failprint_success](https://user-images.githubusercontent.com/3999221/79385308-a59bd100-7f68-11ea-8012-90cbe9e0ac08.png)
+![demo_duty](demo_duty.svg)
 
 ## Requirements
 
@@ -80,22 +67,56 @@ pipx install --python python3.6 failprint
 
 ## Usage
 
-```
-usage: failprint [-h] [-f {custom,pretty,tap}] [-o {stdout,stderr,combine}] [-n NUMBER] [-t TITLE] COMMAND [COMMAND ...]
+```console
+% poetry run failprint -h
+usage: failprint [-h] [-c {stdout,stderr,both,none}] [-f {pretty,tap}] [-n NUMBER]
+                 [--no-pty] [--no-progress] [-q] [-s] [-t TITLE] [-z]
+                 COMMAND [COMMAND ...]
 
 positional arguments:
   COMMAND
 
 optional arguments:
   -h, --help            show this help message and exit
-  -f {custom,pretty,tap}, --format {custom,pretty,tap}
-                        Output format. Pass your own Jinja2 template as a string with '-f custom=TEMPLATE'.
-                        Available variables: title (command or title passed with -t), code (exit status), success (boolean), failure (boolean),
-                        n (command number passed with -n), output (command output). Available filters: indent (textwrap.indent).
-  -o {stdout,stderr,combine}, --output {stdout,stderr,combine}
-                        Which output to use. Colors are supported with 'combine' only, unless the command has a 'force color' option.
+  -c {stdout,stderr,both,none}, --capture {stdout,stderr,both,none}
+                        Which output to capture. Colors are supported with 'both' only,
+                        unless the command has a 'force color' option.
+  -f {pretty,tap}, --format {pretty,tap}
+                        Output format. Pass your own Jinja2 template as a string with
+                        '-f custom=TEMPLATE'. Available variables: command, title
+                        (command or title passed with -t), code (exit status), success
+                        (boolean), failure (boolean), number (command number passed with
+                        -n), output (command output), nofail (boolean), quiet (boolean),
+                        silent (boolean). Available filters: indent (textwrap.indent).
   -n NUMBER, --number NUMBER
                         Command number. Useful for the 'tap' format.
+  --no-pty              Disable the use of a pseudo-terminal. PTY doesn't allow programs
+                        to use standard input.
+  --no-progress         Don't print any progress while running a command.
+  -q, --quiet           Don't print the command output, even if it failed.
+  -s, --silent          Don't print anything.
   -t TITLE, --title TITLE
                         Command title. Default is the command itself.
+  -z, --zero, --nofail  Don't fail. Always return a success (0) exit code.
+```
+
+```python
+from failprint.runners import run
+
+cmd = "echo hello"
+
+exit_code = run(
+    cmd,            # str, list of str, or Python callable
+    args=None,      # args for callable
+    kwargs=None,    # kwargs for callable
+    number=1,       # command number, useful for tap format
+    capture=None,   # stdout, stderr, both, none, True or False
+    title=None,     # command title
+    fmt=None,       # pretty, tap, or custom="MY_CUSTOM_FORMAT"
+    pty=False,      # use a PTY
+    progress=True,  # print the "progress" template before running the command
+    nofail=False,   # always return zero
+    quiet=False,    # don't print output when the command fails
+    silent=False,   # don't print anything
+)
 ```
