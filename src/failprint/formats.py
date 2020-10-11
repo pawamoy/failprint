@@ -26,11 +26,10 @@ class Format:
 
 formats: Dict[str, Format] = {
     "pretty": Format(
-        "<bold>"
         "{% if success %}<green>✓</green>"
         "{% elif nofail %}<yellow>✗</yellow>"
         "{% else %}<red>✗</red>{% endif %} "
-        "{{ title or command }}</bold>"
+        "<bold>{{ title or command }}</bold>"
         "{% if failure %} ({{ code }}){% endif %}"
         "{% if failure and output and not quiet %}\n"
         "{{ ('  > ' + command + '\n') if title else '' }}"
