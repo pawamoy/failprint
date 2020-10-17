@@ -76,7 +76,7 @@ class OSDecoder:
             return str(byte_string)[2:-1]
         try:
             return byte_string.decode(self.encoding)
-        except UnicodeDecodeError:
+        except (LookupError, UnicodeDecodeError):
             return str(byte_string)[2:-1]
 
 
