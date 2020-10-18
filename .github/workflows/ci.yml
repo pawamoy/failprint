@@ -36,14 +36,13 @@ jobs:
     - name: Install Poetry
       run: |
         pip install poetry
-        poetry_version=$(poetry --version | cut -d' ' -f3)
-        echo "::set-env name=poetry-version::$poetry_version"
+        echo "poetry_version=$(poetry --version | cut -d' ' -f3)" >> $GITHUB_ENV
 
     - name: Set up the cache
       uses: actions/cache@v1
       with:
         path: .venv
-        key: venv-cache-${{ env.poetry-version }}
+        key: venv-cache-${{ env.poetry_version }}
 
     - name: Set up the project
       run: poetry install -vvv
@@ -83,14 +82,13 @@ jobs:
     - name: Install Poetry
       run: |
         pip install poetry
-        poetry_version=$(poetry --version | cut -d' ' -f3)
-        echo "::set-env name=poetry-version::$poetry_version"
+        echo "poetry_version=$(poetry --version | cut -d' ' -f3)" >> $GITHUB_ENV
 
     - name: Set up the cache
       uses: actions/cache@v1
       with:
         path: .venv
-        key: venv-cache-${{ matrix.os }}-${{ matrix.python-version }}-${{ env.poetry-version }}
+        key: venv-cache-${{ matrix.os }}-${{ matrix.python-version }}-${{ env.poetry_version }}
 
     - name: Set up the project
       run: poetry install -vvv

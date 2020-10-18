@@ -304,6 +304,7 @@ def test_cancel_pty():
             assert run_sub.called
 
 
+@pytest.mark.skipif(WINDOWS, reason="no PTY support on Windows")
 def test_run_pty_shell():
     """Test running a shell command in a PTY."""
     with patch("failprint.runners.run_pty_subprocess", new=MagicMock(return_value=(0, ""))) as run_pty_sub:
