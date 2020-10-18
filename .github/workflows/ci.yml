@@ -45,7 +45,7 @@ jobs:
         key: venv-cache-${{ env.poetry_version }}
 
     - name: Set up the project
-      run: poetry install -vvv
+      run: poetry install -vvv || { rm -rf .venv; poetry install -vvv; }
 
     - name: Check if the documentation builds correctly
       run: poetry run duty check-docs
@@ -91,7 +91,7 @@ jobs:
         key: venv-cache-${{ matrix.os }}-${{ matrix.python-version }}-${{ env.poetry_version }}
 
     - name: Set up the project
-      run: poetry install -vvv
+      run: poetry install -vvv || { rm -rf .venv; poetry install -vvv; }
 
     - name: Run the test suite
       run: poetry run duty test
