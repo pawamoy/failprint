@@ -70,8 +70,8 @@ pipx install --python python3.6 failprint
 
 ```console
 % poetry run failprint -h
-usage: failprint [-h] [-c {stdout,stderr,both,none}] [-f {pretty,tap}] [-n NUMBER]
-                 [--no-pty] [--no-progress] [-q] [-s] [-t TITLE] [-z]
+usage: failprint [-h] [-c {stdout,stderr,both,none}] [-f {pretty,tap}] [-y | -Y] [-p | -P] [-q | -Q] [-s | -S] [-z | -Z] [-n NUMBER]
+                 [-t TITLE]
                  COMMAND [COMMAND ...]
 
 positional arguments:
@@ -80,25 +80,28 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -c {stdout,stderr,both,none}, --capture {stdout,stderr,both,none}
-                        Which output to capture. Colors are supported with 'both' only,
-                        unless the command has a 'force color' option.
+                        Which output to capture. Colors are supported with 'both' only, unless the command has a 'force color'
+                        option.
   -f {pretty,tap}, --format {pretty,tap}
-                        Output format. Pass your own Jinja2 template as a string with
-                        '-f custom=TEMPLATE'. Available variables: command, title
-                        (command or title passed with -t), code (exit status), success
-                        (boolean), failure (boolean), number (command number passed with
-                        -n), output (command output), nofail (boolean), quiet (boolean),
-                        silent (boolean). Available filters: indent (textwrap.indent).
+                        Output format. Pass your own Jinja2 template as a string with '-f custom=TEMPLATE'. Available variables:
+                        command, title (command or title passed with -t), code (exit status), success (boolean), failure (boolean),
+                        number (command number passed with -n), output (command output), nofail (boolean), quiet (boolean), silent
+                        (boolean). Available filters: indent (textwrap.indent).
+  -y, --pty             Enable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.
+  -Y, --no-pty          Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.
+  -p, --progress        Print progress while running a command.
+  -P, --no-progress     Don't print progress while running a command.
+  -q, --quiet           Don't print the command output, even if it failed.
+  -Q, --no-quiet        Print the command output when it fails.
+  -s, --silent          Don't print anything.
+  -S, --no-silent       Print output as usual.
+  -z, --zero, --nofail  Don't fail. Always return a success (0) exit code.
+  -Z, --no-zero, --strict
+                        Return the original exit code.
   -n NUMBER, --number NUMBER
                         Command number. Useful for the 'tap' format.
-  --no-pty              Disable the use of a pseudo-terminal. PTY doesn't allow programs
-                        to use standard input.
-  --no-progress         Don't print any progress while running a command.
-  -q, --quiet           Don't print the command output, even if it failed.
-  -s, --silent          Don't print anything.
   -t TITLE, --title TITLE
                         Command title. Default is the command itself.
-  -z, --zero, --nofail  Don't fail. Always return a success (0) exit code.
 ```
 
 ```python
