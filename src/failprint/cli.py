@@ -12,21 +12,55 @@
 """Module that contains the command line application."""
 
 import argparse
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
 from failprint.capture import Capture
 from failprint.formats import accept_custom_format, formats
 from failprint.runners import run
 
 
-def get_parser() -> argparse.ArgumentParser:
+class ArgParser(argparse.ArgumentParser):
+    """A custom argument parser with a helper method to add boolean flags."""
+
+    def add_bool_argument(
+        self,
+        truthy: Sequence[str],
+        falsy: Sequence[str],
+        truthy_help: str = "",
+        falsy_help: str = "",
+        **kwargs,
+    ) -> None:
+        """
+        Add a boolean flag/argument to the parser.
+
+        Arguments:
+            truthy: Values that will store true in the destination.
+            falsy: Values that will store false in the destination.
+            truthy_help: Help for the truthy arguments.
+            falsy_help: Help for the falsy arguments.
+            **kwargs: Remaining keyword arguments passed to `argparse.ArgumentParser.add_argument`.
+        """
+        truthy_kwargs = {**kwargs, "help": truthy_help, "action": "store_true"}
+        falsy_kwargs = {**kwargs, "help": falsy_help, "action": "store_false"}
+
+        mxg = self.add_mutually_exclusive_group()
+        mxg.add_argument(*truthy, **truthy_kwargs)  # type: ignore  # mypy is confused by arguments position
+        mxg.add_argument(*falsy, **falsy_kwargs)  # type: ignore
+
+
+def add_flags(parser) -> ArgParser:
     """
-    Return the CLI argument parser.
+    Add some boolean flags to the parser.
+
+    We made this method separate and public
+    for its use in [duty](https://github.com/pawamoy/duty).
+
+    Arguments:
+        parser: The parser to add flags to.
 
     Returns:
-        An argparse parser.
+        The augmented parser.
     """
-    parser = argparse.ArgumentParser(prog="failprint")
     parser.add_argument(
         "-c",
         "--capture",
@@ -46,49 +80,60 @@ def get_parser() -> argparse.ArgumentParser:
         "output (command output), nofail (boolean), quiet (boolean), silent (boolean). "
         "Available filters: indent (textwrap.indent).",
     )
-    parser.add_argument("-n", "--number", type=int, default=1, help="Command number. Useful for the 'tap' format.")
-    parser.add_argument(
-        "--no-pty",
-        action="store_false",
+    parser.add_bool_argument(
+        ["-y", "--pty"],
+        ["-Y", "--no-pty"],
         dest="pty",
         default=True,
-        help="Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.",
+        truthy_help="Enable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.",
+        falsy_help="Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.",
     )
-    parser.add_argument(
-        "--no-progress",
-        action="store_false",
+    parser.add_bool_argument(
+        ["-p", "--progress"],
+        ["-P", "--no-progress"],
         dest="progress",
         default=True,
-        help="Don't print any progress while running a command.",
+        truthy_help="Print progress while running a command.",
+        falsy_help="Don't print progress while running a command.",
     )
-    parser.add_argument(
-        "-q",
-        "--quiet",
-        action="store_true",
+    parser.add_bool_argument(
+        ["-q", "--quiet"],
+        ["-Q", "--no-quiet"],
         dest="quiet",
         default=False,
-        help="Don't print the command output, even if it failed.",
+        truthy_help="Don't print the command output, even if it failed.",
+        falsy_help="Print the command output when it fails.",
     )
-    parser.add_argument(
-        "-s",
-        "--silent",
-        action="store_true",
+    parser.add_bool_argument(
+        ["-s", "--silent"],
+        ["-S", "--no-silent"],
         dest="silent",
         default=False,
-        help="Don't print anything.",
+        truthy_help="Don't print anything.",
+        falsy_help="Print output as usual.",
     )
-    parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
-    parser.add_argument(
-        "-z",
-        "--zero",
-        "--nofail",
-        action="store_true",
+    parser.add_bool_argument(
+        ["-z", "--zero", "--nofail"],
+        ["-Z", "--no-zero", "--strict"],
         dest="nofail",
         default=False,
-        help="Don't fail. Always return a success (0) exit code.",
+        truthy_help="Don't fail. Always return a success (0) exit code.",
+        falsy_help="Return the original exit code.",
     )
-    parser.add_argument("COMMAND", nargs="+")
+    return parser
 
+
+def get_parser() -> ArgParser:
+    """
+    Return the CLI argument parser.
+
+    Returns:
+        An argparse parser.
+    """
+    parser = add_flags(ArgParser(prog="failprint"))
+    parser.add_argument("-n", "--number", type=int, default=1, help="Command number. Useful for the 'tap' format.")
+    parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
+    parser.add_argument("COMMAND", nargs="+")
     return parser
 
 
