@@ -526,8 +526,8 @@ pipx install --python python3.6 failprint
 </code></pre></div></p>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="gp">% </span>poetry run failprint -h
-<span class="go">usage: failprint [-h] [-c {stdout,stderr,both,none}] [-f {pretty,tap}] [-n NUMBER]</span>
-<span class="go">                 [--no-pty] [--no-progress] [-q] [-s] [-t TITLE] [-z]</span>
+<span class="go">usage: failprint [-h] [-c {stdout,stderr,both,none}] [-f {pretty,tap}] [-y | -Y] [-p | -P] [-q | -Q] [-s | -S] [-z | -Z] [-n NUMBER]</span>
+<span class="go">                 [-t TITLE]</span>
 <span class="go">                 COMMAND [COMMAND ...]</span>
 
 <span class="go">positional arguments:</span>
@@ -536,25 +536,28 @@ pipx install --python python3.6 failprint
 <span class="go">optional arguments:</span>
 <span class="go">  -h, --help            show this help message and exit</span>
 <span class="go">  -c {stdout,stderr,both,none}, --capture {stdout,stderr,both,none}</span>
-<span class="go">                        Which output to capture. Colors are supported with &#39;both&#39; only,</span>
-<span class="go">                        unless the command has a &#39;force color&#39; option.</span>
+<span class="go">                        Which output to capture. Colors are supported with &#39;both&#39; only, unless the command has a &#39;force color&#39;</span>
+<span class="go">                        option.</span>
 <span class="go">  -f {pretty,tap}, --format {pretty,tap}</span>
-<span class="go">                        Output format. Pass your own Jinja2 template as a string with</span>
-<span class="go">                        &#39;-f custom=TEMPLATE&#39;. Available variables: command, title</span>
-<span class="go">                        (command or title passed with -t), code (exit status), success</span>
-<span class="go">                        (boolean), failure (boolean), number (command number passed with</span>
-<span class="go">                        -n), output (command output), nofail (boolean), quiet (boolean),</span>
-<span class="go">                        silent (boolean). Available filters: indent (textwrap.indent).</span>
+<span class="go">                        Output format. Pass your own Jinja2 template as a string with &#39;-f custom=TEMPLATE&#39;. Available variables:</span>
+<span class="go">                        command, title (command or title passed with -t), code (exit status), success (boolean), failure (boolean),</span>
+<span class="go">                        number (command number passed with -n), output (command output), nofail (boolean), quiet (boolean), silent</span>
+<span class="go">                        (boolean). Available filters: indent (textwrap.indent).</span>
+<span class="go">  -y, --pty             Enable the use of a pseudo-terminal. PTY doesn&#39;t allow programs to use standard input.</span>
+<span class="go">  -Y, --no-pty          Disable the use of a pseudo-terminal. PTY doesn&#39;t allow programs to use standard input.</span>
+<span class="go">  -p, --progress        Print progress while running a command.</span>
+<span class="go">  -P, --no-progress     Don&#39;t print progress while running a command.</span>
+<span class="go">  -q, --quiet           Don&#39;t print the command output, even if it failed.</span>
+<span class="go">  -Q, --no-quiet        Print the command output when it fails.</span>
+<span class="go">  -s, --silent          Don&#39;t print anything.</span>
+<span class="go">  -S, --no-silent       Print output as usual.</span>
+<span class="go">  -z, --zero, --nofail  Don&#39;t fail. Always return a success (0) exit code.</span>
+<span class="go">  -Z, --no-zero, --strict</span>
+<span class="go">                        Return the original exit code.</span>
 <span class="go">  -n NUMBER, --number NUMBER</span>
 <span class="go">                        Command number. Useful for the &#39;tap&#39; format.</span>
-<span class="go">  --no-pty              Disable the use of a pseudo-terminal. PTY doesn&#39;t allow programs</span>
-<span class="go">                        to use standard input.</span>
-<span class="go">  --no-progress         Don&#39;t print any progress while running a command.</span>
-<span class="go">  -q, --quiet           Don&#39;t print the command output, even if it failed.</span>
-<span class="go">  -s, --silent          Don&#39;t print anything.</span>
 <span class="go">  -t TITLE, --title TITLE</span>
 <span class="go">                        Command title. Default is the command itself.</span>
-<span class="go">  -z, --zero, --nofail  Don&#39;t fail. Always return a success (0) exit code.</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">failprint.runners</span> <span class="kn">import</span> <span class="n">run</span>
 
