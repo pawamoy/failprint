@@ -22,10 +22,12 @@ These projects were used to build `failprint`. **Thank you!**
 [`flakehell`](None) |
 [`git-changelog`](https://github.com/pawamoy/git-changelog) |
 [`httpx`](https://github.com/encode/httpx) |
+[`hypothesis`](https://github.com/HypothesisWorks/hypothesis/tree/master/hypothesis-python) |
 [`ipython`](https://ipython.org) |
 [`isort`](https://github.com/timothycrosley/isort) |
 [`Jinja2`](https://palletsprojects.com/p/jinja/) |
 [`jinja2-cli`](https://github.com/mattrobenolt/jinja2-cli) |
+[`markdown-include`](https://github.com/cmacmackin/markdown-include/) |
 [`mkdocs`](https://www.mkdocs.org) |
 [`mkdocs-material`](https://squidfunk.github.io/mkdocs-material/) |
 [`mkdocstrings`](https://github.com/pawamoy/mkdocstrings) |
@@ -37,8 +39,7 @@ These projects were used to build `failprint`. **Thank you!**
 [`pytest-sugar`](http://pivotfinland.com/pytest-sugar/) |
 [`pytest-xdist`](https://github.com/pytest-dev/pytest-xdist) |
 [`toml`](https://github.com/uiri/toml) |
-[`wemake-python-styleguide`](https://wemake-python-stylegui.de) |
-[`wrapt`](https://github.com/GrahamDumpleton/wrapt)
+[`wemake-python-styleguide`](https://wemake-python-stylegui.de)
 
 ### Indirect dependencies
 [`apipkg`](https://github.com/pytest-dev/apipkg) |
@@ -50,7 +51,6 @@ These projects were used to build `failprint`. **Thank you!**
 [`attrs`](https://www.attrs.org/) |
 [`backcall`](https://github.com/takluyver/backcall) |
 [`bandit`](https://bandit.readthedocs.io/en/latest/) |
-[`beautifulsoup4`](http://www.crummy.com/software/BeautifulSoup/bs4/) |
 [`certifi`](https://certifiio.readthedocs.io/en/latest/) |
 [`chardet`](https://github.com/chardet/chardet) |
 [`click`](https://palletsprojects.com/p/click/) |
@@ -86,7 +86,7 @@ These projects were used to build `failprint`. **Thank you!**
 [`httpcore`](https://github.com/encode/httpcore) |
 [`idna`](https://github.com/kjd/idna) |
 [`immutables`](https://github.com/MagicStack/immutables) |
-[`importlib-metadata`](http://importlib-metadata.readthedocs.io/) |
+[`importlib-metadata`](https://github.com/python/importlib_metadata) |
 [`iniconfig`](http://github.com/RonnyPfannschmidt/iniconfig) |
 [`ipython-genutils`](http://ipython.org) |
 [`jedi`](https://github.com/davidhalter/jedi) |
@@ -127,7 +127,7 @@ These projects were used to build `failprint`. **Thank you!**
 [`smmap`](https://github.com/gitpython-developers/smmap) |
 [`sniffio`](https://github.com/python-trio/sniffio) |
 [`snowballstemmer`](https://github.com/snowballstem/snowball) |
-[`soupsieve`](https://github.com/facelessuser/soupsieve) |
+[`sortedcontainers`](http://www.grantjenks.com/docs/sortedcontainers/) |
 [`stevedore`](https://docs.openstack.org/stevedore/latest/) |
 [`termcolor`](http://pypi.python.org/pypi/termcolor) |
 [`testfixtures`](https://github.com/Simplistix/testfixtures) |
@@ -138,6 +138,7 @@ These projects were used to build `failprint`. **Thank you!**
 [`typing-extensions`](https://github.com/python/typing/blob/master/typing_extensions/README.rst) |
 [`urllib3`](https://urllib3.readthedocs.io/) |
 [`wcwidth`](https://github.com/jquast/wcwidth) |
+[`wrapt`](https://github.com/GrahamDumpleton/wrapt) |
 [`zipp`](https://github.com/jaraco/zipp)
 
 **[More credits from the author](http://pawamoy.github.io/credits/)**
