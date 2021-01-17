@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.6.1](https://github.com/pawamoy/failprint/releases/tag/0.6.1) - 2021-01-17
+
+<small>[Compare with 0.6.0](https://github.com/pawamoy/failprint/compare/0.6.0...0.6.1)</small>
+
+### Code Refactoring
+- Separate method to add parser flags ([9f2a58f](https://github.com/pawamoy/failprint/commit/9f2a58fea80aea77aaf88144ec430cbcc94d8d75) by Timothée Mazzucotelli).
+
+
 ## [0.6.0](https://github.com/pawamoy/failprint/releases/tag/0.6.0) - 2020-10-11
 
 <small>[Compare with 0.5.1](https://github.com/pawamoy/failprint/compare/0.5.1...0.6.0)</small>
