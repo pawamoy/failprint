@@ -211,13 +211,13 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
-      API Reference
+      Code Reference
       <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+    <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
         <span class="md-nav__icon md-icon"></span>
-        API Reference
+        Code Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -269,6 +269,33 @@
         <li class="md-nav__item">
   <a href="#failprint.cli" class="md-nav__link">
     failprint.cli
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failprint.cli.ArgParser" class="md-nav__link">
+    ArgParser
+  </a>
+  
+    <nav class="md-nav" aria-label="ArgParser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failprint.cli.ArgParser.add_bool_argument" class="md-nav__link">
+    add_bool_argument()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failprint.cli.add_flags" class="md-nav__link">
+    add_flags()
   </a>
   
 </li>
@@ -424,6 +451,33 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#failprint.cli.ArgParser" class="md-nav__link">
+    ArgParser
+  </a>
+  
+    <nav class="md-nav" aria-label="ArgParser">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failprint.cli.ArgParser.add_bool_argument" class="md-nav__link">
+    add_bool_argument()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failprint.cli.add_flags" class="md-nav__link">
+    add_flags()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#failprint.cli.get_parser" class="md-nav__link">
     get_parser()
   </a>
@@ -460,21 +514,151 @@
                   <h1>cli.py</h1>
                 
                 <div class="doc doc-object doc-module">
-<h2 class="hidden-toc" href="#failprint.cli" id="failprint.cli" style="visibility: hidden; position: absolute;">
+<h2 class="hidden-toc" id="failprint.cli" style="visibility: hidden; position: absolute;">
         <a class="headerlink" href="#failprint.cli" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents first">
 <p>Module that contains the command line application.</p>
 <div class="doc doc-children">
-<div class="doc doc-object doc-function">
-<h2 class="doc doc-heading" id="failprint.cli.get_parser">
+<div class="doc doc-object doc-class">
+<h2 class="doc doc-heading" id="failprint.cli.ArgParser">
 
-        <code class="highlight language-python">
-get_parser<span class="p">()</span>        </code>
+        <code>ArgParser</code>
 
 
-      <a class="headerlink" href="#failprint.cli.get_parser" title="Permanent link">¤</a></h2>
+
+      <a class="headerlink" href="#failprint.cli.ArgParser" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents ">
-<p>Return the CLI argument parser.</p>
+<p>A custom argument parser with a helper method to add boolean flags.</p>
+<div class="doc doc-children">
+<div class="doc doc-object doc-method">
+<h3 class="doc doc-heading" id="failprint.cli.ArgParser.add_bool_argument">
+
+<code class="highlight language-python"><span class="n">add_bool_argument</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">truthy</span><span class="p">,</span> <span class="n">falsy</span><span class="p">,</span> <span class="n">truthy_help</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">falsy_help</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+
+      <a class="headerlink" href="#failprint.cli.ArgParser.add_bool_argument" title="Permanent link">¤</a></h3>
+<div class="doc doc-contents ">
+<p>Add a boolean flag/argument to the parser.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>truthy</code></td>
+<td><code>Sequence[str]</code></td>
+<td>
+<p>Values that will store true in the destination.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>falsy</code></td>
+<td><code>Sequence[str]</code></td>
+<td>
+<p>Values that will store false in the destination.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+<tr>
+<td><code>truthy_help</code></td>
+<td><code>str</code></td>
+<td>
+<p>Help for the truthy arguments.</p>
+</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>falsy_help</code></td>
+<td><code>str</code></td>
+<td>
+<p>Help for the falsy arguments.</p>
+</td>
+<td><code>''</code></td>
+</tr>
+<tr>
+<td><code>**kwargs</code></td>
+<td><code></code></td>
+<td>
+<p>Remaining keyword arguments passed to <code>argparse.ArgumentParser.add_argument</code>.</p>
+</td>
+<td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>failprint/cli.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">add_bool_argument</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">truthy</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">falsy</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">truthy_help</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="n">falsy_help</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Add a boolean flag/argument to the parser.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        truthy: Values that will store true in the destination.</span>
+<span class="sd">        falsy: Values that will store false in the destination.</span>
+<span class="sd">        truthy_help: Help for the truthy arguments.</span>
+<span class="sd">        falsy_help: Help for the falsy arguments.</span>
+<span class="sd">        **kwargs: Remaining keyword arguments passed to `argparse.ArgumentParser.add_argument`.</span>
+<span class="sd">    """</span>
+    <span class="n">truthy_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"help"</span><span class="p">:</span> <span class="n">truthy_help</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"store_true"</span><span class="p">}</span>
+    <span class="n">falsy_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="s2">"help"</span><span class="p">:</span> <span class="n">falsy_help</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"store_false"</span><span class="p">}</span>
+
+    <span class="n">mxg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">()</span>
+    <span class="n">mxg</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="o">*</span><span class="n">truthy</span><span class="p">,</span> <span class="o">**</span><span class="n">truthy_kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore  # mypy is confused by arguments position</span>
+    <span class="n">mxg</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="o">*</span><span class="n">falsy</span><span class="p">,</span> <span class="o">**</span><span class="n">falsy_kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h2 class="doc doc-heading" id="failprint.cli.add_flags">
+
+<code class="highlight language-python"><span class="n">add_flags</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span></code>
+
+
+      <a class="headerlink" href="#failprint.cli.add_flags" title="Permanent link">¤</a></h2>
+<div class="doc doc-contents ">
+<p>Add some boolean flags to the parser.</p>
+<p>We made this method separate and public
+for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
+<p><strong>Parameters:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>parser</code></td>
+<td><code></code></td>
+<td>
+<p>The parser to add flags to.</p>
+</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
 <p><strong>Returns:</strong></p>
 <table>
 <thead>
@@ -485,9 +669,9 @@ get_parser<span class="p">()</span>        </code>
 </thead>
 <tbody>
 <tr>
-<td><code>ArgumentParser</code></td>
+<td><code>ArgParser</code></td>
 <td>
-<p>An argparse parser.</p>
+<p>The augmented parser.</p>
 </td>
 </tr>
 </tbody>
@@ -495,14 +679,19 @@ get_parser<span class="p">()</span>        </code>
 <details class="quote">
           <summary>Source code in <code>failprint/cli.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">get_parser</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">:</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">add_flags</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArgParser</span><span class="p">:</span>
     <span class="sd">"""</span>
-<span class="sd">    Return the CLI argument parser.</span>
+<span class="sd">    Add some boolean flags to the parser.</span>
+
+<span class="sd">    We made this method separate and public</span>
+<span class="sd">    for its use in [duty](https://github.com/pawamoy/duty).</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        parser: The parser to add flags to.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        An argparse parser.</span>
+<span class="sd">        The augmented parser.</span>
 <span class="sd">    """</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">"failprint"</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">"-c"</span><span class="p">,</span>
         <span class="s2">"--capture"</span><span class="p">,</span>
@@ -522,49 +711,92 @@ get_parser<span class="p">()</span>        </code>
         <span class="s2">"output (command output), nofail (boolean), quiet (boolean), silent (boolean). "</span>
         <span class="s2">"Available filters: indent (textwrap.indent)."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-n"</span><span class="p">,</span> <span class="s2">"--number"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command number. Useful for the 'tap' format."</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">"--no-pty"</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">"store_false"</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_bool_argument</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"-y"</span><span class="p">,</span> <span class="s2">"--pty"</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">"-Y"</span><span class="p">,</span> <span class="s2">"--no-pty"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"pty"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">"Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input."</span><span class="p">,</span>
+        <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Enable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input."</span><span class="p">,</span>
+        <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">"--no-progress"</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">"store_false"</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_bool_argument</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"-p"</span><span class="p">,</span> <span class="s2">"--progress"</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">"-P"</span><span class="p">,</span> <span class="s2">"--no-progress"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"progress"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">"Don't print any progress while running a command."</span><span class="p">,</span>
+        <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Print progress while running a command."</span><span class="p">,</span>
+        <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Don't print progress while running a command."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">"-q"</span><span class="p">,</span>
-        <span class="s2">"--quiet"</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_bool_argument</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"-q"</span><span class="p">,</span> <span class="s2">"--quiet"</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">"-Q"</span><span class="p">,</span> <span class="s2">"--no-quiet"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">"Don't print the command output, even if it failed."</span><span class="p">,</span>
+        <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Don't print the command output, even if it failed."</span><span class="p">,</span>
+        <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Print the command output when it fails."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">"-s"</span><span class="p">,</span>
-        <span class="s2">"--silent"</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_bool_argument</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"-s"</span><span class="p">,</span> <span class="s2">"--silent"</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">"-S"</span><span class="p">,</span> <span class="s2">"--no-silent"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"silent"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">"Don't print anything."</span><span class="p">,</span>
+        <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Don't print anything."</span><span class="p">,</span>
+        <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Print output as usual."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--title"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command title. Default is the command itself."</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">"-z"</span><span class="p">,</span>
-        <span class="s2">"--zero"</span><span class="p">,</span>
-        <span class="s2">"--nofail"</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_bool_argument</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"-z"</span><span class="p">,</span> <span class="s2">"--zero"</span><span class="p">,</span> <span class="s2">"--nofail"</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">"-Z"</span><span class="p">,</span> <span class="s2">"--no-zero"</span><span class="p">,</span> <span class="s2">"--strict"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"nofail"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">"Don't fail. Always return a success (0) exit code."</span><span class="p">,</span>
+        <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Don't fail. Always return a success (0) exit code."</span><span class="p">,</span>
+        <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Return the original exit code."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"COMMAND"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span>
+</code></pre>
+</div>
+</details>
+</div>
+</div>
+<div class="doc doc-object doc-function">
+<h2 class="doc doc-heading" id="failprint.cli.get_parser">
 
+<code class="highlight language-python"><span class="n">get_parser</span><span class="p">()</span></code>
+
+
+      <a class="headerlink" href="#failprint.cli.get_parser" title="Permanent link">¤</a></h2>
+<div class="doc doc-contents ">
+<p>Return the CLI argument parser.</p>
+<p><strong>Returns:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ArgParser</code></td>
+<td>
+<p>An argparse parser.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<details class="quote">
+          <summary>Source code in <code>failprint/cli.py</code></summary>
+          <div class="highlight">
+<pre><span></span><code><span class="k">def</span> <span class="nf">get_parser</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ArgParser</span><span class="p">:</span>
+    <span class="sd">"""</span>
+<span class="sd">    Return the CLI argument parser.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An argparse parser.</span>
+<span class="sd">    """</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">add_flags</span><span class="p">(</span><span class="n">ArgParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">"failprint"</span><span class="p">))</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-n"</span><span class="p">,</span> <span class="s2">"--number"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command number. Useful for the 'tap' format."</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--title"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command title. Default is the command itself."</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"COMMAND"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 </code></pre>
 </div>
@@ -574,8 +806,7 @@ get_parser<span class="p">()</span>        </code>
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.cli.main">
 
-        <code class="highlight language-python">
-main<span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.cli.main" title="Permanent link">¤</a></h2>

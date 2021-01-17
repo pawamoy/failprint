@@ -211,13 +211,13 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
-      API Reference
+      Code Reference
       <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+    <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
         <span class="md-nav__icon md-icon"></span>
-        API Reference
+        Code Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -542,7 +542,7 @@
                   <h1>runners.py</h1>
                 
                 <div class="doc doc-object doc-module">
-<h2 class="hidden-toc" href="#failprint.runners" id="failprint.runners" style="visibility: hidden; position: absolute;">
+<h2 class="hidden-toc" id="failprint.runners" style="visibility: hidden; position: absolute;">
         <a class="headerlink" href="#failprint.runners" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents first">
 <p>Functions to run commands and capture output.</p>
@@ -553,6 +553,7 @@
         <code>StdBuffer</code>
 
 
+
       <a class="headerlink" href="#failprint.runners.StdBuffer" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents ">
 <p>A simple placeholder for two memory buffers.</p>
@@ -560,8 +561,7 @@
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="failprint.runners.StdBuffer.__init__">
 
-        <code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -623,8 +623,7 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.runners.run">
 
-        <code class="highlight language-python">
-run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nofail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nofail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.runners.run" title="Permanent link">¤</a></h2>
@@ -841,8 +840,7 @@ run<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <s
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.runners.run_command">
 
-        <code class="highlight language-python">
-run_command<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">ansi</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">ansi</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.runners.run_command" title="Permanent link">¤</a></h2>
@@ -959,8 +957,7 @@ run_command<span class="p">(</span><span class="n">cmd</span><span class="p">,</
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.runners.run_function">
 
-        <code class="highlight language-python">
-run_function<span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">run_function</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.runners.run_function" title="Permanent link">¤</a></h2>
@@ -1073,8 +1070,7 @@ run_function<span class="p">(</span><span class="n">func</span><span class="p">,
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.runners.run_function_get_code">
 
-        <code class="highlight language-python">
-run_function_get_code<span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">run_function_get_code</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.runners.run_function_get_code" title="Permanent link">¤</a></h2>
@@ -1184,8 +1180,7 @@ run_function_get_code<span class="p">(</span><span class="n">func</span><span cl
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.runners.stdbuffer">
 
-        <code class="highlight language-python">
-stdbuffer<span class="p">()</span>        </code>
+<code class="highlight language-python"><span class="n">stdbuffer</span><span class="p">()</span></code>
 
 
       <a class="headerlink" href="#failprint.runners.stdbuffer" title="Permanent link">¤</a></h2>

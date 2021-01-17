@@ -211,13 +211,13 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
-      API Reference
+      Code Reference
       <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" aria-label="API Reference" data-md-level="1">
+    <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
       <label class="md-nav__title" for="nav-2">
         <span class="md-nav__icon md-icon"></span>
-        API Reference
+        Code Reference
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
         
@@ -556,7 +556,7 @@
                   <h1>process.py</h1>
                 
                 <div class="doc doc-object doc-module">
-<h2 class="hidden-toc" href="#failprint.process" id="failprint.process" style="visibility: hidden; position: absolute;">
+<h2 class="hidden-toc" id="failprint.process" style="visibility: hidden; position: absolute;">
         <a class="headerlink" href="#failprint.process" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents first">
 <p>Functions related to subprocesses.</p>
@@ -567,6 +567,7 @@
         <code>OSDecoder</code>
 
 
+
       <a class="headerlink" href="#failprint.process.OSDecoder" title="Permanent link">¤</a></h2>
 <div class="doc doc-contents ">
 <p>A locale-dependent decoder.</p>
@@ -574,8 +575,7 @@
 <div class="doc doc-object doc-attribute">
 <h3 class="doc doc-heading" id="failprint.process.OSDecoder.encoding">
 
-        <code class="highlight">
-encoding: <span class="nb">str</span>        </code>
+<code class="highlight language-python"><span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-property"><code>property</code></small>
@@ -607,8 +607,7 @@ encoding: <span class="nb">str</span>        </code>
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="failprint.process.OSDecoder.__init__">
 
-        <code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -631,8 +630,7 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">)</s
 <div class="doc doc-object doc-method">
 <h3 class="doc doc-heading" id="failprint.process.OSDecoder.decode">
 
-        <code class="highlight language-python">
-decode<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byte_string</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byte_string</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.process.OSDecoder.decode" title="Permanent link">¤</a></h3>
@@ -693,7 +691,7 @@ decode<span class="p">(</span><span class="bp">self</span><span class="p">,</spa
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">byte_string</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">byte_string</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">encoding</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">LookupError</span><span class="p">,</span> <span class="ne">UnicodeDecodeError</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">byte_string</span><span class="p">)[</span><span class="mi">2</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 </code></pre>
 </div>
@@ -706,8 +704,7 @@ decode<span class="p">(</span><span class="bp">self</span><span class="p">,</spa
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.process.get_windows_encoding">
 
-        <code class="highlight language-python">
-get_windows_encoding<span class="p">()</span>        </code>
+<code class="highlight language-python"><span class="n">get_windows_encoding</span><span class="p">()</span></code>
 
 
       <a class="headerlink" href="#failprint.process.get_windows_encoding" title="Permanent link">¤</a></h2>
@@ -766,8 +763,7 @@ If it fails to get the code page, it returns the locale preferred encoding.</p>
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.process.run_pty_subprocess">
 
-        <code class="highlight language-python">
-run_pty_subprocess<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">run_pty_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.process.run_pty_subprocess" title="Permanent link">¤</a></h2>
@@ -861,8 +857,7 @@ run_pty_subprocess<span class="p">(</span><span class="n">cmd</span><span class=
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.process.run_subprocess">
 
-        <code class="highlight language-python">
-run_subprocess<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">run_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.process.run_subprocess" title="Permanent link">¤</a></h2>
@@ -960,8 +955,7 @@ run_subprocess<span class="p">(</span><span class="n">cmd</span><span class="p">
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.process.run_subprocess_raw">
 
-        <code class="highlight language-python">
-run_subprocess_raw<span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>        </code>
+<code class="highlight language-python"><span class="n">run_subprocess_raw</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">'both'</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.process.run_subprocess_raw" title="Permanent link">¤</a></h2>
