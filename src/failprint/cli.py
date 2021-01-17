@@ -70,7 +70,9 @@ def add_flags(parser) -> ArgParser:
     )
     parser.add_argument(
         "-f",
+        "--fmt",
         "--format",
+        dest="fmt",
         choices=formats.keys(),
         type=accept_custom_format,
         default=None,
@@ -156,7 +158,7 @@ def main(args: Optional[List[str]] = None) -> int:
         number=options.number,
         capture=options.capture,
         title=options.title,
-        fmt=options.format,
+        fmt=options.fmt,
         pty=options.pty,
         nofail=options.nofail,
         quiet=options.quiet,
