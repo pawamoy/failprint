@@ -48,7 +48,7 @@ class ArgParser(argparse.ArgumentParser):
         mxg.add_argument(*falsy, **falsy_kwargs)  # type: ignore
 
 
-def add_flags(parser) -> ArgParser:
+def add_flags(parser, set_defaults=True) -> ArgParser:
     """
     Add some boolean flags to the parser.
 
@@ -57,6 +57,7 @@ def add_flags(parser) -> ArgParser:
 
     Arguments:
         parser: The parser to add flags to.
+        set_defaults: Whether to set default values on arguments.
 
     Returns:
         The augmented parser.
@@ -92,7 +93,7 @@ def add_flags(parser) -> ArgParser:
         ["-y", "--pty"],
         ["-Y", "--no-pty"],
         dest="pty",
-        default=True,
+        default=True if set_defaults else None,
         truthy_help="Enable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.",
         falsy_help="Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input.",
     )
@@ -100,7 +101,7 @@ def add_flags(parser) -> ArgParser:
         ["-p", "--progress"],
         ["-P", "--no-progress"],
         dest="progress",
-        default=True,
+        default=True if set_defaults else None,
         truthy_help="Print progress while running a command.",
         falsy_help="Don't print progress while running a command.",
     )
@@ -108,7 +109,7 @@ def add_flags(parser) -> ArgParser:
         ["-q", "--quiet"],
         ["-Q", "--no-quiet"],
         dest="quiet",
-        default=False,
+        default=False if set_defaults else None,
         truthy_help="Don't print the command output, even if it failed.",
         falsy_help="Print the command output when it fails.",
     )
@@ -116,7 +117,7 @@ def add_flags(parser) -> ArgParser:
         ["-s", "--silent"],
         ["-S", "--no-silent"],
         dest="silent",
-        default=False,
+        default=False if set_defaults else None,
         truthy_help="Don't print anything.",
         falsy_help="Print output as usual.",
     )
@@ -124,7 +125,7 @@ def add_flags(parser) -> ArgParser:
         ["-z", "--zero", "--nofail"],
         ["-Z", "--no-zero", "--strict"],
         dest="nofail",
-        default=False,
+        default=False if set_defaults else None,
         truthy_help="Don't fail. Always return a success (0) exit code.",
         falsy_help="Return the original exit code.",
     )
