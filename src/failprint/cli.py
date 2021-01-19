@@ -61,6 +61,12 @@ def add_flags(parser) -> ArgParser:
     Returns:
         The augmented parser.
     """
+    # IMPORTANT: the arguments destinations should match
+    # the parameters names of the failprint.runners.run function.
+    # As long as names are consistent between the two,
+    # it' s very easy to pass CLI args to the function,
+    # and it also allows to avoid duplicating the parser arguments
+    # in dependent projects like duty (https://github.com/pawamoy/duty) :)
     parser.add_argument(
         "-c",
         "--capture",
