@@ -159,16 +159,5 @@ def main(args: Optional[List[str]] = None) -> int:
         An exit code.
     """
     parser = get_parser()
-    options = parser.parse_args(args)
-    return run(
-        options.COMMAND,
-        number=options.number,
-        capture=options.capture,
-        title=options.title,
-        fmt=options.fmt,
-        pty=options.pty,
-        nofail=options.nofail,
-        quiet=options.quiet,
-        silent=options.silent,
-        progress=options.progress,
-    )
+    opts = parser.parse_args(args).__dict__.items()  # noqa: WPS609
+    return run(**{_: value for _, value in opts if value is not None})
