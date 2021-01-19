@@ -135,7 +135,7 @@ def get_parser() -> ArgParser:
     parser = add_flags(ArgParser(prog="failprint"))
     parser.add_argument("-n", "--number", type=int, default=1, help="Command number. Useful for the 'tap' format.")
     parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
-    parser.add_argument("COMMAND", nargs="+")
+    parser.add_argument("cmd", metavar="COMMAND", nargs="+")
     return parser
 
 
