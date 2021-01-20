@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.6.2](https://github.com/pawamoy/failprint/releases/tag/0.6.2) - 2021-01-20
+
+<small>[Compare with 0.6.1](https://github.com/pawamoy/failprint/compare/0.6.1...0.6.2)</small>
+
+### Code Refactoring
+- Use parsed options as dict directly ([142e6f0](https://github.com/pawamoy/failprint/commit/142e6f08b71c5d89b0fe041af3bfe2d7309d43fd) by Timothée Mazzucotelli).
+- Add option in `add_flags` not to set defaults ([dd9327e](https://github.com/pawamoy/failprint/commit/dd9327ee55425a4a3f08c470d41b5ef419c0bd8b) by Timothée Mazzucotelli).
+- Consistently use `cmd` between options and API ([881d99d](https://github.com/pawamoy/failprint/commit/881d99d663ecd82d1178bf24a71de35a4e512a4d) by Timothée Mazzucotelli).
+- Consistently use `fmt` between options and API ([bda06a2](https://github.com/pawamoy/failprint/commit/bda06a2819c27470ec902eacb85632812c4ce4e7) by Timothée Mazzucotelli).
+
+
 ## [0.6.1](https://github.com/pawamoy/failprint/releases/tag/0.6.1) - 2021-01-17
 
 <small>[Compare with 0.6.0](https://github.com/pawamoy/failprint/compare/0.6.0...0.6.1)</small>
