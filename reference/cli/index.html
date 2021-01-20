@@ -630,7 +630,7 @@
 <div class="doc doc-object doc-function">
 <h2 class="doc doc-heading" id="failprint.cli.add_flags">
 
-<code class="highlight language-python"><span class="n">add_flags</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span></code>
+<code class="highlight language-python"><span class="n">add_flags</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">set_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
 
 
       <a class="headerlink" href="#failprint.cli.add_flags" title="Permanent link">¤</a></h2>
@@ -657,6 +657,14 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
 </td>
 <td><em>required</em></td>
 </tr>
+<tr>
+<td><code>set_defaults</code></td>
+<td><code></code></td>
+<td>
+<p>Whether to set default values on arguments.</p>
+</td>
+<td><code>True</code></td>
+</tr>
 </tbody>
 </table>
 <p><strong>Returns:</strong></p>
@@ -679,7 +687,7 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
 <details class="quote">
           <summary>Source code in <code>failprint/cli.py</code></summary>
           <div class="highlight">
-<pre><span></span><code><span class="k">def</span> <span class="nf">add_flags</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArgParser</span><span class="p">:</span>
+<pre><span></span><code><span class="k">def</span> <span class="nf">add_flags</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">set_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArgParser</span><span class="p">:</span>
     <span class="sd">"""</span>
 <span class="sd">    Add some boolean flags to the parser.</span>
 
@@ -688,10 +696,17 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
 
 <span class="sd">    Arguments:</span>
 <span class="sd">        parser: The parser to add flags to.</span>
+<span class="sd">        set_defaults: Whether to set default values on arguments.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The augmented parser.</span>
 <span class="sd">    """</span>
+    <span class="c1"># IMPORTANT: the arguments destinations should match</span>
+    <span class="c1"># the parameters names of the failprint.runners.run function.</span>
+    <span class="c1"># As long as names are consistent between the two,</span>
+    <span class="c1"># it' s very easy to pass CLI args to the function,</span>
+    <span class="c1"># and it also allows to avoid duplicating the parser arguments</span>
+    <span class="c1"># in dependent projects like duty (https://github.com/pawamoy/duty) :)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">"-c"</span><span class="p">,</span>
         <span class="s2">"--capture"</span><span class="p">,</span>
@@ -701,7 +716,9 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
     <span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
         <span class="s2">"-f"</span><span class="p">,</span>
+        <span class="s2">"--fmt"</span><span class="p">,</span>
         <span class="s2">"--format"</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s2">"fmt"</span><span class="p">,</span>
         <span class="n">choices</span><span class="o">=</span><span class="n">formats</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">accept_custom_format</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -715,7 +732,7 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
         <span class="p">[</span><span class="s2">"-y"</span><span class="p">,</span> <span class="s2">"--pty"</span><span class="p">],</span>
         <span class="p">[</span><span class="s2">"-Y"</span><span class="p">,</span> <span class="s2">"--no-pty"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"pty"</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">set_defaults</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Enable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input."</span><span class="p">,</span>
         <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Disable the use of a pseudo-terminal. PTY doesn't allow programs to use standard input."</span><span class="p">,</span>
     <span class="p">)</span>
@@ -723,7 +740,7 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
         <span class="p">[</span><span class="s2">"-p"</span><span class="p">,</span> <span class="s2">"--progress"</span><span class="p">],</span>
         <span class="p">[</span><span class="s2">"-P"</span><span class="p">,</span> <span class="s2">"--no-progress"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"progress"</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">set_defaults</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Print progress while running a command."</span><span class="p">,</span>
         <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Don't print progress while running a command."</span><span class="p">,</span>
     <span class="p">)</span>
@@ -731,7 +748,7 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
         <span class="p">[</span><span class="s2">"-q"</span><span class="p">,</span> <span class="s2">"--quiet"</span><span class="p">],</span>
         <span class="p">[</span><span class="s2">"-Q"</span><span class="p">,</span> <span class="s2">"--no-quiet"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"quiet"</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">set_defaults</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Don't print the command output, even if it failed."</span><span class="p">,</span>
         <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Print the command output when it fails."</span><span class="p">,</span>
     <span class="p">)</span>
@@ -739,7 +756,7 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
         <span class="p">[</span><span class="s2">"-s"</span><span class="p">,</span> <span class="s2">"--silent"</span><span class="p">],</span>
         <span class="p">[</span><span class="s2">"-S"</span><span class="p">,</span> <span class="s2">"--no-silent"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"silent"</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">set_defaults</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Don't print anything."</span><span class="p">,</span>
         <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Print output as usual."</span><span class="p">,</span>
     <span class="p">)</span>
@@ -747,7 +764,7 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
         <span class="p">[</span><span class="s2">"-z"</span><span class="p">,</span> <span class="s2">"--zero"</span><span class="p">,</span> <span class="s2">"--nofail"</span><span class="p">],</span>
         <span class="p">[</span><span class="s2">"-Z"</span><span class="p">,</span> <span class="s2">"--no-zero"</span><span class="p">,</span> <span class="s2">"--strict"</span><span class="p">],</span>
         <span class="n">dest</span><span class="o">=</span><span class="s2">"nofail"</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">set_defaults</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">truthy_help</span><span class="o">=</span><span class="s2">"Don't fail. Always return a success (0) exit code."</span><span class="p">,</span>
         <span class="n">falsy_help</span><span class="o">=</span><span class="s2">"Return the original exit code."</span><span class="p">,</span>
     <span class="p">)</span>
@@ -796,7 +813,7 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">add_flags</span><span class="p">(</span><span class="n">ArgParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">"failprint"</span><span class="p">))</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-n"</span><span class="p">,</span> <span class="s2">"--number"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command number. Useful for the 'tap' format."</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--title"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Command title. Default is the command itself."</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"COMMAND"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"cmd"</span><span class="p">,</span> <span class="n">metavar</span><span class="o">=</span><span class="s2">"COMMAND"</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">"+"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span>
 </code></pre>
 </div>
@@ -867,19 +884,8 @@ for its use in <a href="https://github.com/pawamoy/duty">duty</a>.</p>
 <span class="sd">        An exit code.</span>
 <span class="sd">    """</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span>
-    <span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">run</span><span class="p">(</span>
-        <span class="n">options</span><span class="o">.</span><span class="n">COMMAND</span><span class="p">,</span>
-        <span class="n">number</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
-        <span class="n">capture</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">capture</span><span class="p">,</span>
-        <span class="n">title</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
-        <span class="n">fmt</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">format</span><span class="p">,</span>
-        <span class="n">pty</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">pty</span><span class="p">,</span>
-        <span class="n">nofail</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">nofail</span><span class="p">,</span>
-        <span class="n">quiet</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">quiet</span><span class="p">,</span>
-        <span class="n">silent</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">silent</span><span class="p">,</span>
-        <span class="n">progress</span><span class="o">=</span><span class="n">options</span><span class="o">.</span><span class="n">progress</span><span class="p">,</span>
-    <span class="p">)</span>
+    <span class="n">opts</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>  <span class="c1"># noqa: WPS609</span>
+    <span class="k">return</span> <span class="n">run</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">_</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">opts</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
 </code></pre>
 </div>
 </details>
