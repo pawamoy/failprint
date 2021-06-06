@@ -10,7 +10,7 @@ from failprint.process import decoder, get_windows_encoding, run_pty_subprocess,
 
 
 @pytest.mark.skipif(not WINDOWS, reason="relevant on Windows only")
-@pytest.mark.xfail
+@pytest.mark.xfail()
 def test_decoder_on_windows():
     """Test the decoder on Windows."""
     code_page = get_windows_encoding()
