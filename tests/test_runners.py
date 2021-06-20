@@ -70,7 +70,7 @@ def test_run_verbose_command_verbosely(capsys):
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    assert run("echo VERBS") == 0
+    assert run("echo VERBS").code == 0
     outerr = capsys.readouterr()
     assert "VERBS" in outerr.out
     assert not outerr.err
@@ -78,17 +78,17 @@ def test_run_verbose_command_verbosely(capsys):
 
 def return_success_code():
     """Check the return code of a successful command."""
-    assert run(["true"]) == 0
+    assert run(["true"]).code == 0
 
 
 def return_failure_code():
     """Check the return code of a failing command."""
-    assert run(["false"]) == 1
+    assert run(["false"]).code == 1
 
 
 def return_shell_custom_code():
     """Check the return code of a shell exit."""
-    assert run("exit 15") == 15  # noqa: WPS432 (magic number)
+    assert run("exit 15").code == 15  # noqa: WPS432 (magic number)
 
 
 @pytest.mark.skipif(WINDOWS, reason="runs on Linux only")
@@ -99,7 +99,7 @@ def run_linux_shell_command(capsys):
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    assert run("echo herbert | grep -o er", capture=False, silent=True) == 0
+    assert run("echo herbert | grep -o er", capture=False, silent=True).code == 0
     outerr = capsys.readouterr()
     assert outerr.out.split("\n") == ["er", "er"]
     assert not outerr.err
@@ -109,8 +109,8 @@ def run_linux_shell_command(capsys):
 def test_run_linux_program():
     """Run a GNU/Linux program."""
     marker = "THIS VERY LINE"
-    assert run(["grep", "-q", marker, __file__]) == 0
-    assert run(["grep", "-q", r"NOT\s*THIS\s*LINE", __file__]) == 1
+    assert run(["grep", "-q", marker, __file__]).code == 0
+    assert run(["grep", "-q", r"NOT\s*THIS\s*LINE", __file__]).code == 1
 
 
 @given(integers())
@@ -121,17 +121,17 @@ def test_callable_exit_codes(code):
     Arguments:
         code: Hypothesis fixture to provide various integers.
     """
-    assert run(lambda: code) == code
+    assert run(lambda: code).code == code
 
 
 def test_succeed_with_none_result():
     """Check the return code when a callable returns `None`."""
-    assert run(lambda: None) == 0
+    assert run(lambda: None).code == 0
 
 
 def test_succeed_with_truthy_object():
     """Check the return code when a callable returns a truthy object."""
-    assert run(object) == 0
+    assert run(object).code == 0
 
 
 def test_fails_with_falsy_object():
@@ -141,13 +141,13 @@ def test_fails_with_falsy_object():
         def __bool__(self):
             return False
 
-    assert run(Meh) == 1
+    assert run(Meh).code == 1
 
 
 def test_run_callable_return_boolean():
     """Check the return code when a callable returns a boolean."""
-    assert run(lambda: True) == 0
-    assert run(lambda: False) == 1  # noqa: WPS522 (implicit primitive/lambda)
+    assert run(lambda: True).code == 0
+    assert run(lambda: False).code == 1  # noqa: WPS522 (implicit primitive/lambda)
 
 
 def test_callable_capture_none(capsys):
@@ -158,7 +158,7 @@ def test_callable_capture_none(capsys):
         capsys: Pytest fixture to capture output.
     """
     msg = "out"
-    assert run(lambda: print(msg), capture=False, silent=True) == 0  # noqa: WPS421 (print)
+    assert run(lambda: print(msg), capture=False, silent=True).code == 0  # noqa: WPS421 (print)
     outerr = capsys.readouterr()
     assert msg in outerr.out
 
@@ -230,7 +230,7 @@ def test_process_capture_none(capfd):
     Arguments:
         capfd: Pytest fixture to capture output.
     """
-    assert run([sys.executable, "-V"], capture=False, silent=True) == 0
+    assert run([sys.executable, "-V"], capture=False, silent=True).code == 0
     outerr = capfd.readouterr()
     assert "Python" in outerr.out
 
@@ -319,6 +319,6 @@ def test_run_callable_raising_exception(capsys):
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    assert run(lambda: 1 / 0) == 1  # noqa: WPS344 (zero division)
+    assert run(lambda: 1 / 0).code == 1  # noqa: WPS344 (zero division)
     outerr = capsys.readouterr()
     assert "ZeroDivisionError:" in outerr.out
