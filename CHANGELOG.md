@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.7.0](https://github.com/pawamoy/failprint/releases/tag/0.7.0) - 2021-06-20
+
+<small>[Compare with 0.6.2](https://github.com/pawamoy/failprint/compare/0.6.2...0.7.0)</small>
+
+### Features
+- Return output as well as exit code from the main runner ([34e8ac1](https://github.com/pawamoy/failprint/commit/34e8ac121581e3d262240f3dfbca81c42a5a30c3) by Timothée Mazzucotelli).
+
+
 ## [0.6.2](https://github.com/pawamoy/failprint/releases/tag/0.6.2) - 2021-01-20
 
 <small>[Compare with 0.6.1](https://github.com/pawamoy/failprint/compare/0.6.1...0.6.2)</small>
