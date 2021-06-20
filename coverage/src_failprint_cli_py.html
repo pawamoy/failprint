@@ -120,7 +120,7 @@
     <p id="t65" class="pln"><span class="n"><a href="#t65">65</a></span><span class="t">    <span class="com"># IMPORTANT: the arguments destinations should match</span>&nbsp;</span><span class="r"></span></p>
     <p id="t66" class="pln"><span class="n"><a href="#t66">66</a></span><span class="t">    <span class="com"># the parameters names of the failprint.runners.run function.</span>&nbsp;</span><span class="r"></span></p>
     <p id="t67" class="pln"><span class="n"><a href="#t67">67</a></span><span class="t">    <span class="com"># As long as names are consistent between the two,</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t68" class="pln"><span class="n"><a href="#t68">68</a></span><span class="t">    <span class="com"># it' s very easy to pass CLI args to the function,</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t68" class="pln"><span class="n"><a href="#t68">68</a></span><span class="t">    <span class="com"># it's very easy to pass CLI args to the function,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t69" class="pln"><span class="n"><a href="#t69">69</a></span><span class="t">    <span class="com"># and it also allows to avoid duplicating the parser arguments</span>&nbsp;</span><span class="r"></span></p>
     <p id="t70" class="pln"><span class="n"><a href="#t70">70</a></span><span class="t">    <span class="com"># in dependent projects like duty (https://github.com/pawamoy/duty) :)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t71" class="run"><span class="n"><a href="#t71">71</a></span><span class="t">    <span class="nam">parser</span><span class="op">.</span><span class="nam">add_argument</span><span class="op">(</span>&nbsp;</span><span class="r"></span></p>
@@ -215,13 +215,13 @@
     <p id="t160" class="pln"><span class="n"><a href="#t160">160</a></span><span class="t"><span class="str">    """</span>&nbsp;</span><span class="r"></span></p>
     <p id="t161" class="run"><span class="n"><a href="#t161">161</a></span><span class="t">    <span class="nam">parser</span> <span class="op">=</span> <span class="nam">get_parser</span><span class="op">(</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t162" class="run"><span class="n"><a href="#t162">162</a></span><span class="t">    <span class="nam">opts</span> <span class="op">=</span> <span class="nam">parser</span><span class="op">.</span><span class="nam">parse_args</span><span class="op">(</span><span class="nam">args</span><span class="op">)</span><span class="op">.</span><span class="nam">__dict__</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span>  <span class="com"># noqa: WPS609</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t163" class="run"><span class="n"><a href="#t163">163</a></span><span class="t">    <span class="key">return</span> <span class="nam">run</span><span class="op">(</span><span class="op">**</span><span class="op">{</span><span class="nam">_</span><span class="op">:</span> <span class="nam">value</span> <span class="key">for</span> <span class="nam">_</span><span class="op">,</span> <span class="nam">value</span> <span class="key">in</span> <span class="nam">opts</span> <span class="key">if</span> <span class="nam">value</span> <span class="key">is</span> <span class="key">not</span> <span class="key">None</span><span class="op">}</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t163" class="run"><span class="n"><a href="#t163">163</a></span><span class="t">    <span class="key">return</span> <span class="nam">run</span><span class="op">(</span><span class="op">**</span><span class="op">{</span><span class="nam">_</span><span class="op">:</span> <span class="nam">value</span> <span class="key">for</span> <span class="nam">_</span><span class="op">,</span> <span class="nam">value</span> <span class="key">in</span> <span class="nam">opts</span> <span class="key">if</span> <span class="nam">value</span> <span class="key">is</span> <span class="key">not</span> <span class="key">None</span><span class="op">}</span><span class="op">)</span><span class="op">.</span><span class="nam">code</span>&nbsp;</span><span class="r"></span></p>
 </div>
 <div id="footer">
     <div class="content">
         <p>
             <a class="nav" href="covindex.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.5</a>,
-            created at 2021-05-22 18:52 +0200
+            created at 2021-06-20 13:45 +0200
         </p>
     </div>
 </div>
