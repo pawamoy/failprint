@@ -65,7 +65,7 @@ def add_flags(parser, set_defaults=True) -> ArgParser:
     # IMPORTANT: the arguments destinations should match
     # the parameters names of the failprint.runners.run function.
     # As long as names are consistent between the two,
-    # it' s very easy to pass CLI args to the function,
+    # it's very easy to pass CLI args to the function,
     # and it also allows to avoid duplicating the parser arguments
     # in dependent projects like duty (https://github.com/pawamoy/duty) :)
     parser.add_argument(
@@ -160,4 +160,4 @@ def main(args: Optional[List[str]] = None) -> int:
     """
     parser = get_parser()
     opts = parser.parse_args(args).__dict__.items()  # noqa: WPS609
-    return run(**{_: value for _, value in opts if value is not None})
+    return run(**{_: value for _, value in opts if value is not None}).code

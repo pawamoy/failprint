@@ -59,6 +59,21 @@ def stdbuffer():
     buffer.err.close()
 
 
+class RunResult:
+    """Placeholder for a run result."""
+
+    def __init__(self, code: int, output: str) -> None:
+        """
+        Initialize the object.
+
+        Arguments:
+            code: The exit code of the command.
+            output: The output of the command.
+        """
+        self.code = code
+        self.output = output
+
+
 def run(  # noqa: WPS231 (high complexity)
     cmd: CmdFuncType,
     args=None,
@@ -72,7 +87,7 @@ def run(  # noqa: WPS231 (high complexity)
     nofail: bool = False,
     quiet: bool = False,
     silent: bool = False,
-) -> int:
+) -> RunResult:
     """
     Run a command in a subprocess or a Python function, and print its output if it fails.
 
@@ -132,7 +147,7 @@ def run(  # noqa: WPS231 (high complexity)
             ),
         )
 
-    return 0 if nofail else code
+    return RunResult(0 if nofail else code, output)
 
 
 def run_command(
