@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://pawamoy.github.io/failprint/reference/runners/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.7">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.8">
     
     
       
@@ -46,6 +46,8 @@
     
     
       
+
+
     
     
   </head>
@@ -541,6 +543,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#failprint.runners.RunResult" class="md-nav__link">
+    RunResult
+  </a>
+  
+    <nav class="md-nav" aria-label="RunResult">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failprint.runners.RunResult.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#failprint.runners.StdBuffer" class="md-nav__link">
     StdBuffer
   </a>
@@ -739,6 +761,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#failprint.runners.RunResult" class="md-nav__link">
+    RunResult
+  </a>
+  
+    <nav class="md-nav" aria-label="RunResult">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failprint.runners.RunResult.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#failprint.runners.StdBuffer" class="md-nav__link">
     StdBuffer
   </a>
@@ -826,6 +868,106 @@
 
 
 
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="failprint.runners.RunResult" class="doc doc-heading">
+        <code>RunResult</code>
+
+
+
+<a href="#failprint.runners.RunResult" class="headerlink" title="Permanent link">¤</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Placeholder for a run result.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="failprint.runners.RunResult.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+<a href="#failprint.runners.RunResult.__init__" class="headerlink" title="Permanent link">¤</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize the object.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>code</code></td>
+        <td><code>int</code></td>
+        <td><p>The exit code of the command.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>output</code></td>
+        <td><code>str</code></td>
+        <td><p>The output of the command.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>failprint/runners.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize the object.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        code: The exit code of the command.</span>
+<span class="sd">        output: The output of the command.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">code</span> <span class="o">=</span> <span class="n">code</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">output</span> <span class="o">=</span> <span class="n">output</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
 
 
 
@@ -1039,7 +1181,7 @@
   </thead>
   <tbody>
     <tr>
-      <td><code>int</code></td>
+      <td><code>RunResult</code></td>
       <td><p>The command exit code, or 0 if <code>nofail</code> is True.</p></td>
     </tr>
   </tbody>
@@ -1059,7 +1201,7 @@
     <span class="n">nofail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RunResult</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a command in a subprocess or a Python function, and print its output if it fails.</span>
 
@@ -1119,7 +1261,7 @@
             <span class="p">),</span>
         <span class="p">)</span>
 
-    <span class="k">return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">nofail</span> <span class="k">else</span> <span class="n">code</span>
+    <span class="k">return</span> <span class="n">RunResult</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">nofail</span> <span class="k">else</span> <span class="n">code</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
