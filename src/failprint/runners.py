@@ -20,43 +20,52 @@ from failprint.types import CmdFuncType, CmdType
 
 
 class StdBuffer:
-    """A simple placeholder for two memory buffers."""
+    """A simple placeholder for three memory buffers."""
 
-    def __init__(self, out=None, err=None):
+    def __init__(self, stdinput=None, stdout=None, stderr=None):
         """
         Initialize the object.
 
         Arguments:
-            out: A buffer for standard output.
-            err: A buffer for standard error.
+            stdinput: String to use as standard input.
+            stdout: A buffer for standard output.
+            stderr: A buffer for standard error.
         """
-        self.out = out or StringIO()
-        self.err = err or StringIO()
+        self.stdin = StringIO(stdinput) if stdinput is not None else sys.stdin
+        self.stdout = stdout or StringIO()
+        self.stderr = stderr or StringIO()
 
 
 @contextmanager
-def stdbuffer():
+def stdbuffer(stdinput=None):
     """
     Capture output in a `with` statement.
+
+    Arguments:
+        stdinput: String to use as standard input.
 
     Yields:
         An instance of `StdBuffer`.
     """
+    old_stdin = sys.stdin
     old_stdout = sys.stdout
     old_stderr = sys.stderr
 
-    buffer = StdBuffer()
+    buffer = StdBuffer(stdinput)
 
-    sys.stdout = buffer.out
-    sys.stderr = buffer.err
+    sys.stdin = buffer.stdin
+    sys.stdout = buffer.stdout
+    sys.stderr = buffer.stderr
 
     yield buffer
 
+    sys.stdin = old_stdin
     sys.stdout = old_stdout
     sys.stderr = old_stderr
 
-    buffer.out.close()
-    buffer.err.close()
+    buffer.stdin.close()
+    buffer.stdout.close()
+    buffer.stderr.close()
 
 
 class RunResult:
@@ -87,6 +96,7 @@ def run(  # noqa: WPS231 (high complexity)
     nofail: bool = False,
     quiet: bool = False,
     silent: bool = False,
+    stdin: Optional[str] = None,
 ) -> RunResult:
     """
     Run a command in a subprocess or a Python function, and print its output if it fails.
@@ -104,6 +114,7 @@ def run(  # noqa: WPS231 (high complexity)
         nofail: Whether to always succeed.
         quiet: Whether to not print the command output.
         silent: Don't print anything.
+        stdin: String to use as standard input.
 
     Returns:
         The command exit code, or 0 if `nofail` is True.
@@ -124,9 +135,9 @@ def run(  # noqa: WPS231 (high complexity)
     capture = cast_capture(capture)
 
     if callable(cmd):
-        code, output = run_function(cmd, args, kwargs, capture)
+        code, output = run_function(cmd, args, kwargs, capture, stdin)
     else:
-        code, output = run_command(cmd, capture, format_obj.accept_ansi, pty)
+        code, output = run_command(cmd, capture, format_obj.accept_ansi, pty, stdin)
 
     if not silent:
         template = env.from_string(format_obj.template)
@@ -155,6 +166,7 @@ def run_command(
     capture: Capture = Capture.BOTH,
     ansi: bool = False,
     pty: bool = False,
+    stdin: Optional[str] = None,
 ) -> Tuple[int, str]:
     """
     Run a command.
@@ -164,6 +176,7 @@ def run_command(
         capture: The output to capture.
         ansi: Whether to accept ANSI sequences.
         pty: Whether to run in a PTY.
+        stdin: String to use as standard input.
 
     Returns:
         The exit code and the command output.
@@ -178,19 +191,25 @@ def run_command(
     if pty and capture in {Capture.BOTH, Capture.NONE}:
         if shell:
             cmd = ["sh", "-c", cmd]  # type: ignore  # we know cmd is str
-        return run_pty_subprocess(cmd, capture)  # type: ignore  # we made sure cmd is a list
+        return run_pty_subprocess(cmd, capture, stdin)  # type: ignore  # we made sure cmd is a list
 
     # we are on Windows
     if WINDOWS:
         # make sure the process can find the executable
         if not shell:
             cmd[0] = shutil.which(cmd[0]) or cmd[0]  # type: ignore  # we know cmd is a list
-        return run_subprocess(cmd, capture, shell=shell)  # noqa: S604 (shell=True)
+        return run_subprocess(cmd, capture, shell=shell, stdin=stdin)  # noqa: S604 (shell=True)
 
-    return run_subprocess(cmd, capture, shell=shell)  # noqa: S604 (shell=True)
+    return run_subprocess(cmd, capture, shell=shell, stdin=stdin)  # noqa: S604 (shell=True)
 
 
-def run_function(func, args=None, kwargs=None, capture: Capture = Capture.BOTH) -> Tuple[int, str]:
+def run_function(
+    func,
+    args=None,
+    kwargs=None,
+    capture: Capture = Capture.BOTH,
+    stdin: Optional[str] = None,
+) -> Tuple[int, str]:
     """
     Run a function.
 
@@ -199,6 +218,7 @@ def run_function(func, args=None, kwargs=None, capture: Capture = Capture.BOTH) 
         args: Positional arguments passed to the function.
         kwargs: Keyword arguments passed to the function.
         capture: The output to capture.
+        stdin: String to use as standard input.
 
     Returns:
         The exit code and the function output.
@@ -209,19 +229,19 @@ def run_function(func, args=None, kwargs=None, capture: Capture = Capture.BOTH) 
     if capture == Capture.NONE:
         return run_function_get_code(func, sys.stderr, args, kwargs), ""
 
-    with stdbuffer() as buffer:
+    with stdbuffer(stdin) as buffer:
         if capture == Capture.BOTH:
             # combining stdout and stderr
             # -> redirect stderr to stdout
-            buffer.err = buffer.out
-            sys.stderr = buffer.out
+            buffer.stderr = buffer.stdout
+            sys.stderr = buffer.stdout
 
-        code = run_function_get_code(func, buffer.err, args, kwargs)
+        code = run_function_get_code(func, buffer.stderr, args, kwargs)
 
         if capture == Capture.STDERR:
-            output = buffer.err.getvalue()
+            output = buffer.stderr.getvalue()
         else:
-            output = buffer.out.getvalue()
+            output = buffer.stdout.getvalue()
 
     return code, output
 
