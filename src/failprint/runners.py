@@ -9,6 +9,7 @@ from contextlib import contextmanager
 from io import StringIO
 from typing import Callable, Optional, Tuple, Union
 
+import colorama
 from ansimarkup import ansiprint
 from jinja2 import Environment
 
@@ -17,6 +18,9 @@ from failprint.capture import Capture, cast_capture
 from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
 from failprint.process import run_pty_subprocess, run_subprocess
 from failprint.types import CmdFuncType, CmdType
+
+if WINDOWS:
+    colorama.init()
 
 
 class StdBuffer:
