@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.8.0](https://github.com/pawamoy/failprint/releases/tag/0.8.0) - 2021-07-31
+
+<small>[Compare with 0.7.0](https://github.com/pawamoy/failprint/compare/0.7.0...0.8.0)</small>
+
+### Features
+- Support passing a string as standard input ([7c87a4c](https://github.com/pawamoy/failprint/commit/7c87a4cb82e2774df371b8e05013848ff28d9dec) by Timothée Mazzucotelli). [Issue #10](https://github.com/pawamoy/failprint/issues/10), [PR #11](https://github.com/pawamoy/failprint/pull/11)
+
+### Bug Fixes
+- Initialize colorama support for Windows ([deb0c78](https://github.com/pawamoy/failprint/commit/deb0c7832ccde671efbafa8d03773c26b4cf5ba6) by Timothée Mazzucotelli). [PR #12](https://github.com/pawamoy/failprint/pull/12)
+
+
 ## [0.7.0](https://github.com/pawamoy/failprint/releases/tag/0.7.0) - 2021-06-20
 
 <small>[Compare with 0.6.2](https://github.com/pawamoy/failprint/compare/0.6.2...0.7.0)</small>
