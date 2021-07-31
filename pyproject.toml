@@ -36,7 +36,7 @@ failprint = "failprint.cli:main"
 package-dir = "src"
 
 [tool.pdm.dev-dependencies]
-duty = ["duty~=0.6"]
+duty = ["duty @ git+https://github.com/pawamoy/duty"]
 docs = [
     "mkdocs~=1.1; python_version >= '3.7'",
     "mkdocs-coverage~=0.2; python_version >= '3.7'",
