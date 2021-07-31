@@ -14,7 +14,7 @@
         <link rel="canonical" href="https://pawamoy.github.io/failprint/reference/runners/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.8">
+      <meta name="generator" content="mkdocs-1.2.1, mkdocs-material-7.1.9">
     
     
       
@@ -875,12 +875,12 @@
 
 
 
-<h2 id="failprint.runners.RunResult" class="doc doc-heading">
+<h2 class="doc doc-heading" id="failprint.runners.RunResult">
         <code>RunResult</code>
 
 
 
-<a href="#failprint.runners.RunResult" class="headerlink" title="Permanent link">¤</a></h2>
+<a class="headerlink" href="#failprint.runners.RunResult" title="Permanent link">¤</a></h2>
 
     <div class="doc doc-contents ">
 
@@ -903,14 +903,14 @@
 
 
 
-<h3 id="failprint.runners.RunResult.__init__" class="doc doc-heading">
+<h3 class="doc doc-heading" id="failprint.runners.RunResult.__init__">
 <code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
   </span>
 
-<a href="#failprint.runners.RunResult.__init__" class="headerlink" title="Permanent link">¤</a></h3>
+<a class="headerlink" href="#failprint.runners.RunResult.__init__" title="Permanent link">¤</a></h3>
 
     <div class="doc doc-contents ">
 
@@ -975,16 +975,16 @@
 
 
 
-<h2 id="failprint.runners.StdBuffer" class="doc doc-heading">
+<h2 class="doc doc-heading" id="failprint.runners.StdBuffer">
         <code>StdBuffer</code>
 
 
 
-<a href="#failprint.runners.StdBuffer" class="headerlink" title="Permanent link">¤</a></h2>
+<a class="headerlink" href="#failprint.runners.StdBuffer" title="Permanent link">¤</a></h2>
 
     <div class="doc doc-contents ">
 
-      <p>A simple placeholder for two memory buffers.</p>
+      <p>A simple placeholder for three memory buffers.</p>
 
 
 
@@ -1003,14 +1003,14 @@
 
 
 
-<h3 id="failprint.runners.StdBuffer.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="failprint.runners.StdBuffer.__init__">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stdinput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
   </span>
 
-<a href="#failprint.runners.StdBuffer.__init__" class="headerlink" title="Permanent link">¤</a></h3>
+<a class="headerlink" href="#failprint.runners.StdBuffer.__init__" title="Permanent link">¤</a></h3>
 
     <div class="doc doc-contents ">
 
@@ -1028,13 +1028,19 @@
   </thead>
   <tbody>
       <tr>
-        <td><code>out</code></td>
+        <td><code>stdinput</code></td>
+        <td><code></code></td>
+        <td><p>String to use as standard input.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>stdout</code></td>
         <td><code></code></td>
         <td><p>A buffer for standard output.</p></td>
         <td><code>None</code></td>
       </tr>
       <tr>
-        <td><code>err</code></td>
+        <td><code>stderr</code></td>
         <td><code></code></td>
         <td><p>A buffer for standard error.</p></td>
         <td><code>None</code></td>
@@ -1043,16 +1049,18 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>failprint/runners.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stdinput</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Initialize the object.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        out: A buffer for standard output.</span>
-<span class="sd">        err: A buffer for standard error.</span>
+<span class="sd">        stdinput: String to use as standard input.</span>
+<span class="sd">        stdout: A buffer for standard output.</span>
+<span class="sd">        stderr: A buffer for standard error.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="ow">or</span> <span class="n">StringIO</span><span class="p">()</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">err</span> <span class="o">=</span> <span class="n">err</span> <span class="ow">or</span> <span class="n">StringIO</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stdin</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">(</span><span class="n">stdinput</span><span class="p">)</span> <span class="k">if</span> <span class="n">stdinput</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span> <span class="ow">or</span> <span class="n">StringIO</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">stderr</span> <span class="ow">or</span> <span class="n">StringIO</span><span class="p">()</span>
 </code></pre></div>
         </details>
     </div>
@@ -1076,11 +1084,11 @@
 
 
 
-<h2 id="failprint.runners.run" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nofail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<h2 class="doc doc-heading" id="failprint.runners.run">
+<code class="highlight language-python"><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">capture</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">nofail</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">quiet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
-<a href="#failprint.runners.run" class="headerlink" title="Permanent link">¤</a></h2>
+<a class="headerlink" href="#failprint.runners.run" title="Permanent link">¤</a></h2>
 
     <div class="doc doc-contents ">
 
@@ -1169,6 +1177,12 @@
         <td><p>Don't print anything.</p></td>
         <td><code>False</code></td>
       </tr>
+      <tr>
+        <td><code>stdin</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>String to use as standard input.</p></td>
+        <td><code>None</code></td>
+      </tr>
   </tbody>
 </table>
 <p><strong>Returns:</strong></p>
@@ -1201,6 +1215,7 @@
     <span class="n">nofail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">quiet</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">stdin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RunResult</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a command in a subprocess or a Python function, and print its output if it fails.</span>
@@ -1218,6 +1233,7 @@
 <span class="sd">        nofail: Whether to always succeed.</span>
 <span class="sd">        quiet: Whether to not print the command output.</span>
 <span class="sd">        silent: Don&#39;t print anything.</span>
+<span class="sd">        stdin: String to use as standard input.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The command exit code, or 0 if `nofail` is True.</span>
@@ -1238,9 +1254,9 @@
     <span class="n">capture</span> <span class="o">=</span> <span class="n">cast_capture</span><span class="p">(</span><span class="n">capture</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">cmd</span><span class="p">):</span>
-        <span class="n">code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">run_function</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">capture</span><span class="p">)</span>
+        <span class="n">code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">run_function</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">capture</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="p">,</span> <span class="n">format_obj</span><span class="o">.</span><span class="n">accept_ansi</span><span class="p">,</span> <span class="n">pty</span><span class="p">)</span>
+        <span class="n">code</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="p">,</span> <span class="n">format_obj</span><span class="o">.</span><span class="n">accept_ansi</span><span class="p">,</span> <span class="n">pty</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">silent</span><span class="p">:</span>
         <span class="n">template</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">format_obj</span><span class="o">.</span><span class="n">template</span><span class="p">)</span>
@@ -1274,11 +1290,11 @@
 
 
 
-<h2 id="failprint.runners.run_command" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">&#39;both&#39;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">ansi</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+<h2 class="doc doc-heading" id="failprint.runners.run_command">
+<code class="highlight language-python"><span class="n">run_command</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">&#39;both&#39;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">ansi</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">pty</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
-<a href="#failprint.runners.run_command" class="headerlink" title="Permanent link">¤</a></h2>
+<a class="headerlink" href="#failprint.runners.run_command" title="Permanent link">¤</a></h2>
 
     <div class="doc doc-contents ">
 
@@ -1319,6 +1335,12 @@
         <td><p>Whether to run in a PTY.</p></td>
         <td><code>False</code></td>
       </tr>
+      <tr>
+        <td><code>stdin</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>String to use as standard input.</p></td>
+        <td><code>None</code></td>
+      </tr>
   </tbody>
 </table>
 <p><strong>Returns:</strong></p>
@@ -1343,6 +1365,7 @@
     <span class="n">capture</span><span class="p">:</span> <span class="n">Capture</span> <span class="o">=</span> <span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">,</span>
     <span class="n">ansi</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">pty</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">stdin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a command.</span>
@@ -1352,6 +1375,7 @@
 <span class="sd">        capture: The output to capture.</span>
 <span class="sd">        ansi: Whether to accept ANSI sequences.</span>
 <span class="sd">        pty: Whether to run in a PTY.</span>
+<span class="sd">        stdin: String to use as standard input.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The exit code and the command output.</span>
@@ -1366,16 +1390,16 @@
     <span class="k">if</span> <span class="n">pty</span> <span class="ow">and</span> <span class="n">capture</span> <span class="ow">in</span> <span class="p">{</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">Capture</span><span class="o">.</span><span class="n">NONE</span><span class="p">}:</span>
         <span class="k">if</span> <span class="n">shell</span><span class="p">:</span>
             <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sh&quot;</span><span class="p">,</span> <span class="s2">&quot;-c&quot;</span><span class="p">,</span> <span class="n">cmd</span><span class="p">]</span>  <span class="c1"># type: ignore  # we know cmd is str</span>
-        <span class="k">return</span> <span class="n">run_pty_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="p">)</span>  <span class="c1"># type: ignore  # we made sure cmd is a list</span>
+        <span class="k">return</span> <span class="n">run_pty_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="p">,</span> <span class="n">stdin</span><span class="p">)</span>  <span class="c1"># type: ignore  # we made sure cmd is a list</span>
 
     <span class="c1"># we are on Windows</span>
     <span class="k">if</span> <span class="n">WINDOWS</span><span class="p">:</span>
         <span class="c1"># make sure the process can find the executable</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">shell</span><span class="p">:</span>
             <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">or</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># type: ignore  # we know cmd is a list</span>
-        <span class="k">return</span> <span class="n">run_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="n">shell</span><span class="p">)</span>  <span class="c1"># noqa: S604 (shell=True)</span>
+        <span class="k">return</span> <span class="n">run_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="n">shell</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">stdin</span><span class="p">)</span>  <span class="c1"># noqa: S604 (shell=True)</span>
 
-    <span class="k">return</span> <span class="n">run_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="n">shell</span><span class="p">)</span>  <span class="c1"># noqa: S604 (shell=True)</span>
+    <span class="k">return</span> <span class="n">run_subprocess</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">capture</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="n">shell</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="n">stdin</span><span class="p">)</span>  <span class="c1"># noqa: S604 (shell=True)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1388,11 +1412,11 @@
 
 
 
-<h2 id="failprint.runners.run_function" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">run_function</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">&#39;both&#39;</span><span class="o">&gt;</span><span class="p">)</span></code>
+<h2 class="doc doc-heading" id="failprint.runners.run_function">
+<code class="highlight language-python"><span class="n">run_function</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">capture</span><span class="o">=&lt;</span><span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span> <span class="s1">&#39;both&#39;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">stdin</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
-<a href="#failprint.runners.run_function" class="headerlink" title="Permanent link">¤</a></h2>
+<a class="headerlink" href="#failprint.runners.run_function" title="Permanent link">¤</a></h2>
 
     <div class="doc doc-contents ">
 
@@ -1433,6 +1457,12 @@
         <td><p>The output to capture.</p></td>
         <td><code>&lt;Capture.BOTH: &#39;both&#39;&gt;</code></td>
       </tr>
+      <tr>
+        <td><code>stdin</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>String to use as standard input.</p></td>
+        <td><code>None</code></td>
+      </tr>
   </tbody>
 </table>
 <p><strong>Returns:</strong></p>
@@ -1452,7 +1482,13 @@
 </table>
         <details class="quote">
           <summary>Source code in <code>failprint/runners.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run_function</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">capture</span><span class="p">:</span> <span class="n">Capture</span> <span class="o">=</span> <span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run_function</span><span class="p">(</span>
+    <span class="n">func</span><span class="p">,</span>
+    <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">capture</span><span class="p">:</span> <span class="n">Capture</span> <span class="o">=</span> <span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">,</span>
+    <span class="n">stdin</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a function.</span>
 
@@ -1461,6 +1497,7 @@
 <span class="sd">        args: Positional arguments passed to the function.</span>
 <span class="sd">        kwargs: Keyword arguments passed to the function.</span>
 <span class="sd">        capture: The output to capture.</span>
+<span class="sd">        stdin: String to use as standard input.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        The exit code and the function output.</span>
@@ -1471,19 +1508,19 @@
     <span class="k">if</span> <span class="n">capture</span> <span class="o">==</span> <span class="n">Capture</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">run_function_get_code</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">),</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="k">with</span> <span class="n">stdbuffer</span><span class="p">()</span> <span class="k">as</span> <span class="n">buffer</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">stdbuffer</span><span class="p">(</span><span class="n">stdin</span><span class="p">)</span> <span class="k">as</span> <span class="n">buffer</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">capture</span> <span class="o">==</span> <span class="n">Capture</span><span class="o">.</span><span class="n">BOTH</span><span class="p">:</span>
             <span class="c1"># combining stdout and stderr</span>
             <span class="c1"># -&gt; redirect stderr to stdout</span>
-            <span class="n">buffer</span><span class="o">.</span><span class="n">err</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">out</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">out</span>
+            <span class="n">buffer</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">stdout</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">stdout</span>
 
-        <span class="n">code</span> <span class="o">=</span> <span class="n">run_function_get_code</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="n">run_function_get_code</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">buffer</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">capture</span> <span class="o">==</span> <span class="n">Capture</span><span class="o">.</span><span class="n">STDERR</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">code</span><span class="p">,</span> <span class="n">output</span>
 </code></pre></div>
@@ -1498,11 +1535,11 @@
 
 
 
-<h2 id="failprint.runners.run_function_get_code" class="doc doc-heading">
+<h2 class="doc doc-heading" id="failprint.runners.run_function_get_code">
 <code class="highlight language-python"><span class="n">run_function_get_code</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">stderr</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
-<a href="#failprint.runners.run_function_get_code" class="headerlink" title="Permanent link">¤</a></h2>
+<a class="headerlink" href="#failprint.runners.run_function_get_code" title="Permanent link">¤</a></h2>
 
     <div class="doc doc-contents ">
 
@@ -1605,16 +1642,35 @@
 
 
 
-<h2 id="failprint.runners.stdbuffer" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">stdbuffer</span><span class="p">()</span></code>
+<h2 class="doc doc-heading" id="failprint.runners.stdbuffer">
+<code class="highlight language-python"><span class="n">stdbuffer</span><span class="p">(</span><span class="n">stdinput</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 
-<a href="#failprint.runners.stdbuffer" class="headerlink" title="Permanent link">¤</a></h2>
+<a class="headerlink" href="#failprint.runners.stdbuffer" title="Permanent link">¤</a></h2>
 
     <div class="doc doc-contents ">
 
       <p>Capture output in a <code>with</code> statement.</p>
-<div class="admonition yields">
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>stdinput</code></td>
+        <td><code></code></td>
+        <td><p>String to use as standard input.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>      <div class="admonition yields">
 <p class="admonition-title">Yields</p>
 <p>An instance of <code>StdBuffer</code>.</p>
 </div>
@@ -1622,28 +1678,35 @@
         <details class="quote">
           <summary>Source code in <code>failprint/runners.py</code></summary>
           <div class="highlight"><pre><span></span><code><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">stdbuffer</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">stdbuffer</span><span class="p">(</span><span class="n">stdinput</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Capture output in a `with` statement.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        stdinput: String to use as standard input.</span>
 
 <span class="sd">    Yields:</span>
 <span class="sd">        An instance of `StdBuffer`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">old_stdin</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span>
     <span class="n">old_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
     <span class="n">old_stderr</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
 
-    <span class="n">buffer</span> <span class="o">=</span> <span class="n">StdBuffer</span><span class="p">()</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="n">StdBuffer</span><span class="p">(</span><span class="n">stdinput</span><span class="p">)</span>
 
-    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">out</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">err</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">stdin</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">stdout</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">buffer</span><span class="o">.</span><span class="n">stderr</span>
 
     <span class="k">yield</span> <span class="n">buffer</span>
 
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span> <span class="o">=</span> <span class="n">old_stdin</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">old_stdout</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span> <span class="o">=</span> <span class="n">old_stderr</span>
 
-    <span class="n">buffer</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="n">buffer</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">buffer</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">buffer</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">buffer</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </code></pre></div>
         </details>
     </div>
@@ -1756,10 +1819,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.477d984a.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.76f349be.min.js"></script>
+      <script src="../../assets/javascripts/bundle.82b56eb2.min.js"></script>
       
     
   </body>
