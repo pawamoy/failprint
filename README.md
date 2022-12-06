@@ -3,6 +3,7 @@
 [![ci](https://github.com/pawamoy/failprint/workflows/ci/badge.svg)](https://github.com/pawamoy/failprint/actions?query=workflow%3Aci)
 [![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://pawamoy.github.io/failprint/)
 [![pypi version](https://img.shields.io/pypi/v/failprint.svg)](https://pypi.org/project/failprint/)
+[![gitpod](https://img.shields.io/badge/gitpod-workspace-blue.svg?style=flat)](https://gitpod.io/#https://github.com/pawamoy/failprint)
 [![gitter](https://badges.gitter.im/join%20chat.svg)](https://gitter.im/failprint/community)
 
 Run a command, print its output only if it fails.
@@ -56,14 +57,13 @@ pyenv global system 3.6.12
 
 With `pip`:
 ```bash
-python3.6 -m pip install failprint
+pip install failprint
 ```
 
 With [`pipx`](https://github.com/pipxproject/pipx):
 ```bash
-python3.6 -m pip install --user pipx
-
-pipx install --python python3.6 failprint
+python3.7 -m pip install --user pipx
+pipx install failprint
 ```
 
 ## Usage
