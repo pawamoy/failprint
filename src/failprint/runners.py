@@ -216,6 +216,8 @@ def run_function_get_code(func: Callable, stderr, args=None, kwargs=None) -> int
     """
     try:
         result = func(*args, **kwargs)
+    except SystemExit as exit:
+        return exit.code
     except Exception:  # noqa: W0703 (catching Exception on purpose)
         stderr.write(traceback.format_exc() + "\n")
         return 1
