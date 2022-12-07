@@ -5,8 +5,6 @@ import shutil
 import sys
 import textwrap
 import traceback
-from contextlib import contextmanager
-from io import StringIO
 from typing import Callable, Optional, Tuple, Union
 
 import colorama
@@ -14,62 +12,13 @@ from ansimarkup import ansiprint
 from jinja2 import Environment
 
 from failprint import WINDOWS
-from failprint.capture import Capture, cast_capture
+from failprint.capture import Capture, cast_capture, stdbuffer
 from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
 from failprint.process import run_pty_subprocess, run_subprocess
 from failprint.types import CmdFuncType, CmdType
 
 if WINDOWS:
     colorama.init()
-
-
-class StdBuffer:
-    """A simple placeholder for three memory buffers."""
-
-    def __init__(self, stdinput=None, stdout=None, stderr=None):
-        """
-        Initialize the object.
-
-        Arguments:
-            stdinput: String to use as standard input.
-            stdout: A buffer for standard output.
-            stderr: A buffer for standard error.
-        """
-        self.stdin = StringIO(stdinput) if stdinput is not None else sys.stdin
-        self.stdout = stdout or StringIO()
-        self.stderr = stderr or StringIO()
-
-
-@contextmanager
-def stdbuffer(stdinput=None):
-    """
-    Capture output in a `with` statement.
-
-    Arguments:
-        stdinput: String to use as standard input.
-
-    Yields:
-        An instance of `StdBuffer`.
-    """
-    old_stdin = sys.stdin
-    old_stdout = sys.stdout
-    old_stderr = sys.stderr
-
-    buffer = StdBuffer(stdinput)
-
-    sys.stdin = buffer.stdin
-    sys.stdout = buffer.stdout
-    sys.stderr = buffer.stderr
-
-    yield buffer
-
-    sys.stdin = old_stdin
-    sys.stdout = old_stdout
-    sys.stderr = old_stderr
-
-    buffer.stdin.close()
-    buffer.stdout.close()
-    buffer.stderr.close()
 
 
 class RunResult:
