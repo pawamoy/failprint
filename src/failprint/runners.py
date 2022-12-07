@@ -101,6 +101,7 @@ def run(  # noqa: WPS231 (high complexity)
     quiet: bool = False,
     silent: bool = False,
     stdin: Optional[str] = None,
+    command: Optional[str] = None,
 ) -> RunResult:
     """
     Run a command in a subprocess or a Python function, and print its output if it fails.
@@ -119,6 +120,7 @@ def run(  # noqa: WPS231 (high complexity)
         quiet: Whether to not print the command output.
         silent: Don't print anything.
         stdin: String to use as standard input.
+        command: The command to display.
 
     Returns:
         The command exit code, or 0 if `nofail` is True.
@@ -130,7 +132,7 @@ def run(  # noqa: WPS231 (high complexity)
     env = Environment(autoescape=False)  # noqa: S701 (no HTML: no need to escape)
     env.filters["indent"] = textwrap.indent
 
-    command = printable_command(cmd, args, kwargs)
+    command = command if command is not None else printable_command(cmd, args, kwargs)
 
     if not silent and progress and format_obj.progress_template:
         progress_template = env.from_string(format_obj.progress_template)

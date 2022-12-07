@@ -32,14 +32,14 @@ formats: Dict[str, Format] = {
         "<bold>{{ title or command }}</bold>"
         "{% if failure %} ({{ code }}){% endif %}"
         "{% if failure and output and not quiet %}\n"
-        "{{ ('  > ' + command + '\n') if title else '' }}"
+        "{{ ('  > ' + command + '\n') if title and command else '' }}"
         "{{ output|indent(2 * ' ') }}{% endif %}",
         progress_template="> {{ title or command }}",
     ),
     "tap": Format(
         "{% if failure %}not {% endif %}ok {{ number }} - {{ title or command }}"
         "{% if failure and output %}\n  ---\n  "
-        "{{ ('command: ' + command + '\n  ') if title else '' }}"
+        "{{ ('command: ' + command + '\n  ') if title and command else '' }}"
         "output: |\n{{ output|indent(4 * ' ') }}\n  ...{% endif %}",
         accept_ansi=False,
     ),
