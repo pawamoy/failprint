@@ -105,6 +105,7 @@ def add_flags(parser, set_defaults=True) -> ArgParser:
         truthy_help="Print progress while running a command.",
         falsy_help="Don't print progress while running a command.",
     )
+    # TODO: specific to the format
     parser.add_bool_argument(
         ["-q", "--quiet"],
         ["-Q", "--no-quiet"],
@@ -113,6 +114,7 @@ def add_flags(parser, set_defaults=True) -> ArgParser:
         truthy_help="Don't print the command output, even if it failed.",
         falsy_help="Print the command output when it fails.",
     )
+    # TODO: specific to the format
     parser.add_bool_argument(
         ["-s", "--silent"],
         ["-S", "--no-silent"],
@@ -140,7 +142,9 @@ def get_parser() -> ArgParser:
         An argparse parser.
     """
     parser = add_flags(ArgParser(prog="failprint"))
+    # TODO: specific to the format
     parser.add_argument("-n", "--number", type=int, default=1, help="Command number. Useful for the 'tap' format.")
+    # TODO: specific to the format
     parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
     parser.add_argument("cmd", metavar="COMMAND", nargs="+")
     return parser
