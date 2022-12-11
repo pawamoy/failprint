@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import inspect
 from typing import Callable, Sequence
 
 from failprint.types import CmdFuncType
@@ -130,7 +131,17 @@ def as_python_statement(func: Callable, args: Sequence | None = None, kwargs: di
     Returns:
         A Python statement.
     """
+    func_name = getattr(func, "__name__", None)
+    try:  # noqa: WPS229
+        # climb back up to the frame above the call to run(),
+        # to get the name passed from the external caller (user)
+        ctx_run_call = inspect.currentframe().f_back.f_back.f_back.f_back  # type: ignore[union-attr]
+        call_vars = ctx_run_call.f_locals.items()  # type: ignore[union-attr]
+        func_name = next(var_name for var_name, var_val in call_vars if var_val is func)
+    except (AttributeError, StopIteration):
+        func_name = getattr(func, "__name__", "callable")
+
     args_str = [repr(arg) for arg in args] if args else []
     kwargs_str = [f"{k}={v!r}" for k, v in kwargs.items()] if kwargs else []  # noqa: WPS111,WPS221
     arguments = ", ".join(args_str + kwargs_str)
-    return f"{func.__name__}({arguments})"
+    return f"{func_name}({arguments})"
