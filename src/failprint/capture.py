@@ -6,7 +6,7 @@ import enum
 import sys
 from contextlib import contextmanager
 from io import StringIO
-from typing import Optional, TextIO, Union
+from typing import Iterator, TextIO
 
 
 class Capture(enum.Enum):
@@ -21,7 +21,7 @@ class Capture(enum.Enum):
         return self.value.lower()  # noqa: E1101 (false-positive)
 
 
-def cast_capture(value: Optional[Union[str, bool, Capture]]) -> Capture:
+def cast_capture(value: str | bool | Capture | None) -> Capture:
     """
     Cast a value to an actual Capture enumeration value.
 
@@ -65,7 +65,7 @@ class StdBuffer:
 
     def __init__(
         self,
-        stdinput: StringIO | None = None,
+        stdinput: str | None = None,
         stdout: _TextBuffer | None = None,
         stderr: _TextBuffer | None = None,
     ):
@@ -77,13 +77,13 @@ class StdBuffer:
             stdout: A buffer for standard output.
             stderr: A buffer for standard error.
         """
-        self.stdin: StringIO | TextIO = StringIO(stdinput) if stdinput is not None else sys.stdin  # type: ignore[arg-type]
+        self.stdin: StringIO | TextIO = StringIO(stdinput) if stdinput is not None else sys.stdin
         self.stdout: _TextBuffer = stdout or _TextBuffer()
         self.stderr: _TextBuffer = stderr or _TextBuffer()
 
 
 @contextmanager
-def stdbuffer(stdinput=None):
+def stdbuffer(stdinput: str | None = None) -> Iterator[StdBuffer]:
     """
     Capture output in a `with` statement.
 

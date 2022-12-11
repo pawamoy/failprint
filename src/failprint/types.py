@@ -6,6 +6,8 @@ Attributes:
     CmdFuncType: Type for a command or function.
 """
 
+from __future__ import annotations
+
 from typing import Callable, List, Union
 
 CmdType = Union[str, List[str]]  # noqa: E1136 (bug on Python 3.9)

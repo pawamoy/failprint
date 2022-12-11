@@ -1,6 +1,8 @@
 """Output-printing formats."""
 
-from typing import Callable, Dict, List, Optional
+from __future__ import annotations
+
+from typing import Callable, Sequence
 
 from failprint.types import CmdFuncType
 
@@ -10,7 +12,7 @@ DEFAULT_FORMAT = "pretty"
 class Format:
     """Class to define a display format."""
 
-    def __init__(self, template: str, progress_template: Optional[str] = None, accept_ansi: bool = True) -> None:
+    def __init__(self, template: str, progress_template: str | None = None, accept_ansi: bool = True) -> None:
         """
         Initialize the object.
 
@@ -24,7 +26,7 @@ class Format:
         self.accept_ansi = accept_ansi
 
 
-formats: Dict[str, Format] = {
+formats: dict[str, Format] = {
     "pretty": Format(
         "{% if success %}<green>✓</green>"
         "{% elif nofail %}<yellow>✗</yellow>"
@@ -62,7 +64,7 @@ def accept_custom_format(string: str) -> str:
     return string
 
 
-def printable_command(cmd: CmdFuncType, args=None, kwargs=None) -> str:
+def printable_command(cmd: CmdFuncType, args: Sequence | None = None, kwargs: dict | None = None) -> str:
     """
     Transform a command or function into a string.
 
@@ -81,7 +83,7 @@ def printable_command(cmd: CmdFuncType, args=None, kwargs=None) -> str:
     return as_shell_command(cmd)
 
 
-def as_shell_command(cmd: List[str]) -> str:  # noqa: WPS231 (not that complex)
+def as_shell_command(cmd: list[str]) -> str:  # noqa: WPS231 (not that complex)
     """
     Rebuild a command line from system arguments.
 
@@ -116,7 +118,7 @@ def as_shell_command(cmd: List[str]) -> str:  # noqa: WPS231 (not that complex)
     return " ".join(parts)
 
 
-def as_python_statement(func: Callable, args=None, kwargs=None) -> str:
+def as_python_statement(func: Callable, args: Sequence | None = None, kwargs: dict | None = None) -> str:
     """
     Transform a callable and its arguments into a Python statement string.
 
@@ -128,7 +130,7 @@ def as_python_statement(func: Callable, args=None, kwargs=None) -> str:
     Returns:
         A Python statement.
     """
-    args = [repr(arg) for arg in args] if args else []
-    kwargs = [f"{k}={v!r}" for k, v in kwargs.items()] if kwargs else []  # noqa: WPS111,WPS221 (short name, complexity)
-    args_str = ", ".join(args + kwargs)
-    return f"{func.__name__}({args_str})"
+    args_str = [repr(arg) for arg in args] if args else []
+    kwargs_str = [f"{k}={v!r}" for k, v in kwargs.items()] if kwargs else []  # noqa: WPS111,WPS221
+    arguments = ", ".join(args_str + kwargs_str)
+    return f"{func.__name__}({arguments})"

@@ -1,11 +1,13 @@
 """Functions to run commands and capture output."""
 
+from __future__ import annotations
+
 import os
 import shutil
 import sys
 import textwrap
 import traceback
-from typing import Callable, Optional, Tuple, Union
+from typing import Callable, Sequence, TextIO
 
 import colorama
 from ansimarkup import ansiprint
@@ -38,19 +40,19 @@ class RunResult:
 
 def run(  # noqa: WPS231 (high complexity)
     cmd: CmdFuncType,
-    args=None,
-    kwargs=None,
+    args: Sequence | None = None,
+    kwargs: dict | None = None,
     number: int = 1,
-    capture: Optional[Union[str, bool, Capture]] = None,
-    title: Optional[str] = None,
-    fmt: Optional[str] = None,
+    capture: str | bool | Capture | None = None,
+    title: str | None = None,
+    fmt: str | None = None,
     pty: bool = False,
     progress: bool = True,
     nofail: bool = False,
     quiet: bool = False,
     silent: bool = False,
-    stdin: Optional[str] = None,
-    command: Optional[str] = None,
+    stdin: str | None = None,
+    command: str | None = None,
 ) -> RunResult:
     """
     Run a command in a subprocess or a Python function, and print its output if it fails.
@@ -121,8 +123,8 @@ def run_command(
     capture: Capture = Capture.BOTH,
     ansi: bool = False,
     pty: bool = False,
-    stdin: Optional[str] = None,
-) -> Tuple[int, str]:
+    stdin: str | None = None,
+) -> tuple[int, str]:
     """
     Run a command.
 
@@ -159,12 +161,12 @@ def run_command(
 
 
 def run_function(
-    func,
-    args=None,
-    kwargs=None,
+    func: Callable,
+    args: Sequence | None = None,
+    kwargs: dict | None = None,
     capture: Capture = Capture.BOTH,
-    stdin: Optional[str] = None,
-) -> Tuple[int, str]:
+    stdin: str | None = None,
+) -> tuple[int, str]:
     """
     Run a function.
 
@@ -201,7 +203,12 @@ def run_function(
     return code, output
 
 
-def run_function_get_code(func: Callable, stderr, args=None, kwargs=None) -> int:  # noqa: WPS212,WPS231
+def run_function_get_code(  # noqa: WPS212,WPS231
+    func: Callable,
+    stderr: TextIO,
+    args: Sequence,
+    kwargs: dict,
+) -> int:
     """
     Run a function and return a exit code.
 

@@ -11,8 +11,10 @@
 
 """Module that contains the command line application."""
 
+from __future__ import annotations
+
 import argparse
-from typing import List, Optional, Sequence
+from typing import Any, Sequence
 
 from failprint.capture import Capture
 from failprint.formats import accept_custom_format, formats
@@ -28,7 +30,7 @@ class ArgParser(argparse.ArgumentParser):
         falsy: Sequence[str],
         truthy_help: str = "",
         falsy_help: str = "",
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         """
         Add a boolean flag/argument to the parser.
@@ -48,7 +50,7 @@ class ArgParser(argparse.ArgumentParser):
         mxg.add_argument(*falsy, **falsy_kwargs)  # type: ignore
 
 
-def add_flags(parser, set_defaults=True) -> ArgParser:
+def add_flags(parser: ArgParser, set_defaults: bool = True) -> ArgParser:
     """
     Add some boolean flags to the parser.
 
@@ -150,7 +152,7 @@ def get_parser() -> ArgParser:
     return parser
 
 
-def main(args: Optional[List[str]] = None) -> int:
+def main(args: list[str] | None = None) -> int:
     """
     Run the main program.
 

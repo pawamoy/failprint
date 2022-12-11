@@ -1,8 +1,9 @@
 """Functions related to subprocesses."""
 
+from __future__ import annotations
+
 import contextlib
 import subprocess  # noqa: S404 (we don't mind the security implication)
-from typing import List, Optional, Tuple
 
 from failprint import WINDOWS
 from failprint.capture import Capture
@@ -17,8 +18,8 @@ def run_subprocess(
     cmd: CmdType,
     capture: Capture = Capture.BOTH,
     shell: bool = False,
-    stdin: Optional[str] = None,
-) -> Tuple[int, str]:
+    stdin: str | None = None,
+) -> tuple[int, str]:
     """
     Run a command in a subprocess.
 
@@ -65,7 +66,11 @@ def run_subprocess(
     return process.returncode, output
 
 
-def run_pty_subprocess(cmd: List[str], capture: Capture = Capture.BOTH, stdin: Optional[str] = None) -> Tuple[int, str]:
+def run_pty_subprocess(
+    cmd: list[str],
+    capture: Capture = Capture.BOTH,
+    stdin: str | None = None,
+) -> tuple[int, str] | None:
     """
     Run a command in a PTY subprocess.
 
@@ -78,7 +83,7 @@ def run_pty_subprocess(cmd: List[str], capture: Capture = Capture.BOTH, stdin: O
         The exit code and the command output.
     """
     process = PtyProcessUnicode.spawn(cmd)
-    pty_output: List[str] = []
+    pty_output: list[str] = []
 
     if stdin is not None:
         process.setecho(False)
