@@ -49,12 +49,15 @@ class _TextBuffer(StringIO):
         def __init__(self, text_buffer: _TextBuffer) -> None:
             self._text_buffer = text_buffer
 
+        def flush(self) -> None:
+            ...
+
         def write(self, value: bytes) -> int:
             return self._text_buffer.write(value.decode())
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.buffer = self._BytesBuffer(self)
+        self.buffer = self._BytesBuffer(self)  # type: ignore[misc,assignment]
 
 
 class StdBuffer:
@@ -74,7 +77,7 @@ class StdBuffer:
             stdout: A buffer for standard output.
             stderr: A buffer for standard error.
         """
-        self.stdin: StringIO | TextIO = StringIO(stdinput) if stdinput is not None else sys.stdin
+        self.stdin: StringIO | TextIO = StringIO(stdinput) if stdinput is not None else sys.stdin  # type: ignore[arg-type]
         self.stdout: _TextBuffer = stdout or _TextBuffer()
         self.stderr: _TextBuffer = stderr or _TextBuffer()
 
