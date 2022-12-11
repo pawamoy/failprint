@@ -115,7 +115,7 @@ def check(ctx):
 
 
 @duty
-def check_quality(ctx, files=PY_SRC):
+def check_quality(ctx, files=PY_SRC_LIST):
     """
     Check the code quality.
 
@@ -123,7 +123,18 @@ def check_quality(ctx, files=PY_SRC):
         ctx: The context instance (passed automatically).
         files: The files to check.
     """
-    ctx.run(f"flake8 --config=config/flake8.ini {files}", title="Checking code quality", pty=PTY)
+    from flake8.main.cli import main as flake8
+
+    if isinstance(files, str):
+        files = files.split()
+
+    ctx.run(
+        flake8,
+        args=[["--config=config/flake8.ini", *files]],
+        title="Checking code quality",
+        command=f"flake8 --config=config/flake8.ini {' '.join(files)}",
+        pty=PTY,
+    )
 
 
 @duty
@@ -149,8 +160,9 @@ def check_dependencies(ctx):
     from safety.util import read_requirements
 
     # retrieve the list of dependencies
+    export_command = ["pdm", "export", "-f", "requirements", "--without-hashes"]
     requirements = ctx.run(
-        ["pdm", "export", "-f", "requirements", "--without-hashes"],
+        export_command,
         title="Exporting dependencies as requirements",
         allow_overrides=False,
     )
@@ -172,7 +184,7 @@ def check_dependencies(ctx):
             return False
         return True
 
-    ctx.run(safety, title="Checking dependencies")
+    ctx.run(safety, title="Checking dependencies", command=" ".join(export_command) + " | safety check --stdin")
 
 
 @duty

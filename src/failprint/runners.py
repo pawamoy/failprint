@@ -8,8 +8,11 @@ import traceback
 from typing import Callable, Optional, Tuple, Union
 
 import colorama
-from ansimarkup import ansiprint
 from jinja2 import Environment
+from rich import print as richprint
+from rich.markup import escape
+from rich.text import Text
+from rich.console import Console
 
 from failprint import WINDOWS
 from failprint.capture import Capture, cast_capture, stdbuffer
@@ -85,7 +88,7 @@ def run(  # noqa: WPS231 (high complexity)
 
     if not silent and progress and format_obj.progress_template:
         progress_template = env.from_string(format_obj.progress_template)
-        ansiprint(progress_template.render({"title": title, "command": command}), end="\r")
+        richprint(progress_template.render({"title": title, "command": command}), end="\r")
 
     capture = cast_capture(capture)
 
@@ -96,16 +99,16 @@ def run(  # noqa: WPS231 (high complexity)
 
     if not silent:
         template = env.from_string(format_obj.template)
-        ansiprint(
+        Console(highlight=False).print(
             template.render(
                 {
                     "title": title,
-                    "command": command,
+                    "command": escape(command),
                     "code": code,
                     "success": code == 0,
                     "failure": code != 0,
                     "number": number,
-                    "output": output,
+                    "output": escape(str(Text.from_ansi(output))),
                     "nofail": nofail,
                     "quiet": quiet,
                     "silent": silent,
