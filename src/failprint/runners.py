@@ -201,7 +201,7 @@ def run_function(
     return code, output
 
 
-def run_function_get_code(func: Callable, stderr, args=None, kwargs=None) -> int:  # noqa: WPS212 (return statements)
+def run_function_get_code(func: Callable, stderr, args=None, kwargs=None) -> int:  # noqa: WPS212,WPS231
     """
     Run a function and return a exit code.
 
@@ -217,7 +217,12 @@ def run_function_get_code(func: Callable, stderr, args=None, kwargs=None) -> int
     try:
         result = func(*args, **kwargs)
     except SystemExit as exit:
-        return exit.code
+        if exit.code is None:
+            return 0
+        if isinstance(exit.code, int):
+            return exit.code
+        stderr.write(str(exit.code))
+        return 1
     except Exception:  # noqa: W0703 (catching Exception on purpose)
         stderr.write(traceback.format_exc() + "\n")
         return 1
