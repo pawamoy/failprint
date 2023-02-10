@@ -8,7 +8,7 @@ from failprint import cli
 def test_fail_without_arguments():
     """Fails without arguments."""
     with pytest.raises(SystemExit):
-        cli.main([])
+        assert cli.main([])
 
 
 def test_show_help(capsys):

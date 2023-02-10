@@ -10,15 +10,9 @@ from typing import Callable, Optional, Tuple, Union
 import colorama
 from jinja2 import Environment
 from rich import print as richprint
-from rich.markup import escape
-from rich.text import Text
-from rich.console import Console
-
-from failprint import WINDOWS
 from failprint.capture import Capture, cast_capture, stdbuffer
 from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
 from failprint.process import run_pty_subprocess, run_subprocess
-from failprint.types import CmdFuncType, CmdType
 
 if WINDOWS:
     colorama.init()
@@ -92,27 +86,31 @@ def run(  # noqa: WPS231 (high complexity)
 
     capture = cast_capture(capture)
 
+    highlight = False
     if callable(cmd):
+        highlight = True
         code, output = run_function(cmd, args, kwargs, capture, stdin)
     else:
         code, output = run_command(cmd, capture, format_obj.accept_ansi, pty, stdin)
 
     if not silent:
         template = env.from_string(format_obj.template)
-        Console(highlight=False).print(
-            template.render(
-                {
-                    "title": title,
-                    "command": escape(command),
-                    "code": code,
-                    "success": code == 0,
-                    "failure": code != 0,
-                    "number": number,
-                    "output": escape(str(Text.from_ansi(output))),
-                    "nofail": nofail,
-                    "quiet": quiet,
-                    "silent": silent,
-                },
+        Console(highlight=highlight).print(
+            Text.from_ansi(
+                template.render(
+                    {
+                        "title": title,
+                        "command": escape(command),
+                        "code": code,
+                        "success": code == 0,
+                        "failure": code != 0,
+                        "number": number,
+                        "output": output,
+                        "nofail": nofail,
+                        "quiet": quiet,
+                        "silent": silent,
+                    },
+                ),
             ),
         )
 
