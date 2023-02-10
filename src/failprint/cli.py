@@ -137,8 +137,7 @@ def add_flags(parser: ArgParser, set_defaults: bool = True) -> ArgParser:
 
 
 def get_parser() -> ArgParser:
-    """
-    Return the CLI argument parser.
+    """Return the CLI argument parser.
 
     Returns:
         An argparse parser.
@@ -153,12 +152,11 @@ def get_parser() -> ArgParser:
 
 
 def main(args: list[str] | None = None) -> int:
-    """
-    Run the main program.
+    """Run the main program.
 
     This function is executed when you type `failprint` or `python -m failprint`.
 
-    Arguments:
+    Parameters:
         args: Arguments passed from the command line.
 
     Returns:
