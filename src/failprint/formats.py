@@ -5,6 +5,7 @@ from __future__ import annotations
 import inspect
 from typing import Callable, Sequence
 
+from failprint.lazy import LazyCallable
 from failprint.types import CmdFuncType
 
 DEFAULT_FORMAT = "pretty"
@@ -79,6 +80,8 @@ def printable_command(cmd: CmdFuncType, args: Sequence | None = None, kwargs: di
     """
     if isinstance(cmd, str):
         return cmd
+    if isinstance(cmd, LazyCallable):
+        return as_python_statement(cmd.call, cmd.args, cmd.kwargs)
     if callable(cmd):
         return as_python_statement(cmd, args, kwargs)
     return as_shell_command(cmd)

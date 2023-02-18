@@ -8,6 +8,7 @@ from hypothesis import given
 from hypothesis.strategies import characters, integers, text
 
 from failprint import WINDOWS
+from failprint.lazy import lazy
 from failprint.runners import run, run_function
 
 
@@ -339,3 +340,41 @@ def test_pass_stdin_to_function(stdin):
     code, output = run_function(print_stdin, stdin=stdin)
     assert code == 0
     assert output == stdin
+
+
+def test_run_lazy_callable(capsys):
+    """Assert we can run a lazy callable and stringify it.
+
+    Arguments:
+        capsys: Pytest fixture to capture output.
+    """
+
+    @lazy  # noqa: WPS430
+    def greet(name):  # noqa: WPS430
+        print(f"hello {name}")
+        return 1
+
+    result = run(greet("tim"))
+    outerr = capsys.readouterr()
+    assert result.code == 1
+    assert result.output == "hello tim\n"
+    assert "greet('tim')" in outerr.out
+
+
+def test_run_lazy_callable_without_calling_it(capsys):
+    """Assert we can run a lazy callable without actually calling it.
+
+    Arguments:
+        capsys: Pytest fixture to capture output.
+    """
+
+    @lazy  # noqa: WPS430
+    def greet(name):  # noqa: WPS430
+        print(f"hello {name}")
+        return 1
+
+    result = run(greet, args=["tim"])
+    outerr = capsys.readouterr()
+    assert result.code == 1
+    assert result.output == "hello tim\n"
+    assert "greet('tim')" in outerr.out

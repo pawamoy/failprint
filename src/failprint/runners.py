@@ -18,6 +18,7 @@ from failprint.capture import Capture, cast_capture, stdbuffer
 from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
 from failprint.process import run_pty_subprocess, run_subprocess
 from failprint.types import CmdFuncType, CmdType
+from failprint.lazy import LazyCallable
 
 if WINDOWS:
     colorama.init()
@@ -233,6 +234,10 @@ def run_function_get_code(  # noqa: WPS212,WPS231
     except Exception:  # noqa: W0703 (catching Exception on purpose)
         stderr.write(traceback.format_exc() + "\n")
         return 1
+
+    # if func was a lazy callable, recurse
+    if isinstance(result, LazyCallable):
+        return run_function_get_code(result, stderr, (), {})
 
     # first check True and False
     # because int(True) == 1 and int(False) == 0
