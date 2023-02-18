@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.10.0](https://github.com/pawamoy/failprint/releases/tag/0.10.0) - 2023-02-18
+
+<small>[Compare with 0.9.0](https://github.com/pawamoy/failprint/compare/0.9.0...0.10.0)</small>
+
+### Features
+
+- Provide a lazy decorator, allow running lazy callables ([fa066b5](https://github.com/pawamoy/failprint/commit/fa066b501353b1f7208f631dd7ac0f0b5cb4cba1) by Timothée Mazzucotelli).
+
 ## [0.9.0](https://github.com/pawamoy/failprint/releases/tag/0.9.0) - 2023-02-10
 
 <small>[Compare with 0.8.0](https://github.com/pawamoy/failprint/compare/0.8.0...0.9.0)</small>
