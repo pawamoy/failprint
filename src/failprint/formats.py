@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import inspect
-from typing import Callable, Sequence
+from typing import TYPE_CHECKING, Callable, Sequence
 
 from failprint.lazy import LazyCallable
-from failprint.types import CmdFuncType
+
+if TYPE_CHECKING:
+    from failprint.types import CmdFuncType
 
 DEFAULT_FORMAT = "pretty"
 
@@ -14,7 +16,7 @@ DEFAULT_FORMAT = "pretty"
 class Format:
     """Class to define a display format."""
 
-    def __init__(self, template: str, progress_template: str | None = None, accept_ansi: bool = True) -> None:
+    def __init__(self, template: str, *, progress_template: str | None = None, accept_ansi: bool = True) -> None:
         """Initialize the object.
 
         Arguments:
@@ -104,16 +106,16 @@ def as_shell_command(cmd: list[str]) -> str:
         if has_double_quotes and not has_single_quotes:
             # double quotes, no single quotes
             # -> wrap in single quotes
-            part = f"'{part}'"
+            part = f"'{part}'"  # noqa: PLW2901
         elif has_single_quotes and has_double_quotes:
             # double and single quotes
             # -> escape double quotes, wrap in double quotes
-            part = part.replace('"', r"\"")
-            part = f'"{part}"'
+            part = part.replace('"', r"\"")  # noqa: PLW2901
+            part = f'"{part}"'  # noqa: PLW2901
         elif has_single_quotes or has_spaces:
             # spaces or single quotes
             # -> wrap in double quotes
-            part = f'"{part}"'
+            part = f'"{part}"'  # noqa: PLW2901
         parts.append(part)
     return " ".join(parts)
 

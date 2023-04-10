@@ -1,5 +1,7 @@
 """Tests for the `formats` module."""
 
+from typing import Callable, Sequence
+
 import pytest
 from hypothesis import given
 from hypothesis.strategies import text
@@ -27,7 +29,7 @@ from failprint.runners import run
         (["a", "command", "with", "\" '"], 'a command with "\\" \'"'),
     ],
 )
-def test_printable_command_with_list(cmd, expected) -> None:
+def test_printable_command_with_list(cmd: list[str], expected: str) -> None:
     """Correctly transform a list of arguments into a runnable shell command.
 
     Arguments:
@@ -38,7 +40,7 @@ def test_printable_command_with_list(cmd, expected) -> None:
 
 
 @given(text())
-def test_printable_command_with_string(cmd):
+def test_printable_command_with_string(cmd: str) -> None:
     """Correctly transform a string into a runnable shell command.
 
     Arguments:
@@ -48,7 +50,7 @@ def test_printable_command_with_string(cmd):
 
 
 class Repr:  # noqa: D101 (missing docstring)
-    def __init__(self, value):  # noqa: D107 (missing docstring)
+    def __init__(self, value: str | int):  # noqa: D107 (missing docstring)
         self.value = value
 
     def __repr__(self):
@@ -74,7 +76,12 @@ class Repr:  # noqa: D101 (missing docstring)
         ),
     ],
 )
-def test_printable_command_with_callable(cmd, args, kwargs, expected):
+def test_printable_command_with_callable(
+    cmd: Callable,
+    args: Sequence | None,
+    kwargs: dict | None,
+    expected: str,
+) -> None:
     """Correctly transform a callable into a runnable shell command.
 
     Arguments:
@@ -86,7 +93,7 @@ def test_printable_command_with_callable(cmd, args, kwargs, expected):
     assert printable_command(cmd, args, kwargs) == expected
 
 
-def test_tap_format(capsys):
+def test_tap_format(capsys: pytest.CaptureFixture) -> None:
     """Check the tap output format.
 
     Arguments:

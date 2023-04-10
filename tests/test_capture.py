@@ -21,7 +21,7 @@ from failprint.capture import Capture, cast_capture
         (None, Capture.BOTH),  # default
     ],
 )
-def test_cast_string(value, expected):
+def test_cast_string(value: str | bool | Capture, expected: Capture) -> None:
     """Cast various values in a Capture enumeration value.
 
     Arguments:

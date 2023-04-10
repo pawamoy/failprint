@@ -6,7 +6,7 @@ import enum
 import sys
 from contextlib import contextmanager
 from io import StringIO
-from typing import Iterator, TextIO
+from typing import Any, Iterator, TextIO
 
 
 class Capture(enum.Enum):
@@ -54,7 +54,7 @@ class _TextBuffer(StringIO):
         def write(self, value: bytes) -> int:
             return self._text_buffer.write(value.decode())
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.buffer = self._BytesBuffer(self)  # type: ignore[misc,assignment]
 

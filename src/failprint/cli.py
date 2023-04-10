@@ -49,7 +49,7 @@ class ArgParser(argparse.ArgumentParser):
         mxg.add_argument(*falsy, **falsy_kwargs)  # type: ignore
 
 
-def add_flags(parser: ArgParser, set_defaults: bool = True) -> ArgParser:
+def add_flags(parser: ArgParser, *, set_defaults: bool = True) -> ArgParser:
     """Add some boolean flags to the parser.
 
     We made this method separate and public

@@ -7,7 +7,7 @@ import shutil
 import sys
 import textwrap
 import traceback
-from typing import Callable, Sequence, TextIO
+from typing import TYPE_CHECKING, Callable, Sequence, TextIO
 
 import colorama
 from ansimarkup import ansiprint
@@ -18,7 +18,9 @@ from failprint.capture import Capture, cast_capture, stdbuffer
 from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
 from failprint.lazy import LazyCallable
 from failprint.process import run_pty_subprocess, run_subprocess
-from failprint.types import CmdFuncType, CmdType
+
+if TYPE_CHECKING:
+    from failprint.types import CmdFuncType, CmdType
 
 if WINDOWS:
     colorama.init()
@@ -40,6 +42,7 @@ class RunResult:
 
 def run(
     cmd: CmdFuncType,
+    *,
     args: Sequence | None = None,
     kwargs: dict | None = None,
     number: int = 1,
@@ -119,6 +122,7 @@ def run(
 
 def run_command(
     cmd: CmdType,
+    *,
     capture: Capture = Capture.BOTH,
     ansi: bool = False,
     pty: bool = False,
@@ -222,7 +226,7 @@ def run_function_get_code(
             return exit.code
         stderr.write(str(exit.code))
         return 1
-    except Exception:
+    except Exception:  # noqa: BLE001
         stderr.write(traceback.format_exc() + "\n")
         return 1
 

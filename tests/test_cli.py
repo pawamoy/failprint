@@ -5,13 +5,13 @@ import pytest
 from failprint import cli
 
 
-def test_fail_without_arguments():
+def test_fail_without_arguments() -> None:
     """Fails without arguments."""
     with pytest.raises(SystemExit):
         cli.main([])
 
 
-def test_show_help(capsys):
+def test_show_help(capsys: pytest.CaptureFixture) -> None:
     """Show help.
 
     Parameters:
@@ -23,12 +23,12 @@ def test_show_help(capsys):
     assert "failprint" in captured.out
 
 
-def test_run_command():
+def test_run_command() -> None:
     """Run a simple command."""
     assert cli.main(["echo", "hello"]) == 0
 
 
-def test_accept_custom_format(capsys):
+def test_accept_custom_format(capsys: pytest.CaptureFixture) -> None:
     """Run a command with a custom output format.
 
     Arguments:

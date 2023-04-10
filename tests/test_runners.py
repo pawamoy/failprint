@@ -12,7 +12,7 @@ from failprint.lazy import lazy
 from failprint.runners import run, run_function
 
 
-def test_run_silent_command_silently(capsys):
+def test_run_silent_command_silently(capsys: pytest.CaptureFixture) -> None:
     """Run a silent command, silently.
 
     Arguments:
@@ -24,7 +24,7 @@ def test_run_silent_command_silently(capsys):
     assert not outerr.err
 
 
-def test_run_verbose_command_silently(capsys):
+def test_run_verbose_command_silently(capsys: pytest.CaptureFixture) -> None:
     """Run a verbose command, silently.
 
     Arguments:
@@ -36,7 +36,7 @@ def test_run_verbose_command_silently(capsys):
     assert not outerr.err
 
 
-def test_run_silent_command_verbosely(capsys):
+def test_run_silent_command_verbosely(capsys: pytest.CaptureFixture) -> None:
     """Run a silent command, verbosely.
 
     Arguments:
@@ -48,7 +48,7 @@ def test_run_silent_command_verbosely(capsys):
     assert not outerr.err
 
 
-def test_run_failing_silent_command_verbosely(capsys):
+def test_run_failing_silent_command_verbosely(capsys: pytest.CaptureFixture) -> None:
     """Run a failing silent command, verbosely.
 
     Arguments:
@@ -60,7 +60,7 @@ def test_run_failing_silent_command_verbosely(capsys):
     assert not outerr.err
 
 
-def test_run_verbose_command_verbosely(capsys):
+def test_run_verbose_command_verbosely(capsys: pytest.CaptureFixture) -> None:
     """Run a verbose command, verbosely.
 
     Arguments:
@@ -72,23 +72,23 @@ def test_run_verbose_command_verbosely(capsys):
     assert not outerr.err
 
 
-def return_success_code():
+def return_success_code() -> None:
     """Check the return code of a successful command."""
     assert run(["true"]).code == 0
 
 
-def return_failure_code():
+def return_failure_code() -> None:
     """Check the return code of a failing command."""
     assert run(["false"]).code == 1
 
 
-def return_shell_custom_code():
+def return_shell_custom_code() -> None:
     """Check the return code of a shell exit."""
     assert run("exit 15").code == 15
 
 
 @pytest.mark.skipif(WINDOWS, reason="runs on Linux only")
-def run_linux_shell_command(capsys):
+def run_linux_shell_command(capsys: pytest.CaptureFixture) -> None:
     """Run a Linux shell command.
 
     Arguments:
@@ -101,7 +101,7 @@ def run_linux_shell_command(capsys):
 
 
 @pytest.mark.skipif(WINDOWS, reason="runs on Linux only")
-def test_run_linux_program():
+def test_run_linux_program() -> None:
     """Run a GNU/Linux program."""
     marker = "THIS VERY LINE"
     assert run(["grep", "-q", marker, __file__]).code == 0
@@ -109,7 +109,7 @@ def test_run_linux_program():
 
 
 @given(integers())
-def test_callable_exit_codes(code):
+def test_callable_exit_codes(code: int) -> None:
     """Check the return codes of Python callables.
 
     Arguments:
@@ -118,17 +118,17 @@ def test_callable_exit_codes(code):
     assert run(lambda: code).code == code
 
 
-def test_succeed_with_none_result():
+def test_succeed_with_none_result() -> None:
     """Check the return code when a callable returns `None`."""
     assert run(lambda: None).code == 0
 
 
-def test_succeed_with_truthy_object():
+def test_succeed_with_truthy_object() -> None:
     """Check the return code when a callable returns a truthy object."""
     assert run(object).code == 0
 
 
-def test_fails_with_falsy_object():
+def test_fails_with_falsy_object() -> None:
     """Check the return code when a callable returns a falsy object."""
 
     class Meh:
@@ -138,13 +138,13 @@ def test_fails_with_falsy_object():
     assert run(Meh).code == 1
 
 
-def test_run_callable_return_boolean():
+def test_run_callable_return_boolean() -> None:
     """Check the return code when a callable returns a boolean."""
     assert run(lambda: True).code == 0
     assert run(lambda: False).code == 1
 
 
-def test_callable_capture_none(capsys):
+def test_callable_capture_none(capsys: pytest.CaptureFixture) -> None:
     """Check that nothing is captured while running a callable.
 
     Arguments:
@@ -156,7 +156,7 @@ def test_callable_capture_none(capsys):
     assert msg in outerr.out
 
 
-def test_callable_capture_both(capsys):
+def test_callable_capture_both(capsys: pytest.CaptureFixture) -> None:
     """Check that all is captured while running a callable.
 
     Arguments:
@@ -175,7 +175,7 @@ def test_callable_capture_both(capsys):
     assert not outerr.err
 
 
-def test_callable_capture_stdout(capsys):
+def test_callable_capture_stdout(capsys: pytest.CaptureFixture) -> None:
     """Check that stdout is captured while running a callable.
 
     Arguments:
@@ -194,7 +194,7 @@ def test_callable_capture_stdout(capsys):
     assert not outerr.err
 
 
-def test_callable_capture_stderr(capsys):
+def test_callable_capture_stderr(capsys: pytest.CaptureFixture) -> None:
     """Check that stderr is captured while running a callable.
 
     Arguments:
@@ -213,7 +213,7 @@ def test_callable_capture_stderr(capsys):
     assert not outerr.err
 
 
-def test_process_capture_none(capfd):
+def test_process_capture_none(capfd: pytest.CaptureFixture) -> None:
     """Check that nothing is captured while running a process.
 
     Arguments:
@@ -224,7 +224,7 @@ def test_process_capture_none(capfd):
     assert "Python" in outerr.out
 
 
-def test_process_capture_both(capsys):
+def test_process_capture_both(capsys: pytest.CaptureFixture) -> None:
     """Check that all is captured while running a process.
 
     Arguments:
@@ -243,7 +243,7 @@ def test_process_capture_both(capsys):
     assert not outerr.err
 
 
-def test_process_capture_stdout(capsys):
+def test_process_capture_stdout(capsys: pytest.CaptureFixture) -> None:
     """Check that stdout is captured while running a process.
 
     Arguments:
@@ -262,7 +262,7 @@ def test_process_capture_stdout(capsys):
     assert not outerr.err
 
 
-def test_process_capture_stderr(capsys):
+def test_process_capture_stderr(capsys: pytest.CaptureFixture) -> None:
     """Check that stderr is captured while running a process.
 
     Arguments:
@@ -281,9 +281,9 @@ def test_process_capture_stderr(capsys):
     assert not outerr.err
 
 
-def test_cancel_pty():
+def test_cancel_pty() -> None:
     """Test that using PTY is canceled if the format does not support it."""
-    with patch("failprint.runners.run_subprocess", new=MagicMock(return_value=(0, ""))) as run_sub:
+    with patch("failprint.runners.run_subprocess", new=MagicMock(return_value=(0, ""))) as run_sub:  # noqa: SIM117
         with patch("failprint.runners.run_pty_subprocess", new=MagicMock(return_value=(0, ""))) as run_pty_sub:
             run("true", pty=True, fmt="tap")
             assert not run_pty_sub.called
@@ -291,14 +291,14 @@ def test_cancel_pty():
 
 
 @pytest.mark.skipif(WINDOWS, reason="no PTY support on Windows")
-def test_run_pty_shell():
+def test_run_pty_shell() -> None:
     """Test running a shell command in a PTY."""
     with patch("failprint.runners.run_pty_subprocess", new=MagicMock(return_value=(0, ""))) as run_pty_sub:
         run("true", pty=True)
         assert run_pty_sub.called
 
 
-def test_run_callable_raising_exception(capsys):
+def test_run_callable_raising_exception(capsys: pytest.CaptureFixture) -> None:
     """Test running a callable raising an exception.
 
     Arguments:
@@ -310,14 +310,14 @@ def test_run_callable_raising_exception(capsys):
 
 
 @given(text(alphabet=characters(blacklist_categories="C")))
-def test_pass_stdin_to_function(stdin):
+def test_pass_stdin_to_function(stdin: str) -> None:
     """Pass input to a normal subprocess.
 
     Arguments:
         stdin: Text sample generated by Hypothesis.
     """
 
-    def print_stdin():
+    def print_stdin() -> None:
         print(sys.stdin.read(), end="")
 
     code, output = run_function(print_stdin, stdin=stdin)
@@ -325,7 +325,7 @@ def test_pass_stdin_to_function(stdin):
     assert output == stdin
 
 
-def test_run_lazy_callable(capsys):
+def test_run_lazy_callable(capsys: pytest.CaptureFixture) -> None:
     """Assert we can run a lazy callable and stringify it.
 
     Arguments:
@@ -333,7 +333,7 @@ def test_run_lazy_callable(capsys):
     """
 
     @lazy
-    def greet(name):
+    def greet(name: str) -> int:
         print(f"hello {name}")
         return 1
 
@@ -344,7 +344,7 @@ def test_run_lazy_callable(capsys):
     assert "greet('tim')" in outerr.out
 
 
-def test_run_lazy_callable_without_calling_it(capsys):
+def test_run_lazy_callable_without_calling_it(capsys: pytest.CaptureFixture) -> None:
     """Assert we can run a lazy callable without actually calling it.
 
     Arguments:
@@ -352,7 +352,7 @@ def test_run_lazy_callable_without_calling_it(capsys):
     """
 
     @lazy
-    def greet(name):
+    def greet(name: str) -> int:
         print(f"hello {name}")
         return 1
 

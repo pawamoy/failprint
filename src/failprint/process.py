@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import contextlib
 import subprocess
+from typing import TYPE_CHECKING
 
 from failprint import WINDOWS
 from failprint.capture import Capture
 from failprint.formats import printable_command
-from failprint.types import CmdType
+
+if TYPE_CHECKING:
+    from failprint.types import CmdType
 
 if not WINDOWS:
     from ptyprocess import PtyProcessUnicode
@@ -16,6 +19,7 @@ if not WINDOWS:
 
 def run_subprocess(
     cmd: CmdType,
+    *,
     capture: Capture = Capture.BOTH,
     shell: bool = False,
     stdin: str | None = None,
@@ -63,6 +67,7 @@ def run_subprocess(
 
 def run_pty_subprocess(
     cmd: list[str],
+    *,
     capture: Capture = Capture.BOTH,
     stdin: str | None = None,
 ) -> tuple[int, str] | None:
@@ -80,7 +85,7 @@ def run_pty_subprocess(
     pty_output: list[str] = []
 
     if stdin is not None:
-        process.setecho(False)
+        process.setecho(state=False)
         process.waitnoecho()
         process.write(stdin)
         process.sendeof()
@@ -95,7 +100,7 @@ def run_pty_subprocess(
         except EOFError:
             break
         if capture == Capture.NONE:
-            print(output_data, end="", flush=True)
+            print(output_data, end="", flush=True)  # noqa: T201
         else:
             pty_output.append(output_data)
 
