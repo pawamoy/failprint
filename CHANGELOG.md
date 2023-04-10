@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [0.11.1](https://github.com/pawamoy/failprint/releases/tag/0.11.1) - 2023-04-10
+
+<small>[Compare with 0.11.0](https://github.com/pawamoy/failprint/compare/0.11.0...0.11.1)</small>
+
+### Build
+
+- Add missing typing-extensions dependency for Python less than 3.10 ([3d121fc](https://github.com/pawamoy/failprint/commit/3d121fcd056ecdc4d3c491bae678a04e6fd8b4a7) by Timothée Mazzucotelli).
+
 ## [0.11.0](https://github.com/pawamoy/failprint/releases/tag/0.11.0) - 2023-04-10
 
 <small>[Compare with 0.10.0](https://github.com/pawamoy/failprint/compare/0.10.0...0.11.0)</small>
