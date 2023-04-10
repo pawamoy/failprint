@@ -1,5 +1,4 @@
-"""
-failprint package.
+"""failprint package.
 
 Run a command, print its output only if it fails.
 """

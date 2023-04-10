@@ -1,5 +1,4 @@
-"""
-Entry-point module, in case you use `python -m failprint`.
+"""Entry-point module, in case you use `python -m failprint`.
 
 Why does this file exist, and why `__main__`? For more info, read:
 
