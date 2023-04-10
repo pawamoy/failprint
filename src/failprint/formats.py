@@ -8,9 +8,12 @@ from typing import TYPE_CHECKING, Callable, Sequence
 from failprint.lazy import LazyCallable
 
 if TYPE_CHECKING:
+    from types import FrameType
+
     from failprint.types import CmdFuncType
 
 DEFAULT_FORMAT = "pretty"
+DEFAULT_CALLABLE_NAME = "callable"
 
 
 class Format:
@@ -79,8 +82,6 @@ def printable_command(cmd: CmdFuncType, args: Sequence | None = None, kwargs: di
     """
     if isinstance(cmd, str):
         return cmd
-    if isinstance(cmd, LazyCallable):
-        return as_python_statement(cmd.call, cmd.args, cmd.kwargs)
     if callable(cmd):
         return as_python_statement(cmd, args, kwargs)
     return as_shell_command(cmd)
@@ -120,7 +121,7 @@ def as_shell_command(cmd: list[str]) -> str:
     return " ".join(parts)
 
 
-def as_python_statement(func: Callable, args: Sequence | None = None, kwargs: dict | None = None) -> str:
+def as_python_statement(func: Callable | LazyCallable, args: Sequence | None = None, kwargs: dict | None = None) -> str:
     """Transform a callable and its arguments into a Python statement string.
 
     Arguments:
@@ -131,17 +132,37 @@ def as_python_statement(func: Callable, args: Sequence | None = None, kwargs: di
     Returns:
         A Python statement.
     """
-    func_name = getattr(func, "__name__", None)
-    try:
-        # climb back up to the frame above the call to run(),
-        # to get the name passed from the external caller (user)
-        ctx_run_call = inspect.currentframe().f_back.f_back.f_back.f_back  # type: ignore[union-attr]
-        call_vars = ctx_run_call.f_locals.items()  # type: ignore[union-attr]
-        func_name = next(var_name for var_name, var_val in call_vars if var_val is func)
-    except (AttributeError, StopIteration):
-        func_name = getattr(func, "__name__", "callable")
-
+    if isinstance(func, LazyCallable):
+        callable_name = func.name or _get_callable_name(func.call)
+        args = args or func.args
+        kwargs = kwargs or func.kwargs
+    else:
+        callable_name = _get_callable_name(func)
     args_str = [repr(arg) for arg in args] if args else []
     kwargs_str = [f"{k}={v!r}" for k, v in kwargs.items()] if kwargs else []
     arguments = ", ".join(args_str + kwargs_str)
-    return f"{func_name}({arguments})"
+    return f"{callable_name}({arguments})"
+
+
+def _get_callable_name(callee: Callable) -> str:
+    callable_name = getattr(callee, "__name__", None)
+    if callable_name:
+        return callable_name
+
+    # Climb back up the frames to search the callable in the locals
+    callable_name = None
+    caller_frame: FrameType = inspect.currentframe()  # type: ignore[assignment]
+    while callable_name is None and caller_frame.f_back:
+        caller_frame = caller_frame.f_back
+        callable_name = _find_callable_name_in_frame_locals(caller_frame, callee)
+
+    return callable_name or DEFAULT_CALLABLE_NAME
+
+
+def _find_callable_name_in_frame_locals(caller_frame: FrameType, callee: Callable) -> str | None:
+    call_vars = caller_frame.f_locals.items()
+    try:
+        # ignore @py_assert variables from pytest
+        return next(var_name for var_name, var_val in call_vars if var_val is callee and not var_name.startswith("@"))
+    except StopIteration:
+        return None

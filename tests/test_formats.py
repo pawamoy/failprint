@@ -8,7 +8,7 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import text
 
-from failprint.formats import printable_command
+from failprint.formats import DEFAULT_CALLABLE_NAME, _get_callable_name, printable_command
 from failprint.runners import run
 
 
@@ -107,3 +107,31 @@ def test_tap_format(capsys: pytest.CaptureFixture) -> None:
     run(["false"], fmt="tap")
     outerr = capsys.readouterr()
     assert "not ok" in outerr.out
+
+
+def test_getting_callable_name_from_stack() -> None:
+    """Check that we're able to get a callable's name from the stack."""
+
+    def greet() -> None:
+        pass  # pragma: no cover
+
+    assert _get_callable_name(greet) == "greet"
+    greet.__name__ = "changed"
+    assert _get_callable_name(greet) == "changed"
+    greet.__name__ = ""
+    assert _get_callable_name(greet) == "greet"
+    hello = greet
+    del greet
+    assert _get_callable_name(hello) == "hello"
+
+
+def test_failing_to_get_callable_name_from_stack() -> None:
+    """Check case where we're unable to get a callable's name from the stack."""
+
+    class A:
+        def greet(self) -> None:
+            pass  # pragma: no cover
+
+    A.greet.__name__ = ""
+    a = A()
+    assert _get_callable_name(a.greet) == DEFAULT_CALLABLE_NAME

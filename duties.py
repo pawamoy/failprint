@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from duty import duty
-from duty.callables import black, blacken_docs, coverage, lazy, mkdocs, mypy, pytest, ruff, safety
+from duty.callables import black, blacken_docs, coverage, mkdocs, mypy, pytest, ruff, safety
 
 if TYPE_CHECKING:
     from duty.context import Context
@@ -39,7 +39,9 @@ def changelog(ctx: Context) -> None:
     """
     from git_changelog.cli import build_and_render
 
-    git_changelog = lazy("git_changelog")(build_and_render)
+    from failprint.lazy import lazy
+
+    git_changelog = lazy(build_and_render, name="git_changelog")
     ctx.run(
         git_changelog(
             repository=".",
@@ -48,7 +50,7 @@ def changelog(ctx: Context) -> None:
             template="keepachangelog",
             parse_trailers=True,
             parse_refs=False,
-            sections=("build", "deps", "feat", "fix", "refactor"),
+            sections=["build", "deps", "feat", "fix", "refactor"],
             bump_latest=True,
             in_place=True,
         ),
