@@ -78,7 +78,7 @@ def run(
     Returns:
         The command exit code, or 0 if `nofail` is True.
     """
-    format_name: str = fmt or os.environ.get("FAILPRINT_FORMAT", DEFAULT_FORMAT)  # type: ignore
+    format_name: str = fmt or os.environ.get("FAILPRINT_FORMAT", DEFAULT_FORMAT)  # type: ignore[assignment]
     format_name = accept_custom_format(format_name)
     format_obj = formats.get(format_name, formats[DEFAULT_FORMAT])
 
@@ -94,9 +94,9 @@ def run(
     capture = cast_capture(capture)
 
     if callable(cmd):
-        code, output = run_function(cmd, args, kwargs, capture, stdin)
+        code, output = run_function(cmd, args=args, kwargs=kwargs, capture=capture, stdin=stdin)
     else:
-        code, output = run_command(cmd, capture, format_obj.accept_ansi, pty, stdin)
+        code, output = run_command(cmd, capture=capture, ansi=format_obj.accept_ansi, pty=pty, stdin=stdin)
 
     if not silent:
         template = env.from_string(format_obj.template)
@@ -149,21 +149,22 @@ def run_command(
     # pty can only combine, so only use pty when combining
     if pty and capture in {Capture.BOTH, Capture.NONE}:
         if shell:
-            cmd = ["sh", "-c", cmd]  # type: ignore  # we know cmd is str
-        return run_pty_subprocess(cmd, capture, stdin)  # type: ignore  # we made sure cmd is a list
+            cmd = ["sh", "-c", cmd]  # type: ignore[list-item]  # we know cmd is str
+        return run_pty_subprocess(cmd, capture=capture, stdin=stdin)  # type: ignore[arg-type]  # we made sure cmd is a list
 
     # we are on Windows
     if WINDOWS:
         # make sure the process can find the executable
         if not shell:
-            cmd[0] = shutil.which(cmd[0]) or cmd[0]  # type: ignore  # we know cmd is a list
-        return run_subprocess(cmd, capture, shell=shell, stdin=stdin)
+            cmd[0] = shutil.which(cmd[0]) or cmd[0]  # type: ignore[index]  # we know cmd is a list
+        return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
 
-    return run_subprocess(cmd, capture, shell=shell, stdin=stdin)
+    return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
 
 
 def run_function(
     func: Callable,
+    *,
     args: Sequence | None = None,
     kwargs: dict | None = None,
     capture: Capture = Capture.BOTH,
@@ -185,7 +186,7 @@ def run_function(
     kwargs = kwargs or {}
 
     if capture == Capture.NONE:
-        return run_function_get_code(func, sys.stderr, args, kwargs), ""
+        return run_function_get_code(func, stderr=sys.stderr, args=args, kwargs=kwargs), ""
 
     with stdbuffer(stdin) as buffer:
         if capture == Capture.BOTH:
@@ -194,7 +195,7 @@ def run_function(
             buffer.stderr = buffer.stdout
             sys.stderr = buffer.stdout
 
-        code = run_function_get_code(func, buffer.stderr, args, kwargs)
+        code = run_function_get_code(func, stderr=buffer.stderr, args=args, kwargs=kwargs)
         output = buffer.stderr.getvalue() if capture == Capture.STDERR else buffer.stdout.getvalue()
 
     return code, output
@@ -202,6 +203,7 @@ def run_function(
 
 def run_function_get_code(
     func: Callable,
+    *,
     stderr: TextIO,
     args: Sequence,
     kwargs: dict,
@@ -232,7 +234,7 @@ def run_function_get_code(
 
     # if func was a lazy callable, recurse
     if isinstance(result, LazyCallable):
-        return run_function_get_code(result, stderr, (), {})
+        return run_function_get_code(result, stderr=stderr, args=(), kwargs={})
 
     # first check True and False
     # because int(True) == 1 and int(False) == 0

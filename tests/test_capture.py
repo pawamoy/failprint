@@ -1,5 +1,7 @@
 """Tests for the `capture` module."""
 
+from __future__ import annotations
+
 import pytest
 
 from failprint.capture import Capture, cast_capture

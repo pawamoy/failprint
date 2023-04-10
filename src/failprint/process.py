@@ -70,7 +70,7 @@ def run_pty_subprocess(
     *,
     capture: Capture = Capture.BOTH,
     stdin: str | None = None,
-) -> tuple[int, str] | None:
+) -> tuple[int, str]:
     """Run a command in a PTY subprocess.
 
     Arguments:
