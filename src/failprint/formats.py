@@ -15,8 +15,7 @@ class Format:
     """Class to define a display format."""
 
     def __init__(self, template: str, progress_template: str | None = None, accept_ansi: bool = True) -> None:
-        """
-        Initialize the object.
+        """Initialize the object.
 
         Arguments:
             template: The main template.
@@ -51,8 +50,7 @@ formats: dict[str, Format] = {
 
 
 def accept_custom_format(string: str) -> str:
-    """
-    Store the value in `formats` if it starts with custom.
+    """Store the value in `formats` if it starts with custom.
 
     Arguments:
         string: A format name.
@@ -67,8 +65,7 @@ def accept_custom_format(string: str) -> str:
 
 
 def printable_command(cmd: CmdFuncType, args: Sequence | None = None, kwargs: dict | None = None) -> str:
-    """
-    Transform a command or function into a string.
+    """Transform a command or function into a string.
 
     Arguments:
         cmd: The command or function to transform.
@@ -87,9 +84,8 @@ def printable_command(cmd: CmdFuncType, args: Sequence | None = None, kwargs: di
     return as_shell_command(cmd)
 
 
-def as_shell_command(cmd: list[str]) -> str:  # noqa: WPS231 (not that complex)
-    """
-    Rebuild a command line from system arguments.
+def as_shell_command(cmd: list[str]) -> str:
+    """Rebuild a command line from system arguments.
 
     Arguments:
         cmd: The command as a list of strings.
@@ -123,8 +119,7 @@ def as_shell_command(cmd: list[str]) -> str:  # noqa: WPS231 (not that complex)
 
 
 def as_python_statement(func: Callable, args: Sequence | None = None, kwargs: dict | None = None) -> str:
-    """
-    Transform a callable and its arguments into a Python statement string.
+    """Transform a callable and its arguments into a Python statement string.
 
     Arguments:
         func: The callable to transform.
@@ -135,7 +130,7 @@ def as_python_statement(func: Callable, args: Sequence | None = None, kwargs: di
         A Python statement.
     """
     func_name = getattr(func, "__name__", None)
-    try:  # noqa: WPS229
+    try:
         # climb back up to the frame above the call to run(),
         # to get the name passed from the external caller (user)
         ctx_run_call = inspect.currentframe().f_back.f_back.f_back.f_back  # type: ignore[union-attr]
@@ -145,6 +140,6 @@ def as_python_statement(func: Callable, args: Sequence | None = None, kwargs: di
         func_name = getattr(func, "__name__", "callable")
 
     args_str = [repr(arg) for arg in args] if args else []
-    kwargs_str = [f"{k}={v!r}" for k, v in kwargs.items()] if kwargs else []  # noqa: WPS111,WPS221
+    kwargs_str = [f"{k}={v!r}" for k, v in kwargs.items()] if kwargs else []
     arguments = ", ".join(args_str + kwargs_str)
     return f"{func_name}({arguments})"

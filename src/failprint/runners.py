@@ -16,9 +16,9 @@ from jinja2 import Environment
 from failprint import WINDOWS
 from failprint.capture import Capture, cast_capture, stdbuffer
 from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
+from failprint.lazy import LazyCallable
 from failprint.process import run_pty_subprocess, run_subprocess
 from failprint.types import CmdFuncType, CmdType
-from failprint.lazy import LazyCallable
 
 if WINDOWS:
     colorama.init()
@@ -28,8 +28,7 @@ class RunResult:
     """Placeholder for a run result."""
 
     def __init__(self, code: int, output: str) -> None:
-        """
-        Initialize the object.
+        """Initialize the object.
 
         Arguments:
             code: The exit code of the command.
@@ -39,7 +38,7 @@ class RunResult:
         self.output = output
 
 
-def run(  # noqa: WPS231 (high complexity)
+def run(
     cmd: CmdFuncType,
     args: Sequence | None = None,
     kwargs: dict | None = None,
@@ -55,8 +54,7 @@ def run(  # noqa: WPS231 (high complexity)
     stdin: str | None = None,
     command: str | None = None,
 ) -> RunResult:
-    """
-    Run a command in a subprocess or a Python function, and print its output if it fails.
+    """Run a command in a subprocess or a Python function, and print its output if it fails.
 
     Arguments:
         cmd: The command to run.
@@ -126,8 +124,7 @@ def run_command(
     pty: bool = False,
     stdin: str | None = None,
 ) -> tuple[int, str]:
-    """
-    Run a command.
+    """Run a command.
 
     Arguments:
         cmd: The command to run.
@@ -156,9 +153,9 @@ def run_command(
         # make sure the process can find the executable
         if not shell:
             cmd[0] = shutil.which(cmd[0]) or cmd[0]  # type: ignore  # we know cmd is a list
-        return run_subprocess(cmd, capture, shell=shell, stdin=stdin)  # noqa: S604 (shell=True)
+        return run_subprocess(cmd, capture, shell=shell, stdin=stdin)
 
-    return run_subprocess(cmd, capture, shell=shell, stdin=stdin)  # noqa: S604 (shell=True)
+    return run_subprocess(cmd, capture, shell=shell, stdin=stdin)
 
 
 def run_function(
@@ -168,8 +165,7 @@ def run_function(
     capture: Capture = Capture.BOTH,
     stdin: str | None = None,
 ) -> tuple[int, str]:
-    """
-    Run a function.
+    """Run a function.
 
     Arguments:
         func: The function to run.
@@ -195,23 +191,18 @@ def run_function(
             sys.stderr = buffer.stdout
 
         code = run_function_get_code(func, buffer.stderr, args, kwargs)
-
-        if capture == Capture.STDERR:
-            output = buffer.stderr.getvalue()
-        else:
-            output = buffer.stdout.getvalue()
+        output = buffer.stderr.getvalue() if capture == Capture.STDERR else buffer.stdout.getvalue()
 
     return code, output
 
 
-def run_function_get_code(  # noqa: WPS212,WPS231
+def run_function_get_code(
     func: Callable,
     stderr: TextIO,
     args: Sequence,
     kwargs: dict,
 ) -> int:
-    """
-    Run a function and return a exit code.
+    """Run a function and return a exit code.
 
     Arguments:
         func: The function to run.
@@ -231,7 +222,7 @@ def run_function_get_code(  # noqa: WPS212,WPS231
             return exit.code
         stderr.write(str(exit.code))
         return 1
-    except Exception:  # noqa: W0703 (catching Exception on purpose)
+    except Exception:
         stderr.write(traceback.format_exc() + "\n")
         return 1
 

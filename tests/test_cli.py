@@ -29,8 +29,7 @@ def test_run_command():
 
 
 def test_accept_custom_format(capsys):
-    """
-    Run a command with a custom output format.
+    """Run a command with a custom output format.
 
     Arguments:
         capsys: Pytest fixture to capture output.

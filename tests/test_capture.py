@@ -22,8 +22,7 @@ from failprint.capture import Capture, cast_capture
     ],
 )
 def test_cast_string(value, expected):
-    """
-    Cast various values in a Capture enumeration value.
+    """Cast various values in a Capture enumeration value.
 
     Arguments:
         value: The value to cast.

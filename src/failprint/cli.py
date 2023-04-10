@@ -32,8 +32,7 @@ class ArgParser(argparse.ArgumentParser):
         falsy_help: str = "",
         **kwargs: Any,
     ) -> None:
-        """
-        Add a boolean flag/argument to the parser.
+        """Add a boolean flag/argument to the parser.
 
         Arguments:
             truthy: Values that will store true in the destination.
@@ -51,8 +50,7 @@ class ArgParser(argparse.ArgumentParser):
 
 
 def add_flags(parser: ArgParser, set_defaults: bool = True) -> ArgParser:
-    """
-    Add some boolean flags to the parser.
+    """Add some boolean flags to the parser.
 
     We made this method separate and public
     for its use in [duty](https://github.com/pawamoy/duty).
@@ -163,5 +161,5 @@ def main(args: list[str] | None = None) -> int:
         An exit code.
     """
     parser = get_parser()
-    opts = parser.parse_args(args).__dict__.items()  # noqa: WPS609
+    opts = parser.parse_args(args).__dict__.items()
     return run(**{_: value for _, value in opts if value is not None}).code

@@ -22,14 +22,13 @@ from failprint.runners import run
         # double quotes
         (["a", "command", "with", '"'], "a command with '\"'"),
         # both quotes
-        (["a", "command", "with", "\"'"], 'a command with "\\"\'"'),  # noqa: WPS342 (raw string)
+        (["a", "command", "with", "\"'"], 'a command with "\\"\'"'),
         # both quotes and spaces
-        (["a", "command", "with", "\" '"], 'a command with "\\" \'"'),  # noqa: WPS342 (raw string)
+        (["a", "command", "with", "\" '"], 'a command with "\\" \'"'),
     ],
 )
 def test_printable_command_with_list(cmd, expected) -> None:
-    """
-    Correctly transform a list of arguments into a runnable shell command.
+    """Correctly transform a list of arguments into a runnable shell command.
 
     Arguments:
         cmd: The command as a list of arguments.
@@ -40,8 +39,7 @@ def test_printable_command_with_list(cmd, expected) -> None:
 
 @given(text())
 def test_printable_command_with_string(cmd):
-    """
-    Correctly transform a string into a runnable shell command.
+    """Correctly transform a string into a runnable shell command.
 
     Arguments:
         cmd: The command as a string.
@@ -49,7 +47,7 @@ def test_printable_command_with_string(cmd):
     assert printable_command(cmd) == cmd
 
 
-class Repr:  # noqa: D101,C0115 (missing docstring)
+class Repr:  # noqa: D101 (missing docstring)
     def __init__(self, value):  # noqa: D107 (missing docstring)
         self.value = value
 
@@ -60,13 +58,13 @@ class Repr:  # noqa: D101,C0115 (missing docstring)
 @pytest.mark.parametrize(
     ("cmd", "args", "kwargs", "expected"),
     [
-        (lambda: 0, None, None, "<lambda>()"),  # noqa: WPS522 (implicit primitive/lambda)
+        (lambda: 0, None, None, "<lambda>()"),
         (lambda _: _, None, None, "<lambda>()"),
-        (lambda: 0, [6], None, "<lambda>(6)"),  # noqa: WPS522
+        (lambda: 0, [6], None, "<lambda>(6)"),
         (lambda _: _, [6], None, "<lambda>(6)"),
-        (lambda: 0, None, {"kwarg": "hello"}, "<lambda>(kwarg='hello')"),  # noqa: WPS522
+        (lambda: 0, None, {"kwarg": "hello"}, "<lambda>(kwarg='hello')"),
         (lambda _: _, None, {"kwarg": 6}, "<lambda>(kwarg=6)"),
-        (lambda: 0, [6, 7], {"kwarg": 3.2}, "<lambda>(6, 7, kwarg=3.2)"),  # noqa: WPS522
+        (lambda: 0, [6, 7], {"kwarg": 3.2}, "<lambda>(6, 7, kwarg=3.2)"),
         (lambda _: _, [True, None, 5.5], {"kwarg": True}, "<lambda>(True, None, 5.5, kwarg=True)"),
         (
             printable_command,
@@ -77,8 +75,7 @@ class Repr:  # noqa: D101,C0115 (missing docstring)
     ],
 )
 def test_printable_command_with_callable(cmd, args, kwargs, expected):
-    """
-    Correctly transform a callable into a runnable shell command.
+    """Correctly transform a callable into a runnable shell command.
 
     Arguments:
         cmd: The command as a string.
@@ -90,8 +87,7 @@ def test_printable_command_with_callable(cmd, args, kwargs, expected):
 
 
 def test_tap_format(capsys):
-    """
-    Check the tap output format.
+    """Check the tap output format.
 
     Arguments:
         capsys: Pytest fixture to capture output.

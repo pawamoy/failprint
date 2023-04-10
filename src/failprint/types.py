@@ -1,5 +1,4 @@
-"""
-Special types.
+"""Special types.
 
 Attributes:
     CmdType: Type for a command.
@@ -12,5 +11,5 @@ from typing import Callable, List, Union
 
 from failprint.lazy import LazyCallable
 
-CmdType = Union[str, List[str]]  # noqa: E1136 (bug on Python 3.9)
-CmdFuncType = Union[CmdType, Callable, LazyCallable]  # noqa: E1136 (bug on Python 3.9)
+CmdType = Union[str, List[str]]
+CmdFuncType = Union[CmdType, Callable, LazyCallable]

@@ -10,4 +10,4 @@ import sys
 
 WINDOWS = sys.platform.startswith("win") or os.name == "nt"
 
-__all__: list[str] = []  # noqa: WPS410 (the only __variable__ we use)
+__all__: list[str] = []

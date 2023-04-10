@@ -13,8 +13,7 @@ from failprint.runners import run, run_function
 
 
 def test_run_silent_command_silently(capsys):
-    """
-    Run a silent command, silently.
+    """Run a silent command, silently.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -22,12 +21,11 @@ def test_run_silent_command_silently(capsys):
     run(["true"], silent=True)
     outerr = capsys.readouterr()
     assert not outerr.out
-    assert not outerr.err  # noqa: WPS204 (overuse)
+    assert not outerr.err
 
 
 def test_run_verbose_command_silently(capsys):
-    """
-    Run a verbose command, silently.
+    """Run a verbose command, silently.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -39,8 +37,7 @@ def test_run_verbose_command_silently(capsys):
 
 
 def test_run_silent_command_verbosely(capsys):
-    """
-    Run a silent command, verbosely.
+    """Run a silent command, verbosely.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -52,8 +49,7 @@ def test_run_silent_command_verbosely(capsys):
 
 
 def test_run_failing_silent_command_verbosely(capsys):
-    """
-    Run a failing silent command, verbosely.
+    """Run a failing silent command, verbosely.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -65,8 +61,7 @@ def test_run_failing_silent_command_verbosely(capsys):
 
 
 def test_run_verbose_command_verbosely(capsys):
-    """
-    Run a verbose command, verbosely.
+    """Run a verbose command, verbosely.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -89,13 +84,12 @@ def return_failure_code():
 
 def return_shell_custom_code():
     """Check the return code of a shell exit."""
-    assert run("exit 15").code == 15  # noqa: WPS432 (magic number)
+    assert run("exit 15").code == 15
 
 
 @pytest.mark.skipif(WINDOWS, reason="runs on Linux only")
 def run_linux_shell_command(capsys):
-    """
-    Run a Linux shell command.
+    """Run a Linux shell command.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -116,8 +110,7 @@ def test_run_linux_program():
 
 @given(integers())
 def test_callable_exit_codes(code):
-    """
-    Check the return codes of Python callables.
+    """Check the return codes of Python callables.
 
     Arguments:
         code: Hypothesis fixture to provide various integers.
@@ -138,7 +131,7 @@ def test_succeed_with_truthy_object():
 def test_fails_with_falsy_object():
     """Check the return code when a callable returns a falsy object."""
 
-    class Meh:  # noqa: C0115,WPS431 (missing docstring, nested class)
+    class Meh:
         def __bool__(self):
             return False
 
@@ -148,25 +141,23 @@ def test_fails_with_falsy_object():
 def test_run_callable_return_boolean():
     """Check the return code when a callable returns a boolean."""
     assert run(lambda: True).code == 0
-    assert run(lambda: False).code == 1  # noqa: WPS522 (implicit primitive/lambda)
+    assert run(lambda: False).code == 1
 
 
 def test_callable_capture_none(capsys):
-    """
-    Check that nothing is captured while running a callable.
+    """Check that nothing is captured while running a callable.
 
     Arguments:
         capsys: Pytest fixture to capture output.
     """
     msg = "out"
-    assert run(lambda: print(msg), capture=False, silent=True).code == 0  # noqa: WPS421 (print)
+    assert run(lambda: print(msg), capture=False, silent=True).code == 0
     outerr = capsys.readouterr()
     assert msg in outerr.out
 
 
 def test_callable_capture_both(capsys):
-    """
-    Check that all is captured while running a callable.
+    """Check that all is captured while running a callable.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -185,8 +176,7 @@ def test_callable_capture_both(capsys):
 
 
 def test_callable_capture_stdout(capsys):
-    """
-    Check that stdout is captured while running a callable.
+    """Check that stdout is captured while running a callable.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -205,8 +195,7 @@ def test_callable_capture_stdout(capsys):
 
 
 def test_callable_capture_stderr(capsys):
-    """
-    Check that stderr is captured while running a callable.
+    """Check that stderr is captured while running a callable.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -225,8 +214,7 @@ def test_callable_capture_stderr(capsys):
 
 
 def test_process_capture_none(capfd):
-    """
-    Check that nothing is captured while running a process.
+    """Check that nothing is captured while running a process.
 
     Arguments:
         capfd: Pytest fixture to capture output.
@@ -237,8 +225,7 @@ def test_process_capture_none(capfd):
 
 
 def test_process_capture_both(capsys):
-    """
-    Check that all is captured while running a process.
+    """Check that all is captured while running a process.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -257,8 +244,7 @@ def test_process_capture_both(capsys):
 
 
 def test_process_capture_stdout(capsys):
-    """
-    Check that stdout is captured while running a process.
+    """Check that stdout is captured while running a process.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -277,8 +263,7 @@ def test_process_capture_stdout(capsys):
 
 
 def test_process_capture_stderr(capsys):
-    """
-    Check that stderr is captured while running a process.
+    """Check that stderr is captured while running a process.
 
     Arguments:
         capsys: Pytest fixture to capture output.
@@ -314,27 +299,25 @@ def test_run_pty_shell():
 
 
 def test_run_callable_raising_exception(capsys):
-    """
-    Test running a callable raising an exception.
+    """Test running a callable raising an exception.
 
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    assert run(lambda: 1 / 0).code == 1  # noqa: WPS344 (zero division)
+    assert run(lambda: 1 / 0).code == 1
     outerr = capsys.readouterr()
     assert "ZeroDivisionError:" in outerr.out
 
 
 @given(text(alphabet=characters(blacklist_categories="C")))
 def test_pass_stdin_to_function(stdin):
-    """
-    Pass input to a normal subprocess.
+    """Pass input to a normal subprocess.
 
     Arguments:
         stdin: Text sample generated by Hypothesis.
     """
 
-    def print_stdin():  # noqa: WPS430
+    def print_stdin():
         print(sys.stdin.read(), end="")
 
     code, output = run_function(print_stdin, stdin=stdin)
@@ -349,8 +332,8 @@ def test_run_lazy_callable(capsys):
         capsys: Pytest fixture to capture output.
     """
 
-    @lazy  # noqa: WPS430
-    def greet(name):  # noqa: WPS430
+    @lazy
+    def greet(name):
         print(f"hello {name}")
         return 1
 
@@ -368,8 +351,8 @@ def test_run_lazy_callable_without_calling_it(capsys):
         capsys: Pytest fixture to capture output.
     """
 
-    @lazy  # noqa: WPS430
-    def greet(name):  # noqa: WPS430
+    @lazy
+    def greet(name):
         print(f"hello {name}")
         return 1
 

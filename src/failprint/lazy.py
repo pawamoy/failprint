@@ -36,8 +36,10 @@ def lazy(call: Callable) -> Callable:
     ```python
     from failprint.runners import run
 
+
     def greet(name):
         return f"hello {name}"
+
 
     run(greet, args=["tim"])
     ```
@@ -48,9 +50,11 @@ def lazy(call: Callable) -> Callable:
     from failprint.runners import run
     from failprint.lazy import lazy
 
+
     @lazy
     def greet(name):
         return f"hello {name}"
+
 
     run(greet("tim"))
     ```
@@ -62,8 +66,8 @@ def lazy(call: Callable) -> Callable:
         A lazy callable instance.
     """
 
-    @wraps(call)  # noqa: WPS430
-    def lazy_caller(*args, **kwargs):  # noqa: WPS430
+    @wraps(call)
+    def lazy_caller(*args, **kwargs):
         return LazyCallable(call, args, kwargs)
 
     return lazy_caller

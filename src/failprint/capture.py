@@ -12,18 +12,17 @@ from typing import Iterator, TextIO
 class Capture(enum.Enum):
     """An enum to store the different possible output types."""
 
-    STDOUT: str = "stdout"  # noqa: WPS115
-    STDERR: str = "stderr"  # noqa: WPS115
-    BOTH: str = "both"  # noqa: WPS115
-    NONE: str = "none"  # noqa: WPS115
+    STDOUT: str = "stdout"
+    STDERR: str = "stderr"
+    BOTH: str = "both"
+    NONE: str = "none"
 
     def __str__(self):
-        return self.value.lower()  # noqa: E1101 (false-positive)
+        return self.value.lower()
 
 
 def cast_capture(value: str | bool | Capture | None) -> Capture:
-    """
-    Cast a value to an actual Capture enumeration value.
+    """Cast a value to an actual Capture enumeration value.
 
     Arguments:
         value: The value to cast.
@@ -45,7 +44,7 @@ def cast_capture(value: str | bool | Capture | None) -> Capture:
 
 
 class _TextBuffer(StringIO):
-    class _BytesBuffer:  # noqa: WPS431
+    class _BytesBuffer:
         def __init__(self, text_buffer: _TextBuffer) -> None:
             self._text_buffer = text_buffer
 
@@ -69,8 +68,7 @@ class StdBuffer:
         stdout: _TextBuffer | None = None,
         stderr: _TextBuffer | None = None,
     ):
-        """
-        Initialize the object.
+        """Initialize the object.
 
         Arguments:
             stdinput: String to use as standard input.
@@ -84,8 +82,7 @@ class StdBuffer:
 
 @contextmanager
 def stdbuffer(stdinput: str | None = None) -> Iterator[StdBuffer]:
-    """
-    Capture output in a `with` statement.
+    """Capture output in a `with` statement.
 
     Arguments:
         stdinput: String to use as standard input.

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import contextlib
-import subprocess  # noqa: S404 (we don't mind the security implication)
+import subprocess
 
 from failprint import WINDOWS
 from failprint.capture import Capture
@@ -20,8 +20,7 @@ def run_subprocess(
     shell: bool = False,
     stdin: str | None = None,
 ) -> tuple[int, str]:
-    """
-    Run a command in a subprocess.
+    """Run a command in a subprocess.
 
     Arguments:
         cmd: The command to run.
@@ -37,22 +36,18 @@ def run_subprocess(
         stderr_opt = None
     else:
         stdout_opt = subprocess.PIPE
-
-        if capture == Capture.BOTH:
-            stderr_opt = subprocess.STDOUT
-        else:
-            stderr_opt = subprocess.PIPE
+        stderr_opt = subprocess.STDOUT if capture == Capture.BOTH else subprocess.PIPE
 
     if shell and not isinstance(cmd, str):
         cmd = printable_command(cmd)
 
-    process = subprocess.run(  # noqa: S603,W1510 (we trust the input, and don't want to "check")
+    process = subprocess.run(
         cmd,
         input=stdin,
         stdout=stdout_opt,
         stderr=stderr_opt,
-        shell=shell,  # noqa: S602 (shell=True)
-        universal_newlines=True,
+        shell=shell,
+        text=True,
         encoding="utf8",
     )
 
@@ -71,8 +66,7 @@ def run_pty_subprocess(
     capture: Capture = Capture.BOTH,
     stdin: str | None = None,
 ) -> tuple[int, str] | None:
-    """
-    Run a command in a PTY subprocess.
+    """Run a command in a PTY subprocess.
 
     Arguments:
         cmd: The command to run.
@@ -101,7 +95,7 @@ def run_pty_subprocess(
         except EOFError:
             break
         if capture == Capture.NONE:
-            print(output_data, end="", flush=True)  # noqa: WPS421 (print)
+            print(output_data, end="", flush=True)
         else:
             pty_output.append(output_data)
 
