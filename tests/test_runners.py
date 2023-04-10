@@ -72,32 +72,31 @@ def test_run_verbose_command_verbosely(capsys: pytest.CaptureFixture) -> None:
     assert not outerr.err
 
 
-def return_success_code() -> None:
+def test_return_success_code() -> None:
     """Check the return code of a successful command."""
     assert run(["true"]).code == 0
 
 
-def return_failure_code() -> None:
+def test_return_failure_code() -> None:
     """Check the return code of a failing command."""
     assert run(["false"]).code == 1
 
 
-def return_shell_custom_code() -> None:
+def test_return_shell_custom_code() -> None:
     """Check the return code of a shell exit."""
     assert run("exit 15").code == 15
 
 
 @pytest.mark.skipif(WINDOWS, reason="runs on Linux only")
-def run_linux_shell_command(capsys: pytest.CaptureFixture) -> None:
+def test_run_linux_shell_command() -> None:
     """Run a Linux shell command.
 
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    assert run("echo herbert | grep -o er", capture=False, silent=True).code == 0
-    outerr = capsys.readouterr()
-    assert outerr.out.split("\n") == ["er", "er"]
-    assert not outerr.err
+    result = run("echo herbert | grep -o er", capture=True, silent=True)
+    assert result.code == 0
+    assert result.output.split("\n").count("er") == 2
 
 
 @pytest.mark.skipif(WINDOWS, reason="runs on Linux only")
@@ -116,6 +115,14 @@ def test_callable_exit_codes(code: int) -> None:
         code: Hypothesis fixture to provide various integers.
     """
     assert run(lambda: code).code == code
+
+
+def test_handling_system_exit() -> None:
+    """Check that we handle system exit."""
+    assert run(lambda: sys.exit()).code == 0
+    assert run(lambda: sys.exit(0)).code == 0
+    assert run(lambda: sys.exit(1)).code == 1
+    assert run(lambda: sys.exit("bye")).code == 1
 
 
 def test_succeed_with_none_result() -> None:

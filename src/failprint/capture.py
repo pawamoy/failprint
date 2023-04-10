@@ -49,7 +49,7 @@ class _TextBuffer(StringIO):
             self._text_buffer = text_buffer
 
         def flush(self) -> None:
-            ...
+            ...  # pragma: no cover
 
         def write(self, value: bytes) -> int:
             return self._text_buffer.write(value.decode())
