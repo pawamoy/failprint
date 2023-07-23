@@ -1,5 +1,7 @@
 """Tests for the `cli` module."""
 
+from __future__ import annotations
+
 import pytest
 
 from failprint import cli
