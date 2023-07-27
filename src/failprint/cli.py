@@ -45,8 +45,8 @@ class ArgParser(argparse.ArgumentParser):
         falsy_kwargs = {**kwargs, "help": falsy_help, "action": "store_false"}
 
         mxg = self.add_mutually_exclusive_group()
-        mxg.add_argument(*truthy, **truthy_kwargs)  # type: ignore[arg-type]  # mypy is confused by arguments position
-        mxg.add_argument(*falsy, **falsy_kwargs)  # type: ignore[arg-type]
+        mxg.add_argument(*truthy, **truthy_kwargs)
+        mxg.add_argument(*falsy, **falsy_kwargs)
 
 
 def add_flags(parser: ArgParser, *, set_defaults: bool = True) -> ArgParser:

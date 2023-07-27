@@ -13,14 +13,14 @@ from failprint.process import run_pty_subprocess, run_subprocess
 
 def test_run_list_of_args_as_shell() -> None:
     """Test that a list of arguments is stringified."""
-    code, output = run_subprocess(["python", "-V"], shell=True)
+    code, output = run_subprocess(["python", "-V"], shell=True)  # noqa: S604
     assert code == 0
     assert "Python" in output
 
 
 def test_run_unknown_shell_command() -> None:
     """Run an unknown command in a shell."""
-    code, output = run_subprocess("mlemlemlemlemle", shell=True)
+    code, output = run_subprocess("mlemlemlemlemle", shell=True)  # noqa: S604
     assert code > 0
     assert output
 

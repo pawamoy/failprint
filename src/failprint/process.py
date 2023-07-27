@@ -50,7 +50,7 @@ def run_subprocess(
         input=stdin,
         stdout=stdout_opt,
         stderr=stderr_opt,
-        shell=shell,
+        shell=shell,  # noqa: S603
         text=True,
         encoding="utf8",
     )

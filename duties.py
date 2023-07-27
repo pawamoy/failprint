@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from duty import duty
-from duty.callables import black, blacken_docs, coverage, mkdocs, mypy, pytest, ruff, safety, lazy
+from duty.callables import black, blacken_docs, coverage, lazy, mkdocs, mypy, pytest, ruff, safety
 
 if sys.version_info < (3, 8):
     from importlib_metadata import version as pkgversion
@@ -292,7 +292,7 @@ def test(ctx: Context, match: str = "") -> None:
     py_version = f"{sys.version_info.major}{sys.version_info.minor}"
     os.environ["COVERAGE_FILE"] = f".coverage.{py_version}"
     ctx.run(
-        pytest.run("-n", "auto", "tests", config_file="config/pytest.ini", select=match, color="yes"),
+        pytest.run("-n", "auto", "tests", config_file="config/pytest.ini", select=match, color="yes", verbosity=2),
         title=pyprefix("Running tests"),
         command=f"pytest -c config/pytest.ini -n auto -k{match!r} --color=yes tests",
     )
