@@ -7,14 +7,14 @@ import shutil
 import sys
 import textwrap
 import traceback
-from typing import TYPE_CHECKING, Callable, Sequence, TextIO
+from typing import TYPE_CHECKING, Callable, Sequence
 
 import colorama
 from ansimarkup import ansiprint
 from jinja2 import Environment
 
 from failprint import WINDOWS
-from failprint.capture import Capture, cast_capture, stdbuffer
+from failprint.capture import Capture
 from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
 from failprint.lazy import LazyCallable
 from failprint.process import run_pty_subprocess, run_subprocess
@@ -91,7 +91,7 @@ def run(
         progress_template = env.from_string(format_obj.progress_template)
         ansiprint(progress_template.render({"title": title, "command": command}), end="\r")
 
-    capture = cast_capture(capture)
+    capture = Capture.cast(capture)
 
     if callable(cmd):
         code, output = run_function(cmd, args=args, kwargs=kwargs, capture=capture, stdin=stdin)
@@ -186,25 +186,17 @@ def run_function(
     kwargs = kwargs or {}
 
     if capture == Capture.NONE:
-        return run_function_get_code(func, stderr=sys.stderr, args=args, kwargs=kwargs), ""
+        return run_function_get_code(func, args=args, kwargs=kwargs), ""
 
-    with stdbuffer(stdin) as buffer:
-        if capture == Capture.BOTH:
-            # combining stdout and stderr
-            # -> redirect stderr to stdout
-            buffer.stderr = buffer.stdout
-            sys.stderr = buffer.stdout
+    with capture.here(stdin=stdin) as captured:
+        code = run_function_get_code(func, args=args, kwargs=kwargs)
 
-        code = run_function_get_code(func, stderr=buffer.stderr, args=args, kwargs=kwargs)
-        output = buffer.stderr.getvalue() if capture == Capture.STDERR else buffer.stdout.getvalue()
-
-    return code, output
+    return code, str(captured)
 
 
 def run_function_get_code(
     func: Callable,
     *,
-    stderr: TextIO,
     args: Sequence,
     kwargs: dict,
 ) -> int:
@@ -212,7 +204,6 @@ def run_function_get_code(
 
     Arguments:
         func: The function to run.
-        stderr: A file descriptor to write potential tracebacks.
         args: Positional arguments passed to the function.
         kwargs: Keyword arguments passed to the function.
 
@@ -226,15 +217,15 @@ def run_function_get_code(
             return 0
         if isinstance(exit.code, int):
             return exit.code
-        stderr.write(str(exit.code))
+        sys.stderr.write(str(exit.code))
         return 1
     except Exception:  # noqa: BLE001
-        stderr.write(traceback.format_exc() + "\n")
+        sys.stderr.write(traceback.format_exc() + "\n")
         return 1
 
     # if func was a lazy callable, recurse
     if isinstance(result, LazyCallable):
-        return run_function_get_code(result, stderr=stderr, args=(), kwargs={})
+        return run_function_get_code(result, args=(), kwargs={})
 
     # first check True and False
     # because int(True) == 1 and int(False) == 0

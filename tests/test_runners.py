@@ -1,5 +1,7 @@
 """Tests for the `runners` module."""
 
+import os
+import subprocess
 import sys
 from unittest.mock import MagicMock, patch
 
@@ -8,6 +10,7 @@ from hypothesis import given
 from hypothesis.strategies import characters, integers, text
 
 from failprint import WINDOWS
+from failprint.capture import Capture
 from failprint.lazy import lazy
 from failprint.runners import run, run_function
 
@@ -163,61 +166,43 @@ def test_callable_capture_none(capsys: pytest.CaptureFixture) -> None:
     assert msg in outerr.out
 
 
-def test_callable_capture_both(capsys: pytest.CaptureFixture) -> None:
-    """Check that all is captured while running a callable.
-
-    Arguments:
-        capsys: Pytest fixture to capture output.
-    """
+def test_callable_capture_both() -> None:
+    """Check that all is captured while running a callable."""
     msg_stdout = "out\n"
     msg_stderr = "err\n"
-    run(
+    result = run(
         lambda: sys.stdout.write(msg_stdout) and sys.stderr.write(msg_stderr),
         capture=True,
         fmt="custom={{output}}",
     )
-    outerr = capsys.readouterr()
-    assert msg_stdout in outerr.out
-    assert msg_stderr in outerr.out
-    assert not outerr.err
+    assert msg_stdout in result.output
+    assert msg_stderr in result.output
 
 
-def test_callable_capture_stdout(capsys: pytest.CaptureFixture) -> None:
-    """Check that stdout is captured while running a callable.
-
-    Arguments:
-        capsys: Pytest fixture to capture output.
-    """
+def test_callable_capture_stdout() -> None:
+    """Check that stdout is captured while running a callable."""
     msg_stdout = "out"
     msg_stderr = "err"
-    run(
+    result = run(
         lambda: sys.stdout.write(msg_stdout) and sys.stderr.write(msg_stderr),
         capture="stdout",
         fmt="custom={{output}}",
     )
-    outerr = capsys.readouterr()
-    assert msg_stdout in outerr.out
-    assert msg_stderr not in outerr.out
-    assert not outerr.err
+    assert msg_stdout in result.output
+    assert msg_stderr not in result.output
 
 
-def test_callable_capture_stderr(capsys: pytest.CaptureFixture) -> None:
-    """Check that stderr is captured while running a callable.
-
-    Arguments:
-        capsys: Pytest fixture to capture output.
-    """
+def test_callable_capture_stderr() -> None:
+    """Check that stderr is captured while running a callable."""
     msg_stdout = "out"
     msg_stderr = "err"
-    run(
+    result = run(
         lambda: sys.stdout.write(msg_stdout) and sys.stderr.write(msg_stderr),
         capture="stderr",
         fmt="custom={{output}}",
     )
-    outerr = capsys.readouterr()
-    assert msg_stdout not in outerr.out
-    assert msg_stderr in outerr.out
-    assert not outerr.err
+    assert msg_stdout not in result.output
+    assert msg_stderr in result.output
 
 
 def test_process_capture_none(capfd: pytest.CaptureFixture) -> None:
@@ -231,61 +216,43 @@ def test_process_capture_none(capfd: pytest.CaptureFixture) -> None:
     assert "Python" in outerr.out
 
 
-def test_process_capture_both(capsys: pytest.CaptureFixture) -> None:
-    """Check that all is captured while running a process.
-
-    Arguments:
-        capsys: Pytest fixture to capture output.
-    """
+def test_process_capture_both() -> None:
+    """Check that all is captured while running a process."""
     msg_stdout = "out"
     msg_stderr = "err"
-    run(
+    result = run(
         ["bash", "-c", f"echo {msg_stdout}; echo {msg_stderr} >&2"],
         capture=True,
         fmt="custom={{output}}",
     )
-    outerr = capsys.readouterr()
-    assert msg_stdout in outerr.out
-    assert msg_stderr in outerr.out
-    assert not outerr.err
+    assert msg_stdout in result.output
+    assert msg_stderr in result.output
 
 
-def test_process_capture_stdout(capsys: pytest.CaptureFixture) -> None:
-    """Check that stdout is captured while running a process.
-
-    Arguments:
-        capsys: Pytest fixture to capture output.
-    """
+def test_process_capture_stdout() -> None:
+    """Check that stdout is captured while running a process."""
     msg_stdout = "out"
     msg_stderr = "err"
-    run(
+    result = run(
         ["bash", "-c", f"echo {msg_stdout}; echo {msg_stderr} >&2"],
         capture="stdout",
         fmt="custom={{output}}",
     )
-    outerr = capsys.readouterr()
-    assert msg_stdout in outerr.out
-    assert msg_stderr not in outerr.out
-    assert not outerr.err
+    assert msg_stdout in result.output
+    assert msg_stderr not in result.output
 
 
-def test_process_capture_stderr(capsys: pytest.CaptureFixture) -> None:
-    """Check that stderr is captured while running a process.
-
-    Arguments:
-        capsys: Pytest fixture to capture output.
-    """
+def test_process_capture_stderr() -> None:
+    """Check that stderr is captured while running a process."""
     msg_stdout = "out"
     msg_stderr = "err"
-    run(
+    result = run(
         ["bash", "-c", f"echo {msg_stdout}; echo {msg_stderr} >&2"],
         capture="stderr",
         fmt="custom={{output}}",
     )
-    outerr = capsys.readouterr()
-    assert msg_stdout not in outerr.out
-    assert msg_stderr in outerr.out
-    assert not outerr.err
+    assert msg_stdout not in result.output
+    assert msg_stderr in result.output
 
 
 def test_cancel_pty() -> None:
@@ -305,14 +272,14 @@ def test_run_pty_shell() -> None:
         assert run_pty_sub.called
 
 
-def test_run_callable_raising_exception(capsys: pytest.CaptureFixture) -> None:
+def test_run_callable_raising_exception(capfd: pytest.CaptureFixture) -> None:
     """Test running a callable raising an exception.
 
     Arguments:
-        capsys: Pytest fixture to capture output.
+        capfd: Pytest fixture to capture output.
     """
     assert run(lambda: 1 / 0).code == 1
-    outerr = capsys.readouterr()
+    outerr = capfd.readouterr()
     assert "ZeroDivisionError:" in outerr.out
 
 
@@ -332,11 +299,11 @@ def test_pass_stdin_to_function(stdin: str) -> None:
     assert output == stdin
 
 
-def test_run_lazy_callable(capsys: pytest.CaptureFixture) -> None:
+def test_run_lazy_callable(capfd: pytest.CaptureFixture) -> None:
     """Assert we can run a lazy callable and stringify it.
 
     Arguments:
-        capsys: Pytest fixture to capture output.
+        capfd: Pytest fixture to capture output.
     """
 
     @lazy
@@ -345,17 +312,17 @@ def test_run_lazy_callable(capsys: pytest.CaptureFixture) -> None:
         return 1
 
     result = run(greet("tim"))
-    outerr = capsys.readouterr()
+    outerr = capfd.readouterr()
     assert result.code == 1
     assert result.output == "hello tim\n"
     assert "greet('tim')" in outerr.out
 
 
-def test_run_lazy_callable_without_calling_it(capsys: pytest.CaptureFixture) -> None:
+def test_run_lazy_callable_without_calling_it(capfd: pytest.CaptureFixture) -> None:
     """Assert we can run a lazy callable without actually calling it.
 
     Arguments:
-        capsys: Pytest fixture to capture output.
+        capfd: Pytest fixture to capture output.
     """
 
     @lazy
@@ -364,7 +331,27 @@ def test_run_lazy_callable_without_calling_it(capsys: pytest.CaptureFixture) -> 
         return 1
 
     result = run(greet, args=["tim"])
-    outerr = capsys.readouterr()
+    outerr = capfd.readouterr()
     assert result.code == 1
     assert result.output == "hello tim\n"
     assert "greet('tim')" in outerr.out
+
+
+def test_capture_function_and_subprocess_output(capsys: pytest.CaptureFixture) -> None:
+    """Assert we capture everything when running a function.
+
+    Arguments:
+        capsys: Pytest fixture to capture output.
+    """
+
+    def function() -> None:
+        print("print")
+        sys.stdout.write("sys stdout write\n")
+        os.system("echo os system")  # noqa: S605,S607
+        subprocess.run(["sh", "-c", "echo sh -c echo"])  # noqa: S603,S607
+
+    with capsys.disabled(), Capture.BOTH.here() as captured:
+        function()
+
+    lines = str(captured).rstrip("\n").split("\n")
+    assert lines == ["print", "sys stdout write", "os system", "sh -c echo"]

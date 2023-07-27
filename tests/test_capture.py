@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from failprint.capture import Capture, cast_capture
+from failprint.capture import Capture
 
 
 @pytest.mark.parametrize(
@@ -30,4 +30,4 @@ def test_cast_string(value: str | bool | Capture, expected: Capture) -> None:
         value: The value to cast.
         expected: The value to expect.
     """
-    assert cast_capture(value) == expected
+    assert Capture.cast(value) == expected
