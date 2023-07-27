@@ -82,6 +82,8 @@ def run_pty_subprocess(
         The exit code and the command output.
     """
     process = PtyProcessUnicode.spawn(cmd)
+    process.delayafterclose = 0.01  # default to 0.1
+    process.delayafterterminate = 0.01  # default to 0.1
     pty_output: list[str] = []
 
     if stdin is not None:
