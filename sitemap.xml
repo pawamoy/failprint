@@ -30,4 +30,49 @@
          <lastmod>2023-07-28</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/reference/failprint/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/reference/failprint/capture/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/reference/failprint/cli/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/reference/failprint/formats/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/reference/failprint/lazy/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/reference/failprint/process/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/reference/failprint/runners/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/reference/failprint/types/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://pawamoy.github.io/failprint/coverage/</loc>
+         <lastmod>2023-07-28</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>

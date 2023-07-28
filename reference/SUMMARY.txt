@@ -1,0 +1,8 @@
+* [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> failprint](failprint/index.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> capture](failprint/capture.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> cli](failprint/cli.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> formats](failprint/formats.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> lazy](failprint/lazy.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> process](failprint/process.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> runners](failprint/runners.md)
+    * [<code class="doc-symbol doc-symbol-nav doc-symbol-module"></code> types](failprint/types.md)
