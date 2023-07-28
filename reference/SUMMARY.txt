@@ -1,8 +1,0 @@
-* [failprint](failprint/index.md)
-    * [capture](failprint/capture.md)
-    * [cli](failprint/cli.md)
-    * [formats](failprint/formats.md)
-    * [lazy](failprint/lazy.md)
-    * [process](failprint/process.md)
-    * [runners](failprint/runners.md)
-    * [types](failprint/types.md)
