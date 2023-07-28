@@ -13,3 +13,5 @@ from failprint.lazy import LazyCallable
 
 CmdType = Union[str, List[str]]
 CmdFuncType = Union[CmdType, Callable, LazyCallable]
+
+__all__ = ["CmdFuncType", "CmdType"]

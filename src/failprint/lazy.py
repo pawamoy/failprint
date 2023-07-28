@@ -116,3 +116,6 @@ def lazy(call: Callable[_P, _R] | None = None, name: str | None = None) -> Calla
         return decorator
 
     return _lazy(call, name)
+
+
+__all__ = ["lazy", "LazyCallable"]

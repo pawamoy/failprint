@@ -9,9 +9,9 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import characters, integers, text
 
-from failprint import WINDOWS
 from failprint.capture import Capture
 from failprint.lazy import lazy
+from failprint.process import WINDOWS
 from failprint.runners import run, run_function
 
 

@@ -166,3 +166,13 @@ def _find_callable_name_in_frame_locals(caller_frame: FrameType, callee: Callabl
         return next(var_name for var_name, var_val in call_vars if var_val is callee and not var_name.startswith("@"))
     except StopIteration:
         return None
+
+
+__all__ = [
+    "accept_custom_format",
+    "as_python_statement",
+    "as_shell_command",
+    "Format",
+    "formats",
+    "printable_command",
+]

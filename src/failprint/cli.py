@@ -163,3 +163,6 @@ def main(args: list[str] | None = None) -> int:
     parser = get_parser()
     opts = parser.parse_args(args).__dict__.items()
     return run(**{_: value for _, value in opts if value is not None}).code
+
+
+__all__ = ["ArgParser", "add_flags", "get_parser", "main"]

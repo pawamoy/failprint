@@ -6,9 +6,8 @@ import pytest
 from hypothesis import given, settings
 from hypothesis.strategies import characters, text
 
-from failprint import WINDOWS
 from failprint.capture import Capture
-from failprint.process import run_pty_subprocess, run_subprocess
+from failprint.process import WINDOWS, run_pty_subprocess, run_subprocess
 
 
 def test_run_list_of_args_as_shell() -> None:

@@ -194,3 +194,6 @@ class CaptureManager:
         if self._output is None:
             raise RuntimeError("Not finished capturing")
         return self._output
+
+
+__all__ = ["Capture", "CaptureManager"]

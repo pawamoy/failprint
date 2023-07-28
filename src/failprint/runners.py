@@ -13,11 +13,10 @@ import colorama
 from ansimarkup import ansiprint
 from jinja2 import Environment
 
-from failprint import WINDOWS
 from failprint.capture import Capture
 from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
 from failprint.lazy import LazyCallable
-from failprint.process import run_pty_subprocess, run_subprocess
+from failprint.process import WINDOWS, run_pty_subprocess, run_subprocess
 
 if TYPE_CHECKING:
     from failprint.types import CmdFuncType, CmdType
@@ -239,3 +238,12 @@ def run_function_get_code(
         if result is None or bool(result):
             return 0
         return 1
+
+
+__all__ = [
+    "run",
+    "run_command",
+    "run_function",
+    "run_function_get_code",
+    "RunResult",
+]

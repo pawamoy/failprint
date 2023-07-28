@@ -3,15 +3,19 @@
 from __future__ import annotations
 
 import contextlib
+import os
 import subprocess
+import sys
 from typing import TYPE_CHECKING
 
-from failprint import WINDOWS
 from failprint.capture import Capture
 from failprint.formats import printable_command
 
 if TYPE_CHECKING:
     from failprint.types import CmdType
+
+
+WINDOWS = sys.platform.startswith("win") or os.name == "nt"
 
 if not WINDOWS:
     from ptyprocess import PtyProcessUnicode
@@ -108,3 +112,6 @@ def run_pty_subprocess(
 
     output = "".join(pty_output).replace("\r\n", "\n")
     return process.wait(), output
+
+
+__all__ = ["run_subprocess", "run_pty_subprocess"]
