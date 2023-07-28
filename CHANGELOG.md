@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.0.0](https://github.com/pawamoy/failprint/releases/tag/1.0.0) - 2023-07-27
+
+<small>[Compare with 0.11.1](https://github.com/pawamoy/failprint/compare/0.11.1...1.0.0)</small>
+
+## Breaking changes
+
+- `failprint.runners.run_function_get_code(stderr)` parameter was removed.
+- `failprint.capture.cast_capture` was removed. Use [Capture.cast][failprint.capture.Capture.cast] instead.
+- `failprint.capture.StdBuffer` was removed. Use [CaptureManager][failprint.capture.CaptureManager] instead.
+- `failprint.capture.stdbuffer` was removed. Use [Capture.here][failprint.capture.Capture.here] instead.
+
+### Features
+
+- Capture standard output/error at the file descriptor level ([0fbb2d4](https://github.com/pawamoy/failprint/commit/0fbb2d4ba4d2166224e1725b73dfb20a6422bd01) by Timothée Mazzucotelli). [Issue #17](https://github.com/pawamoy/failprint/issues/17), [Issue markdown-exec#21](https://github.com/pawamoy/markdown-exec/issues/21)
+
+### Code Refactoring
+
+- Reduce PTY delays to speed up code and tests suite ([de543c8](https://github.com/pawamoy/failprint/commit/de543c84f40e7204166e165601c0f4e5c448824b) by Timothée Mazzucotelli).
+
 ## [0.11.1](https://github.com/pawamoy/failprint/releases/tag/0.11.1) - 2023-04-10
 
 <small>[Compare with 0.11.0](https://github.com/pawamoy/failprint/compare/0.11.0...0.11.1)</small>
