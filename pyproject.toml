@@ -5,8 +5,8 @@ build-backend = "pdm.backend"
 [project]
 name = "failprint"
 description = "Run a command, print its output only if it fails."
-authors = [{name = "Timothée Mazzucotelli", email = "pawamoy@pm.me"}]
-license = {text = "ISC"}
+authors = [{ name = "Timothée Mazzucotelli", email = "pawamoy@pm.me" }]
+license = { text = "ISC" }
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["cli", "failure", "output", "runner"]
@@ -48,10 +48,8 @@ Funding = "https://github.com/sponsors/pawamoy"
 failprint = "failprint.cli:main"
 
 [tool.pdm]
-version = {source = "scm"}
-plugins = [
-    "pdm-multirun",
-]
+version = { source = "scm" }
+plugins = ["pdm-multirun"]
 
 [tool.pdm.build]
 package-dir = "src"
@@ -75,18 +73,13 @@ docs = [
     "mkdocstrings[python]>=0.18",
     "toml>=0.10",
 ]
-maintain = [
-    "black>=23.1",
-    "blacken-docs>=1.13",
-    "git-changelog>=1.0",
-]
-quality = [
-    "ruff>=0.0.246",
-]
+maintain = ["black>=23.1", "blacken-docs>=1.13", "git-changelog>=1.0"]
+quality = ["ruff>=0.0.246"]
 tests = [
     "pytest>=6.2",
     "pytest-cov>=3.0",
     "pytest-randomly>=3.10",
+    "pytest-timeout>=2.1",
     "pytest-xdist>=2.4",
     "hypothesis>=6.13",
 ]
@@ -96,6 +89,4 @@ typing = [
     "types-pyyaml>=6.0",
     "types-toml>=0.10",
 ]
-security = [
-    "safety>=2",
-]
+security = ["safety>=2"]

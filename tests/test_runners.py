@@ -355,3 +355,15 @@ def test_capture_function_and_subprocess_output(capsys: pytest.CaptureFixture) -
 
     lines = str(captured).rstrip("\n").split("\n")
     assert lines == ["print", "sys stdout write", "os system", "sh -c echo"]
+
+
+@pytest.mark.timeout(5, method="thread")
+def test_capture_large_output() -> None:
+    """Assert we can capture a relatively large output without hanging."""
+
+    def function() -> None:
+        for _ in range(300):
+            print("0" * 300)
+
+    with Capture.BOTH.here():
+        function()

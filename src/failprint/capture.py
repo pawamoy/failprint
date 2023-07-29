@@ -5,9 +5,10 @@ from __future__ import annotations
 import enum
 import os
 import sys
+import tempfile
 from contextlib import contextmanager
 from io import StringIO
-from typing import TYPE_CHECKING, Iterator, TextIO
+from typing import IO, TYPE_CHECKING, Iterator, TextIO
 
 if TYPE_CHECKING:
     from types import TracebackType
@@ -101,8 +102,7 @@ class CaptureManager:
             capture: What to capture.
             stdin: Optional input.
         """
-        self._fdr: int = -1
-        self._fdw: int = -1
+        self._temp_file: IO[str] | None = None
         self._capture = capture
         self._devnull: TextIO | None = None
         self._stdin = stdin
@@ -130,22 +130,24 @@ class CaptureManager:
         if self._capture in {Capture.STDOUT, Capture.STDERR}:
             self._devnull = open(os.devnull, "w")  # noqa: SIM115
 
-        # Create pipe.
-        self._fdr, self._fdw = os.pipe()
+        # Create temporary file.
+        # Initially we used a pipe but it would hang on writes given enough output.
+        self._temp_file = tempfile.TemporaryFile("w+", encoding="utf8", prefix="failprint-")
+        fdw = self._temp_file.fileno()
 
-        # Copy stdout's file descriptor before it is overwritten.
+        # Redirect stdout to temporary file or devnull.
         self._stdout_fd = sys.stdout.fileno()
         self._saved_stdout_fd = os.dup(self._stdout_fd)
         if self._capture in {Capture.BOTH, Capture.STDOUT}:
-            os.dup2(self._fdw, self._stdout_fd)
+            os.dup2(fdw, self._stdout_fd)
         elif self._capture is Capture.STDERR:
             os.dup2(self._devnull.fileno(), self._stdout_fd)  # type: ignore[union-attr]
 
-        # Copy stderr's file descriptor before it is overwritten.
+        # Redirect stderr to temporary file or devnull.
         self._stderr_fd = sys.stderr.fileno()
         self._saved_stderr_fd = os.dup(self._stderr_fd)
         if self._capture in {Capture.BOTH, Capture.STDERR}:
-            os.dup2(self._fdw, self._stderr_fd)
+            os.dup2(fdw, self._stderr_fd)
         elif self._capture is Capture.STDOUT:
             os.dup2(self._devnull.fileno(), self._stderr_fd)  # type: ignore[union-attr]
 
@@ -176,10 +178,11 @@ class CaptureManager:
         os.dup2(self._saved_stdout_fd, self._stdout_fd)
         os.dup2(self._saved_stderr_fd, self._stderr_fd)
 
-        # Close the writing end of the pipe, read everything from the reading end.
-        os.close(self._fdw)
-        with os.fdopen(self._fdr) as fd:
-            self._output = fd.read()
+        # Read contents from temporary file, close it.
+        if self._temp_file is not None:
+            self._temp_file.seek(0)
+            self._output = self._temp_file.read()
+            self._temp_file.close()
 
     def __str__(self) -> str:
         return self.output
