@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.0.1](https://github.com/pawamoy/failprint/releases/tag/1.0.1) - 2023-07-29
+
+<small>[Compare with 1.0.0](https://github.com/pawamoy/failprint/compare/1.0.0...1.0.1)</small>
+
+### Bug Fixes
+
+- Don't hang on large output ([60b220f](https://github.com/pawamoy/failprint/commit/60b220f55084083ca676c88a06cf233bbf22ed30) by Timothée Mazzucotelli).
+
 ## [1.0.0](https://github.com/pawamoy/failprint/releases/tag/1.0.0) - 2023-07-27
 
 <small>[Compare with 0.11.1](https://github.com/pawamoy/failprint/compare/0.11.1...1.0.0)</small>
