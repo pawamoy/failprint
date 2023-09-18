@@ -113,7 +113,7 @@ class CaptureManager:
         self._saved_stderr_fd: int = -1
         self._output: str | None = None
 
-    def __enter__(self) -> CaptureManager:
+    def __enter__(self) -> CaptureManager:  # noqa: PYI034 (false-positive)
         if self._capture is Capture.NONE:
             return self
 

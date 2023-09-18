@@ -57,6 +57,7 @@ def run_subprocess(
         shell=shell,  # noqa: S603
         text=True,
         encoding="utf8",
+        check=False,
     )
 
     if capture == Capture.NONE:

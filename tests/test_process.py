@@ -45,7 +45,7 @@ def test_run_pty_subprocess_capture_none(capsys: pytest.CaptureFixture) -> None:
     assert "PTY" in outerr.out
 
 
-@given(text(alphabet=characters(blacklist_categories="C")))
+@given(text(alphabet=characters(blacklist_categories=["C"])))
 def test_pass_stdin_to_subprocess(stdin: str) -> None:
     """Pass input to a normal subprocess.
 
@@ -58,7 +58,7 @@ def test_pass_stdin_to_subprocess(stdin: str) -> None:
 
 
 @pytest.mark.skipif(WINDOWS, reason="no PTY support on Windows")
-@given(text(alphabet=characters(blacklist_categories="C")))
+@given(text(alphabet=characters(blacklist_categories=["C"])))
 @settings(deadline=None)
 def test_pass_stdin_to_pty_subprocess(stdin: str) -> None:
     """Pass input to a PTY subprocess.

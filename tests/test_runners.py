@@ -283,7 +283,7 @@ def test_run_callable_raising_exception(capfd: pytest.CaptureFixture) -> None:
     assert "ZeroDivisionError:" in outerr.out
 
 
-@given(text(alphabet=characters(blacklist_categories="C")))
+@given(text(alphabet=characters(blacklist_categories=["C"])))
 def test_pass_stdin_to_function(stdin: str) -> None:
     """Pass input to a normal subprocess.
 
@@ -348,7 +348,7 @@ def test_capture_function_and_subprocess_output(capsys: pytest.CaptureFixture) -
         print("print")
         sys.stdout.write("sys stdout write\n")
         os.system("echo os system")  # noqa: S605,S607
-        subprocess.run(["sh", "-c", "echo sh -c echo"])  # noqa: S603,S607
+        subprocess.run(["sh", "-c", "echo sh -c echo"], check=False)  # noqa: S603,S607
 
     with capsys.disabled(), Capture.BOTH.here() as captured:
         function()
