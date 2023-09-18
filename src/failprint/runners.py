@@ -10,11 +10,11 @@ import traceback
 from typing import TYPE_CHECKING, Callable, Sequence
 
 import colorama
-from ansimarkup import ansiprint
+from ansimarkup import parse
 from jinja2 import Environment
 
 from failprint.capture import Capture
-from failprint.formats import DEFAULT_FORMAT, accept_custom_format, formats, printable_command
+from failprint.formats import DEFAULT_FORMAT, accept_custom_format, escape, formats, printable_command, unescape
 from failprint.lazy import LazyCallable
 from failprint.process import WINDOWS, run_pty_subprocess, run_subprocess
 
@@ -83,12 +83,14 @@ def run(
 
     env = Environment(autoescape=False)  # noqa: S701 (no HTML: no need to escape)
     env.filters["indent"] = textwrap.indent
+    env.filters["escape"] = env.filters["e"] = escape
+    env.filters["unescape"] = env.filters["u"] = unescape
 
     command = command if command is not None else printable_command(cmd, args, kwargs)
 
     if not silent and progress and format_obj.progress_template:
         progress_template = env.from_string(format_obj.progress_template)
-        ansiprint(progress_template.render({"title": title, "command": command}), end="\r")
+        print(unescape(parse(progress_template.render({"title": title, "command": command}))), end="\r")  # noqa: T201
 
     capture = Capture.cast(capture)
 
@@ -99,22 +101,21 @@ def run(
 
     if not silent:
         template = env.from_string(format_obj.template)
-        ansiprint(
-            template.render(
-                {
-                    "title": title,
-                    "command": command,
-                    "code": code,
-                    "success": code == 0,
-                    "failure": code != 0,
-                    "number": number,
-                    "output": output,
-                    "nofail": nofail,
-                    "quiet": quiet,
-                    "silent": silent,
-                },
-            ),
+        rendered = template.render(
+            {
+                "title": title,
+                "command": command,
+                "code": code,
+                "success": code == 0,
+                "failure": code != 0,
+                "number": number,
+                "output": output,
+                "nofail": nofail,
+                "quiet": quiet,
+                "silent": silent,
+            },
         )
+        print(unescape(parse(rendered)))  # noqa: T201
 
     return RunResult(0 if nofail else code, output)
 

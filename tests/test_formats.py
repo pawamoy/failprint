@@ -8,7 +8,7 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import text
 
-from failprint.formats import DEFAULT_CALLABLE_NAME, _get_callable_name, printable_command
+from failprint.formats import DEFAULT_CALLABLE_NAME, GT, LT, _get_callable_name, printable_command
 from failprint.runners import run
 
 
@@ -135,3 +135,16 @@ def test_failing_to_get_callable_name_from_stack() -> None:
     A.greet.__name__ = ""
     a = A()
     assert _get_callable_name(a.greet) == DEFAULT_CALLABLE_NAME
+
+
+def test_escaping_and_unescaping_command_and_output(capsys: pytest.CaptureFixture) -> None:
+    """Check that command and output and correctly (un)escaped.
+
+    Arguments:
+        capsys: Pytest fixture to capture output.
+    """
+    run(["test", "-z", "<l num=0>hello</l>"], fmt="pretty")
+    outerr = capsys.readouterr()
+    assert "<l num=0>hello</l>" in outerr.out
+    assert LT not in outerr.out
+    assert GT not in outerr.out

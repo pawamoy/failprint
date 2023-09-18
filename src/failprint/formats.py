@@ -15,6 +15,33 @@ if TYPE_CHECKING:
 DEFAULT_FORMAT = "pretty"
 DEFAULT_CALLABLE_NAME = "callable"
 
+LT = "#FAILPRINT_LT#"
+GT = "#FAILPRINT_GT#"
+
+
+def escape(text: str) -> str:
+    """Escape text for ansiprint by replacing `<` and `>` with special strings.
+
+    Parameters:
+        text: The text to escape.
+
+    Returns:
+        The escaped text.
+    """
+    return text.replace("<", LT).replace(">", GT)
+
+
+def unescape(text: str) -> str:
+    """Unescape text by replacing special strings with `<` and `>`.
+
+    Parameters:
+        text: The text to unescape.
+
+    Returns:
+        The unescaped text.
+    """
+    return text.replace(LT, "<").replace(GT, ">")
+
 
 class Format:
     """Class to define a display format."""
@@ -37,12 +64,12 @@ formats: dict[str, Format] = {
         "{% if success %}<green>✓</green>"
         "{% elif nofail %}<yellow>✗</yellow>"
         "{% else %}<red>✗</red>{% endif %} "
-        "<bold>{{ title or command }}</bold>"
+        "<bold>{{ title or command|e }}</bold>"
         "{% if failure %} ({{ code }}){% endif %}"
         "{% if failure and output and not quiet %}\n"
-        "{{ ('  > ' + command + '\n') if title and command else '' }}"
-        "{{ output|indent(2 * ' ') }}{% endif %}",
-        progress_template="> {{ title or command }}",
+        "{{ ('  > ' + command|e + '\n') if title and command else '' }}"
+        "{{ output|indent(2 * ' ')|e }}{% endif %}",
+        progress_template="> {{ title or command|e }}",
     ),
     "tap": Format(
         "{% if failure %}not {% endif %}ok {{ number }} - {{ title or command }}"
