@@ -4,7 +4,7 @@
 [![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://pawamoy.github.io/failprint/)
 [![pypi version](https://img.shields.io/pypi/v/failprint.svg)](https://pypi.org/project/failprint/)
 [![gitpod](https://img.shields.io/badge/gitpod-workspace-blue.svg?style=flat)](https://gitpod.io/#https://github.com/pawamoy/failprint)
-[![gitter](https://badges.gitter.im/join%20chat.svg)](https://gitter.im/failprint/community)
+[![gitter](https://badges.gitter.im/join%20chat.svg)](https://app.gitter.im/#/room/#failprint:gitter.im)
 
 Run a command, print its output only if it fails.
 
@@ -56,11 +56,13 @@ pyenv global system 3.8.17
 ## Installation
 
 With `pip`:
+
 ```bash
 pip install failprint
 ```
 
 With [`pipx`](https://github.com/pipxproject/pipx):
+
 ```bash
 python3.8 -m pip install --user pipx
 pipx install failprint

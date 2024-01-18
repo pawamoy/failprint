@@ -14,11 +14,22 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from typing import Any, Sequence
 
+from failprint import debug
 from failprint.capture import Capture
 from failprint.formats import accept_custom_format, formats
 from failprint.runners import run
+
+
+class _DebugInfo(argparse.Action):
+    def __init__(self, nargs: int | str | None = 0, **kwargs: Any) -> None:
+        super().__init__(nargs=nargs, **kwargs)
+
+    def __call__(self, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
+        debug.print_debug_info()
+        sys.exit(0)
 
 
 class ArgParser(argparse.ArgumentParser):
@@ -146,6 +157,8 @@ def get_parser() -> ArgParser:
     # TODO: specific to the format
     parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
     parser.add_argument("cmd", metavar="COMMAND", nargs="+")
+    parser.add_argument("-V", "--version", action="version", version=f"%(prog)s {debug.get_version()}")
+    parser.add_argument("--debug-info", action=_DebugInfo, help="Print debug information.")
     return parser
 
 
