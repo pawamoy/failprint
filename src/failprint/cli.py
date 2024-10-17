@@ -15,12 +15,15 @@ from __future__ import annotations
 
 import argparse
 import sys
-from typing import Any, Sequence
+from typing import TYPE_CHECKING, Any
 
 from failprint import debug
 from failprint.capture import Capture
 from failprint.formats import accept_custom_format, formats
 from failprint.runners import run
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 class _DebugInfo(argparse.Action):

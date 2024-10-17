@@ -8,9 +8,10 @@ import sys
 import tempfile
 from contextlib import contextmanager
 from io import StringIO
-from typing import IO, TYPE_CHECKING, Iterator, TextIO
+from typing import IO, TYPE_CHECKING, TextIO
 
 if TYPE_CHECKING:
+    from collections.abc import Iterator
     from types import TracebackType
 
 
@@ -128,7 +129,7 @@ class CaptureManager:
 
         # Open devnull if needed.
         if self._capture in {Capture.STDOUT, Capture.STDERR}:
-            self._devnull = open(os.devnull, "w")  # noqa: SIM115
+            self._devnull = open(os.devnull, "w")
 
         # Create temporary file.
         # Initially we used a pipe but it would hang on writes given enough output.

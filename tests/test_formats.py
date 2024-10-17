@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Callable, Sequence
+from typing import TYPE_CHECKING, Callable
 
 import pytest
 from hypothesis import given
@@ -10,6 +10,9 @@ from hypothesis.strategies import text
 
 from failprint.formats import DEFAULT_CALLABLE_NAME, GT, LT, _get_callable_name, printable_command
 from failprint.runners import run
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 @pytest.mark.parametrize(

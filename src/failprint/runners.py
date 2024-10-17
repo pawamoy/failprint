@@ -7,7 +7,7 @@ import shutil
 import sys
 import textwrap
 import traceback
-from typing import TYPE_CHECKING, Callable, Sequence
+from typing import TYPE_CHECKING, Callable
 
 import colorama
 from ansimarkup import parse
@@ -19,6 +19,8 @@ from failprint.lazy import LazyCallable
 from failprint.process import WINDOWS, run_pty_subprocess, run_subprocess
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from failprint.types import CmdFuncType, CmdType
 
 if WINDOWS:

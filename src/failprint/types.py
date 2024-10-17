@@ -7,11 +7,11 @@ Attributes:
 
 from __future__ import annotations
 
-from typing import Callable, List, Union
+from typing import Callable, Union
 
 from failprint.lazy import LazyCallable
 
-CmdType = Union[str, List[str]]
+CmdType = Union[str, list[str]]
 CmdFuncType = Union[CmdType, Callable, LazyCallable]
 
 __all__ = ["CmdFuncType", "CmdType"]

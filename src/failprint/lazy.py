@@ -50,13 +50,11 @@ _DecoratorType = Callable[[_FunctionType], Callable[_P, LazyCallable]]
 
 
 @overload
-def lazy(call: Callable[_P, _R], name: str | None = None) -> Callable[_P, LazyCallable]:
-    ...  # pragma: no cover
+def lazy(call: Callable[_P, _R], name: str | None = None) -> Callable[_P, LazyCallable]: ...  # pragma: no cover
 
 
 @overload
-def lazy(call: None = None, name: str | None = None) -> _DecoratorType:
-    ...  # pragma: no cover
+def lazy(call: None = None, name: str | None = None) -> _DecoratorType: ...  # pragma: no cover
 
 
 def lazy(call: Callable[_P, _R] | None = None, name: str | None = None) -> Callable[_P, LazyCallable] | _DecoratorType:

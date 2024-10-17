@@ -117,7 +117,7 @@ def docs(ctx: Context, *cli_args: str, host: str = "127.0.0.1", port: int = 8000
 
 
 @duty
-def docs_deploy(ctx: Context, *, force: bool = False) -> None:
+def docs_deploy(ctx: Context, *, force: bool = False) -> None:  # noqa: ARG001
     """Deploy the documentation to GitHub pages.
 
     Parameters:

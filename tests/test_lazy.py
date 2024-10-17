@@ -7,16 +7,14 @@ def test_decorating_function() -> None:
     """Test our `lazy` decorator."""
 
     @lazy
-    def greet() -> None:
-        ...  # pragma: no cover
+    def greet() -> None: ...  # pragma: no cover
 
     non_lazy = greet()
     assert isinstance(non_lazy, LazyCallable)
     assert not non_lazy.name
 
     @lazy(name="lazy_greet")
-    def greet2() -> None:
-        ...  # pragma: no cover
+    def greet2() -> None: ...  # pragma: no cover
 
     non_lazy = greet2()
     assert isinstance(non_lazy, LazyCallable)
@@ -26,8 +24,7 @@ def test_decorating_function() -> None:
 def test_lazifying_function() -> None:
     """Test our `lazy` decorator as a function."""
 
-    def greet() -> None:
-        ...  # pragma: no cover
+    def greet() -> None: ...  # pragma: no cover
 
     lazy_greet = lazy(greet)
     non_lazy = lazy_greet()

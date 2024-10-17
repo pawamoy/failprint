@@ -49,12 +49,12 @@ def run_subprocess(
     if shell and not isinstance(cmd, str):
         cmd = printable_command(cmd)
 
-    process = subprocess.run(
+    process = subprocess.run(  # noqa: S603
         cmd,
         input=stdin,
         stdout=stdout_opt,
         stderr=stderr_opt,
-        shell=shell,  # noqa: S603
+        shell=shell,
         text=True,
         encoding="utf8",
         check=False,

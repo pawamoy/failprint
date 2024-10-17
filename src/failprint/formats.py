@@ -3,11 +3,12 @@
 from __future__ import annotations
 
 import inspect
-from typing import TYPE_CHECKING, Callable, Sequence
+from typing import TYPE_CHECKING, Callable
 
 from failprint.lazy import LazyCallable
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
     from types import FrameType
 
     from failprint.types import CmdFuncType
