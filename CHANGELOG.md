@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.0.3](https://github.com/pawamoy/failprint/releases/tag/1.0.3) - 2024-10-17
+
+<small>[Compare with 1.0.2](https://github.com/pawamoy/failprint/compare/1.0.2...1.0.3)</small>
+
+### Build
+
+- Drop support for Python 3.8 ([a212375](https://github.com/pawamoy/failprint/commit/a212375c913bc2d883e50349b8471b2c99120f02) by Timothée Mazzucotelli).
+
 ## [1.0.2](https://github.com/pawamoy/failprint/releases/tag/1.0.2) - 2023-09-18
 
 <small>[Compare with 1.0.1](https://github.com/pawamoy/failprint/compare/1.0.1...1.0.2)</small>
