@@ -5,8 +5,8 @@ build-backend = "pdm.backend"
 [project]
 name = "failprint"
 description = "Run a command, print its output only if it fails."
-authors = [{ name = "Timothée Mazzucotelli", email = "pawamoy@pm.me" }]
-license = { text = "ISC" }
+authors = [{name = "Timothée Mazzucotelli", email = "dev@pawamoy.fr"}]
+license = {text = "ISC"}
 readme = "README.md"
 requires-python = ">=3.8"
 keywords = ["cli", "failure", "output", "runner"]
