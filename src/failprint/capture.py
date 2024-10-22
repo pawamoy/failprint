@@ -113,8 +113,15 @@ class CaptureManager:
         self._saved_stdout_fd: int = -1
         self._saved_stderr_fd: int = -1
         self._output: str | None = None
+        self._old_env: dict[str, str] = {}
 
     def __enter__(self) -> CaptureManager:  # noqa: PYI034 (false-positive)
+        # Annoying operating system being annoying again.
+        # Bash ports and WSL2 work fine, this environment variable
+        # just helps a bit with cmd and PowerShell.
+        self._old_env["PYTHONLEGACYWINDOWSSTDIO"] = os.getenv("PYTHONLEGACYWINDOWSSTDIO")
+        os.environ["PYTHONLEGACYWINDOWSSTDIO"] = "1"
+
         if self._capture is Capture.NONE:
             return self
 
@@ -184,6 +191,13 @@ class CaptureManager:
             self._temp_file.seek(0)
             self._output = self._temp_file.read()
             self._temp_file.close()
+
+        # Restore environment variables.
+        for key, value in self._old_env.items():
+            if value is None:
+                del os.environ[key]
+            else:
+                os.environ[key] = value
 
     def __str__(self) -> str:
         return self.output
