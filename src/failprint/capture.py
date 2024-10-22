@@ -113,7 +113,7 @@ class CaptureManager:
         self._saved_stdout_fd: int = -1
         self._saved_stderr_fd: int = -1
         self._output: str | None = None
-        self._old_env: dict[str, str] = {}
+        self._old_env: dict[str, str | None] = {}
 
     def __enter__(self) -> CaptureManager:  # noqa: PYI034 (false-positive)
         # Annoying operating system being annoying again.
