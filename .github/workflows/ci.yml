@@ -103,3 +103,45 @@ jobs:
 
     - name: Run the test suite
       run: make test
+
+  tests-pwsh:
+    defaults:
+      run:
+        shell: pwsh
+    strategy:
+      matrix:
+        os:
+        - windows-latest
+        python-version:
+        - "3.13"
+        resolution:
+        - highest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        allow-prereleases: true
+
+    - name: Setup uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: pyproject.toml
+        cache-suffix: py${{ matrix.python-version }}
+
+    - name: Install dependencies
+      env:
+        UV_RESOLUTION: ${{ matrix.resolution }}
+      run: make setup
+
+    - name: Run the test suite
+      run: make test
