@@ -345,8 +345,9 @@ def test_capture_function_and_subprocess_output(capsys: pytest.CaptureFixture) -
     """
 
     def function() -> None:
-        print("print")
+        print("print", flush=True)
         sys.stdout.write("sys stdout write\n")
+        sys.stdout.flush()
         os.system("echo os system")  # noqa: S605,S607
         subprocess.run(["sh", "-c", "echo sh -c echo"], check=False)  # noqa: S603,S607
 
