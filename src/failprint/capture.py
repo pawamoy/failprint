@@ -119,8 +119,8 @@ class CaptureManager:
         # Annoying operating system being annoying again.
         # Bash ports and WSL2 work fine, this environment variable
         # just helps a bit with cmd and PowerShell.
-        self._old_env["PYTHONLEGACYWINDOWSSTDIO"] = os.getenv("PYTHONLEGACYWINDOWSSTDIO")
-        os.environ["PYTHONLEGACYWINDOWSSTDIO"] = "1"
+        #self._old_env["PYTHONLEGACYWINDOWSSTDIO"] = os.getenv("PYTHONLEGACYWINDOWSSTDIO")
+        #os.environ["PYTHONLEGACYWINDOWSSTDIO"] = "1"
 
         if self._capture is Capture.NONE:
             return self
