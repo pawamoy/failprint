@@ -144,4 +144,4 @@ jobs:
       run: make setup
 
     - name: Run the test suite
-      run: make test
+      run: uv run duty --capture=none test
