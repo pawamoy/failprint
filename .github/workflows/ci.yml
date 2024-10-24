@@ -64,12 +64,7 @@ jobs:
         - macos-latest
         - windows-latest
         python-version:
-        - "3.9"
-        - "3.10"
-        - "3.11"
-        - "3.12"
         - "3.13"
-        - "3.14"
         resolution:
         - highest
         - lowest-direct
@@ -108,3 +103,85 @@ jobs:
 
     - name: Run the test suite
       run: make test
+
+  tests-pwsh:
+    defaults:
+      run:
+        shell: pwsh
+    strategy:
+      matrix:
+        os:
+        - windows-latest
+        python-version:
+        - "3.13"
+        resolution:
+        - highest
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        fetch-tags: true
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        allow-prereleases: true
+
+    - name: Setup uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        enable-cache: true
+        cache-dependency-glob: pyproject.toml
+        cache-suffix: py${{ matrix.python-version }}
+
+    - name: Install dependencies
+      env:
+        UV_RESOLUTION: ${{ matrix.resolution }}
+      run: make setup
+
+    - name: Run the test suite
+      run: uv run pytest
+
+    - name: Passing smoke test capture both
+      if: '!cancelled()'
+      run: uv run tests/smoketest.py passing both
+
+    - name: Failing smoke test capture both
+      if: '!cancelled()'
+      run: uv run tests/smoketest.py failing both
+
+    - name: Passing smoke test capture none
+      if: '!cancelled()'
+      run: uv run tests/smoketest.py passing none
+
+    - name: Failing smoke test capture none
+      if: '!cancelled()'
+      run: uv run tests/smoketest.py failing none
+
+    - name: Passing smoke test capture both with legacy stdio
+      if: '!cancelled()'
+      env:
+        PYTHONLEGACYWINDOWSSTDIO: 1
+      run: uv run tests/smoketest.py passing both
+
+    - name: Failing smoke test capture both with legacy stdio
+      if: '!cancelled()'
+      env:
+        PYTHONLEGACYWINDOWSSTDIO: 1
+      run: uv run tests/smoketest.py failing both
+
+    - name: Passing smoke test capture none with legacy stdio
+      if: '!cancelled()'
+      env:
+        PYTHONLEGACYWINDOWSSTDIO: 1
+      run: uv run tests/smoketest.py passing none
+
+    - name: Failing smoke test capture none with legacy stdio
+      if: '!cancelled()'
+      env:
+        PYTHONLEGACYWINDOWSSTDIO: 1
+      run: uv run tests/smoketest.py failing none
