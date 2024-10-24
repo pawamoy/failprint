@@ -145,3 +145,43 @@ jobs:
 
     - name: Run the test suite
       run: uv run pytest
+
+    - name: Passing smoke test capture both
+      if: '!cancelled()'
+      run: uv run tests/smoketest.py passing both
+
+    - name: Failing smoke test capture both
+      if: '!cancelled()'
+      run: uv run tests/smoketest.py failing both
+
+    - name: Passing smoke test capture none
+      if: '!cancelled()'
+      run: uv run tests/smoketest.py passing none
+
+    - name: Failing smoke test capture none
+      if: '!cancelled()'
+      run: uv run tests/smoketest.py failing none
+
+    - name: Passing smoke test capture both with legacy stdio
+      if: '!cancelled()'
+      env:
+        PYTHONLEGACYWINDOWSSTDIO: 1
+      run: uv run tests/smoketest.py passing both
+
+    - name: Failing smoke test capture both with legacy stdio
+      if: '!cancelled()'
+      env:
+        PYTHONLEGACYWINDOWSSTDIO: 1
+      run: uv run tests/smoketest.py failing both
+
+    - name: Passing smoke test capture none with legacy stdio
+      if: '!cancelled()'
+      env:
+        PYTHONLEGACYWINDOWSSTDIO: 1
+      run: uv run tests/smoketest.py passing none
+
+    - name: Failing smoke test capture none with legacy stdio
+      if: '!cancelled()'
+      env:
+        PYTHONLEGACYWINDOWSSTDIO: 1
+      run: uv run tests/smoketest.py failing none
