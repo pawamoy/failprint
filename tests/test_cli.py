@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import sys
+
 import pytest
 
 from failprint import cli, debug
@@ -27,7 +29,7 @@ def test_show_help(capsys: pytest.CaptureFixture) -> None:
 
 def test_run_command() -> None:
     """Run a simple command."""
-    assert cli.main(["echo", "hello"]) == 0
+    assert cli.main(["--", sys.executable, "-c", "print('hello')"]) == 0
 
 
 def test_accept_custom_format(capsys: pytest.CaptureFixture) -> None:
@@ -36,7 +38,7 @@ def test_accept_custom_format(capsys: pytest.CaptureFixture) -> None:
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    assert cli.main(["--no-progress", "-f", "custom={{output}}", "echo", "custom"]) == 0
+    assert cli.main(["--no-progress", "-f", "custom={{output}}", "--", sys.executable, "-c", "print('custom')"]) == 0
     outerr = capsys.readouterr()
     assert "custom" in outerr.out
 
