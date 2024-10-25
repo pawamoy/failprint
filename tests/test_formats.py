@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 from typing import TYPE_CHECKING, Callable
 
 import pytest
@@ -104,10 +105,10 @@ def test_tap_format(capsys: pytest.CaptureFixture) -> None:
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    run(["true"], fmt="tap")
+    run([sys.executable, "-c", "import sys; sys.exit(0)"], fmt="tap")
     outerr = capsys.readouterr()
     assert "ok" in outerr.out
-    run(["false"], fmt="tap")
+    run([sys.executable, "-c", "import sys; sys.exit(1)"], fmt="tap")
     outerr = capsys.readouterr()
     assert "not ok" in outerr.out
 
@@ -146,7 +147,7 @@ def test_escaping_and_unescaping_command_and_output(capsys: pytest.CaptureFixtur
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    run(["test", "-z", "<l num=0>hello</l>"], fmt="pretty")
+    run([sys.executable, "-c", "print('<l num=0>hello</l>')"], fmt="pretty")
     outerr = capsys.readouterr()
     assert "<l num=0>hello</l>" in outerr.out
     assert LT not in outerr.out
