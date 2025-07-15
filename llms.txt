@@ -1,0 +1,12 @@
+# failprint
+
+> Run a command, print its output only if it fails.
+
+## Usage
+
+- [Overview](https://pawamoy.github.io/failprint/index.md)
+
+## API
+
+- [API reference](https://pawamoy.github.io/failprint/reference/api/index.md)
+
