@@ -1,6 +1,6 @@
 """Tests for the `runners` module."""
 
-from failprint.lazy import LazyCallable, lazy
+from failprint._internal.lazy import LazyCallable, lazy
 
 
 def test_decorating_function() -> None:

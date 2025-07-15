@@ -17,10 +17,10 @@ import argparse
 import sys
 from typing import TYPE_CHECKING, Any
 
-from failprint import debug
-from failprint.capture import Capture
-from failprint.formats import accept_custom_format, formats
-from failprint.runners import run
+from failprint._internal import debug
+from failprint._internal.capture import Capture
+from failprint._internal.formats import accept_custom_format, formats
+from failprint._internal.runners import run
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

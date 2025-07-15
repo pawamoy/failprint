@@ -103,7 +103,7 @@ optional arguments:
 ```
 
 ```python
-from failprint.runners import run
+from failprint import run
 
 cmd = "echo hello"
 

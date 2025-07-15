@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from failprint.capture import Capture
+from failprint._internal.capture import Capture
 
 
 @pytest.mark.parametrize(

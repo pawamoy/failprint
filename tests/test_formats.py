@@ -8,8 +8,8 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import text
 
-from failprint.formats import DEFAULT_CALLABLE_NAME, GT, LT, _get_callable_name, printable_command
-from failprint.runners import run
+from failprint._internal.formats import DEFAULT_CALLABLE_NAME, GT, LT, _get_callable_name, printable_command
+from failprint._internal.runners import run
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -54,7 +54,7 @@ def test_printable_command_with_string(cmd: str) -> None:
     assert printable_command(cmd) == cmd
 
 
-class Repr:  # noqa: D101 (missing docstring)
+class Repr:
     def __init__(self, value: str | int):  # noqa: D107 (missing docstring)
         self.value = value
 

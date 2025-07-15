@@ -9,10 +9,10 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import characters, integers, text
 
-from failprint.capture import Capture
-from failprint.lazy import lazy
-from failprint.process import WINDOWS
-from failprint.runners import run, run_function
+from failprint._internal.capture import Capture
+from failprint._internal.lazy import lazy
+from failprint._internal.process import WINDOWS
+from failprint._internal.runners import run, run_function
 
 
 def test_run_silent_command_silently(capsys: pytest.CaptureFixture) -> None:

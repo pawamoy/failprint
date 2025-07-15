@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from failprint import main
 from failprint._internal import debug
+from failprint._internal.cli import main
 
 
 def test_fail_without_arguments() -> None:
@@ -28,7 +28,7 @@ def test_show_help(capsys: pytest.CaptureFixture) -> None:
 
 def test_run_command() -> None:
     """Run a simple command."""
-    assert cli.main(["echo", "hello"]) == 0
+    assert main(["echo", "hello"]) == 0
 
 
 def test_accept_custom_format(capsys: pytest.CaptureFixture) -> None:
@@ -37,7 +37,7 @@ def test_accept_custom_format(capsys: pytest.CaptureFixture) -> None:
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    assert cli.main(["--no-progress", "-f", "custom={{output}}", "echo", "custom"]) == 0
+    assert main(["--no-progress", "-f", "custom={{output}}", "echo", "custom"]) == 0
     outerr = capsys.readouterr()
     assert "custom" in outerr.out
 

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Callable, Union
 
-from failprint.lazy import LazyCallable
+from failprint._internal.lazy import LazyCallable
 
 CmdType = Union[str, list[str]]
 CmdFuncType = Union[CmdType, Callable, LazyCallable]
