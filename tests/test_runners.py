@@ -21,7 +21,7 @@ def test_run_silent_command_silently(capsys: pytest.CaptureFixture) -> None:
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    run(["true"], silent=True)
+    run([sys.executable, "-c", "import sys; sys.exit(0))"], silent=True)
     outerr = capsys.readouterr()
     assert not outerr.out
     assert not outerr.err
@@ -33,7 +33,7 @@ def test_run_verbose_command_silently(capsys: pytest.CaptureFixture) -> None:
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    run("echo VERBS", silent=True)
+    run([sys.executable, "-c", "print('VERBS')"], silent=True)
     outerr = capsys.readouterr()
     assert not outerr.out
     assert not outerr.err
@@ -45,9 +45,9 @@ def test_run_silent_command_verbosely(capsys: pytest.CaptureFixture) -> None:
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    run(["true"])
+    run([sys.executable, "-c", "import sys; sys.exit(0)"])
     outerr = capsys.readouterr()
-    assert "true" in outerr.out
+    assert sys.executable in outerr.out
     assert not outerr.err
 
 
@@ -57,9 +57,9 @@ def test_run_failing_silent_command_verbosely(capsys: pytest.CaptureFixture) -> 
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    run(["false"])
+    run([sys.executable, "-c", "import sys; sys.exit(1)"])
     outerr = capsys.readouterr()
-    assert "false" in outerr.out
+    assert sys.executable in outerr.out
     assert not outerr.err
 
 
@@ -69,7 +69,7 @@ def test_run_verbose_command_verbosely(capsys: pytest.CaptureFixture) -> None:
     Arguments:
         capsys: Pytest fixture to capture output.
     """
-    assert run("echo VERBS").code == 0
+    assert run([sys.executable, "-c", "print('VERBS')"]).code == 0
     outerr = capsys.readouterr()
     assert "VERBS" in outerr.out
     assert not outerr.err
@@ -77,12 +77,12 @@ def test_run_verbose_command_verbosely(capsys: pytest.CaptureFixture) -> None:
 
 def test_return_success_code() -> None:
     """Check the return code of a successful command."""
-    assert run(["true"]).code == 0
+    assert run([sys.executable, "-c", "import sys; sys.exit(0)"]).code == 0
 
 
 def test_return_failure_code() -> None:
     """Check the return code of a failing command."""
-    assert run(["false"]).code == 1
+    assert run([sys.executable, "-c", "import sys; sys.exit(1)"]).code == 1
 
 
 def test_return_shell_custom_code() -> None:
@@ -221,7 +221,11 @@ def test_process_capture_both() -> None:
     msg_stdout = "out"
     msg_stderr = "err"
     result = run(
-        ["bash", "-c", f"echo {msg_stdout}; echo {msg_stderr} >&2"],
+        [
+            sys.executable,
+            "-c",
+            f"import sys; print('{msg_stdout}', file=sys.stdout); print('{msg_stderr}', file=sys.stderr)",
+        ],
         capture=True,
         fmt="custom={{output}}",
     )
@@ -234,7 +238,11 @@ def test_process_capture_stdout() -> None:
     msg_stdout = "out"
     msg_stderr = "err"
     result = run(
-        ["bash", "-c", f"echo {msg_stdout}; echo {msg_stderr} >&2"],
+        [
+            sys.executable,
+            "-c",
+            f"import sys; print('{msg_stdout}', file=sys.stdout); print('{msg_stderr}', file=sys.stderr)",
+        ],
         capture="stdout",
         fmt="custom={{output}}",
     )
@@ -247,7 +255,11 @@ def test_process_capture_stderr() -> None:
     msg_stdout = "out"
     msg_stderr = "err"
     result = run(
-        ["bash", "-c", f"echo {msg_stdout}; echo {msg_stderr} >&2"],
+        [
+            sys.executable,
+            "-c",
+            f"import sys; print('{msg_stdout}', file=sys.stdout); print('{msg_stderr}', file=sys.stderr)",
+        ],
         capture="stderr",
         fmt="custom={{output}}",
     )
