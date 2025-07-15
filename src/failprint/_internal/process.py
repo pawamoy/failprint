@@ -1,4 +1,4 @@
-"""Functions related to subprocesses."""
+# Functions related to subprocesses.
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 
 
 WINDOWS = sys.platform.startswith("win") or os.name == "nt"
+"""A boolean variable indicating whether the current system is Windows."""
 
 if not WINDOWS:
     from ptyprocess import PtyProcessUnicode

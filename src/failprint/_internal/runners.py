@@ -1,4 +1,4 @@
-"""Functions to run commands and capture output."""
+# Functions to run commands and capture output.
 
 from __future__ import annotations
 
@@ -45,7 +45,9 @@ class RunResult:
             output: The output of the command.
         """
         self.code = code
+        """The exit code of the command."""
         self.output = output
+        """The output of the command."""
 
 
 def run(

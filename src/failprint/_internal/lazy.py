@@ -1,4 +1,4 @@
-"""This module contains a `lazy` decorator."""
+# This module contains a `lazy` decorator.
 
 from __future__ import annotations
 
@@ -29,11 +29,16 @@ class LazyCallable(Generic[_R]):
             name: The name of the callable.
         """
         self.call = call
+        """The original callable."""
         self.args = args
+        """The `*args` to pass when calling."""
         self.kwargs = kwargs
+        """The `**kwargs` to pass when calling."""
         self.name = name
+        """The name of the callable, if any."""
 
     def __call__(self) -> _R:
+        """Call the lazy callable."""
         return self.call(*self.args, **self.kwargs)
 
 

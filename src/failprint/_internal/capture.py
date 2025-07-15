@@ -1,4 +1,4 @@
-"""Enumeration of possible output captures."""
+# Enumeration of possible output captures.
 
 from __future__ import annotations
 
@@ -18,16 +18,20 @@ if TYPE_CHECKING:
 class Capture(enum.Enum):
     """An enum to store the different possible output types."""
 
-    STDOUT: str = "stdout"
-    STDERR: str = "stderr"
-    BOTH: str = "both"
-    NONE: str = "none"
+    STDOUT = "stdout"
+    """Capture standard output."""
+    STDERR = "stderr"
+    """Capture standard error."""
+    BOTH = "both"
+    """Capture both standard output and error."""
+    NONE = "none"
+    """Do not capture anything."""
 
     def __str__(self):
         return self.value.lower()
 
     @classmethod
-    def cast(cls, value: str | bool | Capture | None) -> Capture:
+    def cast(cls, value: str | bool | Capture | None) -> Capture:  # noqa: FBT001
         """Cast a value to an actual Capture enumeration value.
 
         Arguments:
@@ -79,7 +83,7 @@ class Capture(enum.Enum):
 class CaptureManager:
     """Context manager to capture standard output and error at the file descriptor level.
 
-    Usable directly through [`Capture.here`][failprint.capture.Capture.here].
+    Usable directly through [`Capture.here`][failprint.Capture.here].
 
     Examples:
         >>> def print_things() -> None:
@@ -115,6 +119,7 @@ class CaptureManager:
         self._output: str | None = None
 
     def __enter__(self) -> CaptureManager:  # noqa: PYI034 (false-positive)
+        """Set up the necessary file descriptors and temporary files to capture output."""
         if self._capture is Capture.NONE:
             return self
 
@@ -160,6 +165,7 @@ class CaptureManager:
         exc_value: BaseException | None,
         exc_traceback: TracebackType | None,
     ) -> None:
+        """Restore the original file descriptors and reads the captured output."""
         if self._capture is Capture.NONE:
             return
 

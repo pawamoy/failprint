@@ -37,9 +37,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## Breaking changes
 
 - `failprint.runners.run_function_get_code(stderr)` parameter was removed.
-- `failprint.capture.cast_capture` was removed. Use [Capture.cast][failprint.capture.Capture.cast] instead.
-- `failprint.capture.StdBuffer` was removed. Use [CaptureManager][failprint.capture.CaptureManager] instead.
-- `failprint.capture.stdbuffer` was removed. Use [Capture.here][failprint.capture.Capture.here] instead.
+- `failprint.capture.cast_capture` was removed. Use [Capture.cast][failprint.Capture.cast] instead.
+- `failprint.capture.StdBuffer` was removed. Use [CaptureManager][failprint.CaptureManager] instead.
+- `failprint.capture.stdbuffer` was removed. Use [Capture.here][failprint.Capture.here] instead.
 
 ### Features
 

@@ -1,4 +1,4 @@
-"""Module that contains the command line application."""
+# Module that contains the command line application.
 
 # Why does this file exist, and why not put this in `__main__`?
 #
@@ -31,7 +31,7 @@ class _DebugInfo(argparse.Action):
         super().__init__(nargs=nargs, **kwargs)
 
     def __call__(self, *args: Any, **kwargs: Any) -> None:  # noqa: ARG002
-        debug.print_debug_info()
+        debug._print_debug_info()
         sys.exit(0)
 
 
@@ -160,7 +160,7 @@ def get_parser() -> ArgParser:
     # TODO: specific to the format
     parser.add_argument("-t", "--title", help="Command title. Default is the command itself.")
     parser.add_argument("cmd", metavar="COMMAND", nargs="+")
-    parser.add_argument("-V", "--version", action="version", version=f"%(prog)s {debug.get_version()}")
+    parser.add_argument("-V", "--version", action="version", version=f"%(prog)s {debug._get_version()}")
     parser.add_argument("--debug-info", action=_DebugInfo, help="Print debug information.")
     return parser
 

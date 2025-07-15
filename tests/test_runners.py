@@ -257,8 +257,11 @@ def test_process_capture_stderr() -> None:
 
 def test_cancel_pty() -> None:
     """Test that using PTY is canceled if the format does not support it."""
-    with patch("failprint.runners.run_subprocess", new=MagicMock(return_value=(0, ""))) as run_sub:  # noqa: SIM117
-        with patch("failprint.runners.run_pty_subprocess", new=MagicMock(return_value=(0, ""))) as run_pty_sub:
+    with patch("failprint._internal.runners.run_subprocess", new=MagicMock(return_value=(0, ""))) as run_sub:  # noqa: SIM117
+        with patch(
+            "failprint._internal.runners.run_pty_subprocess",
+            new=MagicMock(return_value=(0, "")),
+        ) as run_pty_sub:
             run("true", pty=True, fmt="tap")
             assert not run_pty_sub.called
             assert run_sub.called
@@ -267,7 +270,7 @@ def test_cancel_pty() -> None:
 @pytest.mark.skipif(WINDOWS, reason="no PTY support on Windows")
 def test_run_pty_shell() -> None:
     """Test running a shell command in a PTY."""
-    with patch("failprint.runners.run_pty_subprocess", new=MagicMock(return_value=(0, ""))) as run_pty_sub:
+    with patch("failprint._internal.runners.run_pty_subprocess", new=MagicMock(return_value=(0, ""))) as run_pty_sub:
         run("true", pty=True)
         assert run_pty_sub.called
 
@@ -348,7 +351,7 @@ def test_capture_function_and_subprocess_output(capsys: pytest.CaptureFixture) -
         print("print")
         sys.stdout.write("sys stdout write\n")
         os.system("echo os system")  # noqa: S605,S607
-        subprocess.run(["sh", "-c", "echo sh -c echo"], check=False)  # noqa: S603,S607
+        subprocess.run(["sh", "-c", "echo sh -c echo"], check=False)  # noqa: S607
 
     with capsys.disabled(), Capture.BOTH.here() as captured:
         function()

@@ -1,4 +1,4 @@
-"""Output-printing formats."""
+# Output-printing formats.
 
 from __future__ import annotations
 
@@ -56,8 +56,11 @@ class Format:
             accept_ansi: Whether to accept ANSI sequences.
         """
         self.template = template
+        """The main template."""
         self.progress_template = progress_template
+        """The template to show progress."""
         self.accept_ansi = accept_ansi
+        """Whether to accept ANSI sequences."""
 
 
 formats: dict[str, Format] = {
