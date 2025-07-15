@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.0.4](https://github.com/pawamoy/failprint/releases/tag/1.0.4) - 2025-07-15
+
+<small>[Compare with 1.0.3](https://github.com/pawamoy/failprint/compare/1.0.3...1.0.4)</small>
+
+### Code Refactoring
+
+- Export and document every public object ([c7ad841](https://github.com/pawamoy/failprint/commit/c7ad841167233a19dac12864ced8ddc43e0e8ea2) by Timothée Mazzucotelli).
+- Move modules into internal folder ([55066db](https://github.com/pawamoy/failprint/commit/55066dbfc69ab04b5f4258adf308239bfc77cf68) by Timothée Mazzucotelli).
+
 ## [1.0.3](https://github.com/pawamoy/failprint/releases/tag/1.0.3) - 2024-10-17
 
 <small>[Compare with 1.0.2](https://github.com/pawamoy/failprint/compare/1.0.2...1.0.3)</small>
