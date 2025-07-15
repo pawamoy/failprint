@@ -1,16 +1,17 @@
-"""Tests for the `cli` module."""
+"""Tests for the CLI."""
 
 from __future__ import annotations
 
 import pytest
 
-from failprint import cli, debug
+from failprint import main
+from failprint._internal import debug
 
 
 def test_fail_without_arguments() -> None:
     """Fails without arguments."""
     with pytest.raises(SystemExit):
-        cli.main([])
+        main([])
 
 
 def test_show_help(capsys: pytest.CaptureFixture) -> None:
@@ -20,7 +21,7 @@ def test_show_help(capsys: pytest.CaptureFixture) -> None:
         capsys: Pytest fixture to capture output.
     """
     with pytest.raises(SystemExit):
-        cli.main(["-h"])
+        main(["-h"])
     captured = capsys.readouterr()
     assert "failprint" in captured.out
 
@@ -48,9 +49,9 @@ def test_show_version(capsys: pytest.CaptureFixture) -> None:
         capsys: Pytest fixture to capture output.
     """
     with pytest.raises(SystemExit):
-        cli.main(["-V"])
+        main(["-V"])
     captured = capsys.readouterr()
-    assert debug.get_version() in captured.out
+    assert debug._get_version() in captured.out
 
 
 def test_show_debug_info(capsys: pytest.CaptureFixture) -> None:
@@ -60,7 +61,7 @@ def test_show_debug_info(capsys: pytest.CaptureFixture) -> None:
         capsys: Pytest fixture to capture output.
     """
     with pytest.raises(SystemExit):
-        cli.main(["--debug-info"])
+        main(["--debug-info"])
     captured = capsys.readouterr().out.lower()
     assert "python" in captured
     assert "system" in captured
