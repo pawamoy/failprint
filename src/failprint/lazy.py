@@ -5,7 +5,7 @@
 import warnings
 from typing import Any
 
-from failprint._internal import lazy
+from failprint._internal import lazy as lazy_module
 
 
 def __getattr__(name: str) -> Any:
@@ -14,4 +14,4 @@ def __getattr__(name: str) -> Any:
         DeprecationWarning,
         stacklevel=2,
     )
-    return getattr(lazy, name)
+    return getattr(lazy_module, name)
