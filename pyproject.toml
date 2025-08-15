@@ -47,7 +47,7 @@ Gitter = "https://gitter.im/failprint/community"
 Funding = "https://github.com/sponsors/pawamoy"
 
 [project.scripts]
-failprint = "failprint.cli:main"
+failprint = "failprint:main"
 
 [tool.pdm.version]
 source = "call"
