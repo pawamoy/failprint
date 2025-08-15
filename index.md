@@ -34,21 +34,18 @@ pyenv install 3.8.17
 
 # make it available globally
 pyenv global system 3.8.17
-
 ```
 
 ## Installation
 
 ```
 pip install failprint
-
 ```
 
 With [`uv`](https://docs.astral.sh/uv/):
 
 ```
 uv tool install failprint
-
 ```
 
 ## Usage
@@ -87,7 +84,6 @@ optional arguments:
                         Command number. Useful for the 'tap' format.
   -t TITLE, --title TITLE
                         Command title. Default is the command itself.
-
 ```
 
 ```
@@ -109,5 +105,4 @@ exit_code = run(
     quiet=False,    # don't print output when the command fails
     silent=False,   # don't print anything
 )
-
 ```

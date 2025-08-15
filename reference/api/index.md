@@ -49,7 +49,6 @@ Attributes:
 
 ```
 CmdFuncType = Union[CmdType, Callable, LazyCallable]
-
 ```
 
 Type for a command or function.
@@ -58,7 +57,6 @@ Type for a command or function.
 
 ```
 CmdType = Union[str, list[str]]
-
 ```
 
 Type for a command.
@@ -67,7 +65,6 @@ Type for a command.
 
 ```
 WINDOWS = startswith('win') or name == 'nt'
-
 ```
 
 A boolean variable indicating whether the current system is Windows.
@@ -92,7 +89,6 @@ add_bool_argument(
     falsy_help: str = "",
     **kwargs: Any,
 ) -> None
-
 ```
 
 Add a boolean flag/argument to the parser.
@@ -131,7 +127,6 @@ def add_bool_argument(
     mxg = self.add_mutually_exclusive_group()
     mxg.add_argument(*truthy, **truthy_kwargs)
     mxg.add_argument(*falsy, **falsy_kwargs)
-
 ```
 
 ## Capture
@@ -156,7 +151,6 @@ Attributes:
 
 ```
 BOTH = 'both'
-
 ```
 
 Capture both standard output and error.
@@ -165,7 +159,6 @@ Capture both standard output and error.
 
 ```
 NONE = 'none'
-
 ```
 
 Do not capture anything.
@@ -174,7 +167,6 @@ Do not capture anything.
 
 ```
 STDERR = 'stderr'
-
 ```
 
 Capture standard error.
@@ -183,7 +175,6 @@ Capture standard error.
 
 ```
 STDOUT = 'stdout'
-
 ```
 
 Capture standard output.
@@ -192,7 +183,6 @@ Capture standard output.
 
 ```
 cast(value: str | bool | Capture | None) -> Capture
-
 ```
 
 Cast a value to an actual Capture enumeration value.
@@ -229,14 +219,12 @@ def cast(cls, value: str | bool | Capture | None) -> Capture:  # noqa: FBT001
     # consider it's a string
     # let potential errors bubble up
     return cls(value)
-
 ```
 
 ### here
 
 ```
 here(stdin: str | None = None) -> Iterator[CaptureManager]
-
 ```
 
 Context manager to capture standard output/error.
@@ -264,7 +252,6 @@ Examples:
 2
 3
 4
-
 ```
 
 Source code in `src/failprint/_internal/capture.py`
@@ -296,7 +283,6 @@ def here(self, stdin: str | None = None) -> Iterator[CaptureManager]:
     """  # noqa: D301
     with CaptureManager(self, stdin=stdin) as captured:
         yield captured
-
 ```
 
 ## CaptureManager
@@ -305,7 +291,6 @@ def here(self, stdin: str | None = None) -> Iterator[CaptureManager]:
 CaptureManager(
     capture: Capture = BOTH, stdin: str | None = None
 )
-
 ```
 
 Context manager to capture standard output and error at the file descriptor level.
@@ -327,7 +312,6 @@ Examples:
 2
 3
 4
-
 ```
 
 Parameters:
@@ -364,14 +348,12 @@ def __init__(self, capture: Capture = Capture.BOTH, stdin: str | None = None) ->
     self._saved_stdout_fd: int = -1
     self._saved_stderr_fd: int = -1
     self._output: str | None = None
-
 ```
 
 ### output
 
 ```
 output: str
-
 ```
 
 Captured output.
@@ -384,7 +366,6 @@ Raises:
 
 ```
 __enter__() -> CaptureManager
-
 ```
 
 Set up the necessary file descriptors and temporary files to capture output.
@@ -432,7 +413,6 @@ def __enter__(self) -> CaptureManager:  # noqa: PYI034 (false-positive)
         os.dup2(self._devnull.fileno(), self._stderr_fd)  # type: ignore[union-attr]
 
     return self
-
 ```
 
 ### __exit__
@@ -443,7 +423,6 @@ __exit__(
     exc_value: BaseException | None,
     exc_traceback: TracebackType | None,
 ) -> None
-
 ```
 
 Restore the original file descriptors and reads the captured output.
@@ -482,7 +461,6 @@ def __exit__(
         self._temp_file.seek(0)
         self._output = self._temp_file.read()
         self._temp_file.close()
-
 ```
 
 ## Format
@@ -494,7 +472,6 @@ Format(
     progress_template: str | None = None,
     accept_ansi: bool = True,
 )
-
 ```
 
 Class to define a display format.
@@ -528,14 +505,12 @@ def __init__(self, template: str, *, progress_template: str | None = None, accep
     """The template to show progress."""
     self.accept_ansi = accept_ansi
     """Whether to accept ANSI sequences."""
-
 ```
 
 ### accept_ansi
 
 ```
 accept_ansi = accept_ansi
-
 ```
 
 Whether to accept ANSI sequences.
@@ -544,7 +519,6 @@ Whether to accept ANSI sequences.
 
 ```
 progress_template = progress_template
-
 ```
 
 The template to show progress.
@@ -553,7 +527,6 @@ The template to show progress.
 
 ```
 template = template
-
 ```
 
 The main template.
@@ -567,7 +540,6 @@ LazyCallable(
     kwargs: dict,
     name: str | None = None,
 )
-
 ```
 
 Bases: `Generic[_R]`
@@ -612,14 +584,12 @@ def __init__(self, call: Callable[_P, _R], args: tuple, kwargs: dict, name: str 
     """The `**kwargs` to pass when calling."""
     self.name = name
     """The name of the callable, if any."""
-
 ```
 
 ### args
 
 ```
 args = args
-
 ```
 
 The `*args` to pass when calling.
@@ -628,7 +598,6 @@ The `*args` to pass when calling.
 
 ```
 call = call
-
 ```
 
 The original callable.
@@ -637,7 +606,6 @@ The original callable.
 
 ```
 kwargs = kwargs
-
 ```
 
 The `**kwargs` to pass when calling.
@@ -646,7 +614,6 @@ The `**kwargs` to pass when calling.
 
 ```
 name = name
-
 ```
 
 The name of the callable, if any.
@@ -655,7 +622,6 @@ The name of the callable, if any.
 
 ```
 __call__() -> _R
-
 ```
 
 Call the lazy callable.
@@ -666,14 +632,12 @@ Source code in `src/failprint/_internal/lazy.py`
 def __call__(self) -> _R:
     """Call the lazy callable."""
     return self.call(*self.args, **self.kwargs)
-
 ```
 
 ## RunResult
 
 ```
 RunResult(code: int, output: str)
-
 ```
 
 Placeholder for a run result.
@@ -702,14 +666,12 @@ def __init__(self, code: int, output: str) -> None:
     """The exit code of the command."""
     self.output = output
     """The output of the command."""
-
 ```
 
 ### code
 
 ```
 code = code
-
 ```
 
 The exit code of the command.
@@ -718,7 +680,6 @@ The exit code of the command.
 
 ```
 output = output
-
 ```
 
 The output of the command.
@@ -727,7 +688,6 @@ The output of the command.
 
 ```
 accept_custom_format(string: str) -> str
-
 ```
 
 Store the value in `formats` if it starts with custom.
@@ -756,7 +716,6 @@ def accept_custom_format(string: str) -> str:
         formats["custom"] = Format(string[7:])
         return "custom"
     return string
-
 ```
 
 ## add_flags
@@ -765,7 +724,6 @@ def accept_custom_format(string: str) -> str:
 add_flags(
     parser: ArgParser, *, set_defaults: bool = True
 ) -> ArgParser
-
 ```
 
 Add some boolean flags to the parser.
@@ -867,7 +825,6 @@ def add_flags(parser: ArgParser, *, set_defaults: bool = True) -> ArgParser:
         falsy_help="Return the original exit code.",
     )
     return parser
-
 ```
 
 ## as_python_statement
@@ -878,7 +835,6 @@ as_python_statement(
     args: Sequence | None = None,
     kwargs: dict | None = None,
 ) -> str
-
 ```
 
 Transform a callable and its arguments into a Python statement string.
@@ -917,14 +873,12 @@ def as_python_statement(func: Callable | LazyCallable, args: Sequence | None = N
     kwargs_str = [f"{k}={v!r}" for k, v in kwargs.items()] if kwargs else []
     arguments = ", ".join(args_str + kwargs_str)
     return f"{callable_name}({arguments})"
-
 ```
 
 ## as_shell_command
 
 ```
 as_shell_command(cmd: list[str]) -> str
-
 ```
 
 Rebuild a command line from system arguments.
@@ -972,14 +926,12 @@ def as_shell_command(cmd: list[str]) -> str:
             part = f'"{part}"'  # noqa: PLW2901
         parts.append(part)
     return " ".join(parts)
-
 ```
 
 ## get_parser
 
 ```
 get_parser() -> ArgParser
-
 ```
 
 Return the CLI argument parser.
@@ -1006,14 +958,12 @@ def get_parser() -> ArgParser:
     parser.add_argument("-V", "--version", action="version", version=f"%(prog)s {debug._get_version()}")
     parser.add_argument("--debug-info", action=_DebugInfo, help="Print debug information.")
     return parser
-
 ```
 
 ## main
 
 ```
 main(args: list[str] | None = None) -> int
-
 ```
 
 Run the main program.
@@ -1045,7 +995,6 @@ def main(args: list[str] | None = None) -> int:
     parser = get_parser()
     opts = parser.parse_args(args).__dict__.items()
     return run(**{_: value for _, value in opts if value is not None}).code
-
 ```
 
 ## printable_command
@@ -1056,7 +1005,6 @@ printable_command(
     args: Sequence | None = None,
     kwargs: dict | None = None,
 ) -> str
-
 ```
 
 Transform a command or function into a string.
@@ -1090,7 +1038,6 @@ def printable_command(cmd: CmdFuncType, args: Sequence | None = None, kwargs: di
     if callable(cmd):
         return as_python_statement(cmd, args, kwargs)
     return as_shell_command(cmd)
-
 ```
 
 ## run
@@ -1113,7 +1060,6 @@ run(
     stdin: str | None = None,
     command: str | None = None,
 ) -> RunResult
-
 ```
 
 Run a command in a subprocess or a Python function, and print its output if it fails.
@@ -1221,7 +1167,6 @@ def run(
         print(unescape(parse(rendered)))  # noqa: T201
 
     return RunResult(0 if nofail else code, output)
-
 ```
 
 ## run_command
@@ -1235,7 +1180,6 @@ run_command(
     pty: bool = False,
     stdin: str | None = None,
 ) -> tuple[int, str]
-
 ```
 
 Run a command.
@@ -1295,7 +1239,6 @@ def run_command(
         return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
 
     return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
-
 ```
 
 ## run_function
@@ -1309,7 +1252,6 @@ run_function(
     capture: Capture = BOTH,
     stdin: str | None = None,
 ) -> tuple[int, str]
-
 ```
 
 Run a function.
@@ -1359,7 +1301,6 @@ def run_function(
         code = run_function_get_code(func, args=args, kwargs=kwargs)
 
     return code, str(captured)
-
 ```
 
 ## run_function_get_code
@@ -1368,7 +1309,6 @@ def run_function(
 run_function_get_code(
     func: Callable, *, args: Sequence, kwargs: dict
 ) -> int
-
 ```
 
 Run a function and return a exit code.
@@ -1431,7 +1371,6 @@ def run_function_get_code(
         if result is None or bool(result):
             return 0
         return 1
-
 ```
 
 ## run_pty_subprocess
@@ -1443,7 +1382,6 @@ run_pty_subprocess(
     capture: Capture = BOTH,
     stdin: str | None = None,
 ) -> tuple[int, str]
-
 ```
 
 Run a command in a PTY subprocess.
@@ -1504,7 +1442,6 @@ def run_pty_subprocess(
 
     output = "".join(pty_output).replace("\r\n", "\n")
     return process.wait(), output
-
 ```
 
 ## run_subprocess
@@ -1517,7 +1454,6 @@ run_subprocess(
     shell: bool = False,
     stdin: str | None = None,
 ) -> tuple[int, str]
-
 ```
 
 Run a command in a subprocess.
@@ -1583,5 +1519,4 @@ def run_subprocess(
         output = process.stdout
 
     return process.returncode, output
-
 ```
