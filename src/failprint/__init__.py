@@ -12,8 +12,10 @@ from failprint._internal.formats import (
     accept_custom_format,
     as_python_statement,
     as_shell_command,
+    escape,
     formats,
     printable_command,
+    unescape,
 )
 from failprint._internal.lazy import LazyCallable, lazy
 from failprint._internal.process import WINDOWS
@@ -42,6 +44,7 @@ __all__: list[str] = [
     "add_flags",
     "as_python_statement",
     "as_shell_command",
+    "escape",
     "formats",
     "get_parser",
     "lazy",
@@ -53,4 +56,5 @@ __all__: list[str] = [
     "run_function_get_code",
     "run_pty_subprocess",
     "run_subprocess",
+    "unescape",
 ]

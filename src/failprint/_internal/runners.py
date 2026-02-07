@@ -16,7 +16,7 @@ from jinja2 import Environment
 
 from failprint._internal.capture import Capture
 from failprint._internal.formats import (
-    DEFAULT_FORMAT,
+    _DEFAULT_FORMAT,
     accept_custom_format,
     escape,
     formats,
@@ -89,9 +89,9 @@ def run(
     Returns:
         The command exit code, or 0 if `nofail` is True.
     """
-    format_name: str = fmt or os.environ.get("FAILPRINT_FORMAT", DEFAULT_FORMAT)  # type: ignore[assignment]
+    format_name: str = fmt or os.environ.get("FAILPRINT_FORMAT", _DEFAULT_FORMAT)
     format_name = accept_custom_format(format_name)
-    format_obj = formats.get(format_name, formats[DEFAULT_FORMAT])
+    format_obj = formats.get(format_name, formats[_DEFAULT_FORMAT])
 
     env = Environment(autoescape=False)  # noqa: S701 (no HTML: no need to escape)
     env.filters["indent"] = textwrap.indent
@@ -161,14 +161,14 @@ def run_command(
     # pty can only combine, so only use pty when combining
     if pty and capture in {Capture.BOTH, Capture.NONE}:
         if shell:
-            cmd = ["sh", "-c", cmd]  # type: ignore[list-item]  # we know cmd is str
-        return run_pty_subprocess(cmd, capture=capture, stdin=stdin)  # type: ignore[arg-type]  # we made sure cmd is a list
+            cmd = ["sh", "-c", cmd]  # ty: ignore[invalid-assignment]
+        return run_pty_subprocess(cmd, capture=capture, stdin=stdin)  # ty: ignore[invalid-argument-type]
 
     # we are on Windows
     if WINDOWS:
         # make sure the process can find the executable
         if not shell:
-            cmd[0] = shutil.which(cmd[0]) or cmd[0]  # type: ignore[index]  # we know cmd is a list
+            cmd[0] = shutil.which(cmd[0]) or cmd[0]  # ty: ignore[invalid-assignment]
         return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
 
     return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
@@ -233,7 +233,7 @@ def run_function_get_code(
         return 1
     except Exception as error:  # noqa: BLE001
         if (duty_failure := _get_duty_failure_exception()) and isinstance(error, duty_failure):
-            return error.code
+            return error.code  # ty: ignore[unresolved-attribute]
         sys.stderr.write(traceback.format_exc() + "\n")
         return 1
 
@@ -258,7 +258,7 @@ def run_function_get_code(
 @cache
 def _get_duty_failure_exception() -> type[BaseException] | None:
     try:
-        from duty import DutyFailure
+        from duty import DutyFailure  # noqa: PLC0415
     except ImportError:
         return None
     else:

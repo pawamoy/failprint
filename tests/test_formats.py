@@ -9,7 +9,7 @@ import pytest
 from hypothesis import given
 from hypothesis.strategies import text
 
-from failprint._internal.formats import DEFAULT_CALLABLE_NAME, GT, LT, _get_callable_name, printable_command
+from failprint._internal.formats import _DEFAULT_CALLABLE_NAME, _GT, _LT, _get_callable_name, printable_command
 from failprint._internal.runners import run
 
 if TYPE_CHECKING:
@@ -138,7 +138,7 @@ def test_failing_to_get_callable_name_from_stack() -> None:
 
     A.greet.__name__ = ""
     a = A()
-    assert _get_callable_name(a.greet) == DEFAULT_CALLABLE_NAME
+    assert _get_callable_name(a.greet) == _DEFAULT_CALLABLE_NAME
 
 
 def test_escaping_and_unescaping_command_and_output(capsys: pytest.CaptureFixture) -> None:
@@ -150,5 +150,5 @@ def test_escaping_and_unescaping_command_and_output(capsys: pytest.CaptureFixtur
     run([sys.executable, "-c", "print('<l num=0>hello</l>')"], fmt="pretty")
     outerr = capsys.readouterr()
     assert "<l num=0>hello</l>" in outerr.out
-    assert LT not in outerr.out
-    assert GT not in outerr.out
+    assert _LT not in outerr.out
+    assert _GT not in outerr.out

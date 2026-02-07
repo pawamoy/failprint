@@ -134,7 +134,7 @@ class CaptureManager:
 
         # Open devnull if needed.
         if self._capture in {Capture.STDOUT, Capture.STDERR}:
-            self._devnull = open(os.devnull, "w")
+            self._devnull = open(os.devnull, "w", encoding="utf8")  # noqa: PTH123
 
         # Create temporary file.
         # Initially we used a pipe but it would hang on writes given enough output.
@@ -147,7 +147,7 @@ class CaptureManager:
         if self._capture in {Capture.BOTH, Capture.STDOUT}:
             os.dup2(fdw, self._stdout_fd)
         elif self._capture is Capture.STDERR:
-            os.dup2(self._devnull.fileno(), self._stdout_fd)  # type: ignore[union-attr]
+            os.dup2(self._devnull.fileno(), self._stdout_fd)  # ty: ignore[possibly-missing-attribute]
 
         # Redirect stderr to temporary file or devnull.
         self._stderr_fd = sys.stderr.fileno()
@@ -155,7 +155,7 @@ class CaptureManager:
         if self._capture in {Capture.BOTH, Capture.STDERR}:
             os.dup2(fdw, self._stderr_fd)
         elif self._capture is Capture.STDOUT:
-            os.dup2(self._devnull.fileno(), self._stderr_fd)  # type: ignore[union-attr]
+            os.dup2(self._devnull.fileno(), self._stderr_fd)  # ty: ignore[possibly-missing-attribute]
 
         return self
 

@@ -13,11 +13,11 @@ if TYPE_CHECKING:
 
     from failprint._internal.types import CmdFuncType
 
-DEFAULT_FORMAT = "pretty"
-DEFAULT_CALLABLE_NAME = "callable"
+_DEFAULT_FORMAT = "pretty"
+_DEFAULT_CALLABLE_NAME = "callable"
 
-LT = "#FAILPRINT_LT#"
-GT = "#FAILPRINT_GT#"
+_LT = "#FAILPRINT_LT#"
+_GT = "#FAILPRINT_GT#"
 
 
 def escape(text: str) -> str:
@@ -29,7 +29,7 @@ def escape(text: str) -> str:
     Returns:
         The escaped text.
     """
-    return text.replace("<", LT).replace(">", GT)
+    return text.replace("<", _LT).replace(">", _GT)
 
 
 def unescape(text: str) -> str:
@@ -41,7 +41,7 @@ def unescape(text: str) -> str:
     Returns:
         The unescaped text.
     """
-    return text.replace(LT, "<").replace(GT, ">")
+    return text.replace(_LT, "<").replace(_GT, ">")
 
 
 class Format:
@@ -166,7 +166,7 @@ def as_python_statement(func: Callable | LazyCallable, args: Sequence | None = N
     if isinstance(func, LazyCallable):
         callable_name = func.name or _get_callable_name(func.call)
         args = args or func.args
-        kwargs = kwargs or func.kwargs
+        kwargs = kwargs or func.kwargs  # ty: ignore[invalid-assignment]
     else:
         callable_name = _get_callable_name(func)
     args_str = [repr(arg) for arg in args] if args else []
@@ -182,12 +182,12 @@ def _get_callable_name(callee: Callable) -> str:
 
     # Climb back up the frames to search the callable in the locals
     callable_name = None
-    caller_frame: FrameType = inspect.currentframe()  # type: ignore[assignment]
+    caller_frame: FrameType = inspect.currentframe()  # ty: ignore[invalid-assignment]
     while callable_name is None and caller_frame.f_back:
         caller_frame = caller_frame.f_back
         callable_name = _find_callable_name_in_frame_locals(caller_frame, callee)
 
-    return callable_name or DEFAULT_CALLABLE_NAME
+    return callable_name or _DEFAULT_CALLABLE_NAME
 
 
 def _find_callable_name_in_frame_locals(caller_frame: FrameType, callee: Callable) -> str | None:

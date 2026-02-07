@@ -122,7 +122,7 @@ def test_callable_exit_codes(code: int) -> None:
 
 def test_handling_system_exit() -> None:
     """Check that we handle system exit."""
-    assert run(lambda: sys.exit()).code == 0
+    assert run(lambda: sys.exit()).code == 0  # noqa: PLW0108
     assert run(lambda: sys.exit(0)).code == 0
     assert run(lambda: sys.exit(1)).code == 1
     assert run(lambda: sys.exit("bye")).code == 1
@@ -362,7 +362,7 @@ def test_capture_function_and_subprocess_output(capsys: pytest.CaptureFixture) -
     def function() -> None:
         print("print")
         sys.stdout.write("sys stdout write\n")
-        os.system("echo os system")  # noqa: S605,S607
+        os.system("echo os system")  # noqa: S605,S607  # ty: ignore[deprecated, unused-ignore-comment, unused-ignore-comment]
         subprocess.run(["sh", "-c", "echo sh -c echo"], check=False)  # noqa: S607
 
     with capsys.disabled(), Capture.BOTH.here() as captured:

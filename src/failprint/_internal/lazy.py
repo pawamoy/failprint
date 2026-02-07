@@ -5,12 +5,16 @@ from __future__ import annotations
 import sys
 import warnings
 from functools import wraps
-from typing import Callable, Generic, TypeVar, overload
+from typing import TYPE_CHECKING, Callable, Generic, TypeVar, overload
 
 if sys.version_info < (3, 10):
     from typing_extensions import ParamSpec
 else:
     from typing import ParamSpec
+
+if TYPE_CHECKING:
+    from collections.abc import Mapping, Sequence
+
 
 _P = ParamSpec("_P")
 _R = TypeVar("_R")
@@ -19,7 +23,7 @@ _R = TypeVar("_R")
 class LazyCallable(Generic[_R]):
     """This class allows users to create and pass lazy callables to the runner."""
 
-    def __init__(self, call: Callable[_P, _R], args: tuple, kwargs: dict, name: str | None = None) -> None:
+    def __init__(self, call: Callable[_P, _R], args: Sequence, kwargs: Mapping, name: str | None = None) -> None:
         """Initialize a lazy callable.
 
         Parameters:
@@ -28,13 +32,13 @@ class LazyCallable(Generic[_R]):
             kwargs: The `**kwargs` to pass when calling.
             name: The name of the callable.
         """
-        self.call = call
+        self.call: Callable[_P, _R] = call
         """The original callable."""
-        self.args = args
+        self.args: Sequence = args
         """The `*args` to pass when calling."""
-        self.kwargs = kwargs
+        self.kwargs: Mapping = kwargs
         """The `**kwargs` to pass when calling."""
-        self.name = name
+        self.name: str | None = name
         """The name of the callable, if any."""
 
     def __call__(self) -> _R:
