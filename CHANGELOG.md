@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [1.1.0](https://github.com/pawamoy/failprint/releases/tag/1.1.0) - 2026-02-07
+
+<small>[Compare with 1.0.6](https://github.com/pawamoy/failprint/compare/1.0.6...1.1.0)</small>
+
+### Features
+
+- Make failprint aware of duty ([167c254](https://github.com/pawamoy/failprint/commit/167c2543b7eb8eb2a8e8d88a0806b309a40b722d) by Timothée Mazzucotelli).
+
 ## [1.0.6](https://github.com/pawamoy/failprint/releases/tag/1.0.6) - 2025-08-15
 
 <small>[Compare with 1.0.5](https://github.com/pawamoy/failprint/compare/1.0.5...1.0.6)</small>
