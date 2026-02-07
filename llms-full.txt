@@ -112,6 +112,8 @@ exit_code = run(
     silent=False,   # don't print anything
 )
 ```
+
+## Sponsors
 # API
 
 # failprint
@@ -145,6 +147,7 @@ Functions:
 - **`add_flags`** – Add some boolean flags to the parser.
 - **`as_python_statement`** – Transform a callable and its arguments into a Python statement string.
 - **`as_shell_command`** – Rebuild a command line from system arguments.
+- **`escape`** – Escape text for ansiprint by replacing < and > with special strings.
 - **`get_parser`** – Return the CLI argument parser.
 - **`main`** – Run the main program.
 - **`printable_command`** – Transform a command or function into a string.
@@ -154,6 +157,7 @@ Functions:
 - **`run_function_get_code`** – Run a function and return a exit code.
 - **`run_pty_subprocess`** – Run a command in a PTY subprocess.
 - **`run_subprocess`** – Run a command in a subprocess.
+- **`unescape`** – Unescape text by replacing special strings with < and >.
 
 Attributes:
 
@@ -241,8 +245,8 @@ def add_bool_argument(
     falsy_kwargs = {**kwargs, "help": falsy_help, "action": "store_false"}
 
     mxg = self.add_mutually_exclusive_group()
-    mxg.add_argument(*truthy, **truthy_kwargs)
-    mxg.add_argument(*falsy, **falsy_kwargs)
+    mxg.add_argument(*truthy, **truthy_kwargs)  # ty: ignore[invalid-argument-type]
+    mxg.add_argument(*falsy, **falsy_kwargs)  # ty: ignore[invalid-argument-type]
 ```
 
 ## Capture
@@ -505,7 +509,7 @@ def __enter__(self) -> CaptureManager:  # noqa: PYI034 (false-positive)
 
     # Open devnull if needed.
     if self._capture in {Capture.STDOUT, Capture.STDERR}:
-        self._devnull = open(os.devnull, "w")
+        self._devnull = open(os.devnull, "w", encoding="utf8")  # noqa: PTH123
 
     # Create temporary file.
     # Initially we used a pipe but it would hang on writes given enough output.
@@ -518,7 +522,7 @@ def __enter__(self) -> CaptureManager:  # noqa: PYI034 (false-positive)
     if self._capture in {Capture.BOTH, Capture.STDOUT}:
         os.dup2(fdw, self._stdout_fd)
     elif self._capture is Capture.STDERR:
-        os.dup2(self._devnull.fileno(), self._stdout_fd)  # type: ignore[union-attr]
+        os.dup2(self._devnull.fileno(), self._stdout_fd)  # ty: ignore[possibly-missing-attribute]
 
     # Redirect stderr to temporary file or devnull.
     self._stderr_fd = sys.stderr.fileno()
@@ -526,7 +530,7 @@ def __enter__(self) -> CaptureManager:  # noqa: PYI034 (false-positive)
     if self._capture in {Capture.BOTH, Capture.STDERR}:
         os.dup2(fdw, self._stderr_fd)
     elif self._capture is Capture.STDOUT:
-        os.dup2(self._devnull.fileno(), self._stderr_fd)  # type: ignore[union-attr]
+        os.dup2(self._devnull.fileno(), self._stderr_fd)  # ty: ignore[possibly-missing-attribute]
 
     return self
 ```
@@ -652,8 +656,8 @@ The main template.
 ```
 LazyCallable(
     call: Callable[_P, _R],
-    args: tuple,
-    kwargs: dict,
+    args: Sequence,
+    kwargs: Mapping,
     name: str | None = None,
 )
 ```
@@ -665,8 +669,8 @@ This class allows users to create and pass lazy callables to the runner.
 Parameters:
 
 - **`call`** (`Callable[_P, _R]`) – The origin callable.
-- **`args`** (`tuple`) – The \*args to pass when calling.
-- **`kwargs`** (`dict`) – The \*\*kwargs to pass when calling.
+- **`args`** (`Sequence`) – The \*args to pass when calling.
+- **`kwargs`** (`Mapping`) – The \*\*kwargs to pass when calling.
 - **`name`** (`str | None`, default: `None` ) – The name of the callable.
 
 Methods:
@@ -675,15 +679,15 @@ Methods:
 
 Attributes:
 
-- **`args`** – The \*args to pass when calling.
-- **`call`** – The original callable.
-- **`kwargs`** – The \*\*kwargs to pass when calling.
-- **`name`** – The name of the callable, if any.
+- **`args`** (`Sequence`) – The \*args to pass when calling.
+- **`call`** (`Callable[_P, _R]`) – The original callable.
+- **`kwargs`** (`Mapping`) – The \*\*kwargs to pass when calling.
+- **`name`** (`str | None`) – The name of the callable, if any.
 
 Source code in `src/failprint/_internal/lazy.py`
 
 ```
-def __init__(self, call: Callable[_P, _R], args: tuple, kwargs: dict, name: str | None = None) -> None:
+def __init__(self, call: Callable[_P, _R], args: Sequence, kwargs: Mapping, name: str | None = None) -> None:
     """Initialize a lazy callable.
 
     Parameters:
@@ -692,20 +696,20 @@ def __init__(self, call: Callable[_P, _R], args: tuple, kwargs: dict, name: str 
         kwargs: The `**kwargs` to pass when calling.
         name: The name of the callable.
     """
-    self.call = call
+    self.call: Callable[_P, _R] = call
     """The original callable."""
-    self.args = args
+    self.args: Sequence = args
     """The `*args` to pass when calling."""
-    self.kwargs = kwargs
+    self.kwargs: Mapping = kwargs
     """The `**kwargs` to pass when calling."""
-    self.name = name
+    self.name: str | None = name
     """The name of the callable, if any."""
 ```
 
 ### args
 
 ```
-args = args
+args: Sequence = args
 ```
 
 The `*args` to pass when calling.
@@ -713,7 +717,7 @@ The `*args` to pass when calling.
 ### call
 
 ```
-call = call
+call: Callable[_P, _R] = call
 ```
 
 The original callable.
@@ -721,7 +725,7 @@ The original callable.
 ### kwargs
 
 ```
-kwargs = kwargs
+kwargs: Mapping = kwargs
 ```
 
 The `**kwargs` to pass when calling.
@@ -729,7 +733,7 @@ The `**kwargs` to pass when calling.
 ### name
 
 ```
-name = name
+name: str | None = name
 ```
 
 The name of the callable, if any.
@@ -982,7 +986,7 @@ def as_python_statement(func: Callable | LazyCallable, args: Sequence | None = N
     if isinstance(func, LazyCallable):
         callable_name = func.name or _get_callable_name(func.call)
         args = args or func.args
-        kwargs = kwargs or func.kwargs
+        kwargs = kwargs or func.kwargs  # ty: ignore[invalid-assignment]
     else:
         callable_name = _get_callable_name(func)
     args_str = [repr(arg) for arg in args] if args else []
@@ -1042,6 +1046,37 @@ def as_shell_command(cmd: list[str]) -> str:
             part = f'"{part}"'  # noqa: PLW2901
         parts.append(part)
     return " ".join(parts)
+```
+
+## escape
+
+```
+escape(text: str) -> str
+```
+
+Escape text for ansiprint by replacing `<` and `>` with special strings.
+
+Parameters:
+
+- **`text`** (`str`) – The text to escape.
+
+Returns:
+
+- `str` – The escaped text.
+
+Source code in `src/failprint/_internal/formats.py`
+
+```
+def escape(text: str) -> str:
+    """Escape text for ansiprint by replacing `<` and `>` with special strings.
+
+    Parameters:
+        text: The text to escape.
+
+    Returns:
+        The escaped text.
+    """
+    return text.replace("<", _LT).replace(">", _GT)
 ```
 
 ## get_parser
@@ -1242,9 +1277,9 @@ def run(
     Returns:
         The command exit code, or 0 if `nofail` is True.
     """
-    format_name: str = fmt or os.environ.get("FAILPRINT_FORMAT", DEFAULT_FORMAT)  # type: ignore[assignment]
+    format_name: str = fmt or os.environ.get("FAILPRINT_FORMAT", _DEFAULT_FORMAT)
     format_name = accept_custom_format(format_name)
-    format_obj = formats.get(format_name, formats[DEFAULT_FORMAT])
+    format_obj = formats.get(format_name, formats[_DEFAULT_FORMAT])
 
     env = Environment(autoescape=False)  # noqa: S701 (no HTML: no need to escape)
     env.filters["indent"] = textwrap.indent
@@ -1344,14 +1379,14 @@ def run_command(
     # pty can only combine, so only use pty when combining
     if pty and capture in {Capture.BOTH, Capture.NONE}:
         if shell:
-            cmd = ["sh", "-c", cmd]  # type: ignore[list-item]  # we know cmd is str
-        return run_pty_subprocess(cmd, capture=capture, stdin=stdin)  # type: ignore[arg-type]  # we made sure cmd is a list
+            cmd = ["sh", "-c", cmd]  # ty: ignore[invalid-assignment]
+        return run_pty_subprocess(cmd, capture=capture, stdin=stdin)  # ty: ignore[invalid-argument-type]
 
     # we are on Windows
     if WINDOWS:
         # make sure the process can find the executable
         if not shell:
-            cmd[0] = shutil.which(cmd[0]) or cmd[0]  # type: ignore[index]  # we know cmd is a list
+            cmd[0] = shutil.which(cmd[0]) or cmd[0]  # ty: ignore[invalid-assignment]
         return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
 
     return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
@@ -1467,7 +1502,9 @@ def run_function_get_code(
             return exit.code
         sys.stderr.write(str(exit.code))
         return 1
-    except Exception:  # noqa: BLE001
+    except Exception as error:  # noqa: BLE001
+        if (duty_failure := _get_duty_failure_exception()) and isinstance(error, duty_failure):
+            return error.code  # ty: ignore[unresolved-attribute]
         sys.stderr.write(traceback.format_exc() + "\n")
         return 1
 
@@ -1635,4 +1672,35 @@ def run_subprocess(
         output = process.stdout
 
     return process.returncode, output
+```
+
+## unescape
+
+```
+unescape(text: str) -> str
+```
+
+Unescape text by replacing special strings with `<` and `>`.
+
+Parameters:
+
+- **`text`** (`str`) – The text to unescape.
+
+Returns:
+
+- `str` – The unescaped text.
+
+Source code in `src/failprint/_internal/formats.py`
+
+```
+def unescape(text: str) -> str:
+    """Unescape text by replacing special strings with `<` and `>`.
+
+    Parameters:
+        text: The text to unescape.
+
+    Returns:
+        The unescaped text.
+    """
+    return text.replace(_LT, "<").replace(_GT, ">")
 ```
