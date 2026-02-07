@@ -7,6 +7,7 @@ import shutil
 import sys
 import textwrap
 import traceback
+from functools import cache
 from typing import TYPE_CHECKING, Callable
 
 import colorama
@@ -230,7 +231,9 @@ def run_function_get_code(
             return exit.code
         sys.stderr.write(str(exit.code))
         return 1
-    except Exception:  # noqa: BLE001
+    except Exception as error:  # noqa: BLE001
+        if (duty_failure := _get_duty_failure_exception()) and isinstance(error, duty_failure):
+            return error.code
         sys.stderr.write(traceback.format_exc() + "\n")
         return 1
 
@@ -250,3 +253,13 @@ def run_function_get_code(
         if result is None or bool(result):
             return 0
         return 1
+
+
+@cache
+def _get_duty_failure_exception() -> type[BaseException] | None:
+    try:
+        from duty import DutyFailure
+    except ImportError:
+        return None
+    else:
+        return DutyFailure
