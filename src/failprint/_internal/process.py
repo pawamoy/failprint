@@ -114,6 +114,3 @@ def run_pty_subprocess(
 
     output = "".join(pty_output).replace("\r\n", "\n")
     return process.wait(), output
-
-
-__all__ = ["run_pty_subprocess", "run_subprocess"]

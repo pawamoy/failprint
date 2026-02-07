@@ -10,5 +10,3 @@ CmdType = Union[str, list[str]]
 """Type for a command."""
 CmdFuncType = Union[CmdType, Callable, LazyCallable]
 """Type for a command or function."""
-
-__all__ = ["CmdFuncType", "CmdType"]
