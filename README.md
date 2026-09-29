@@ -1,7 +1,7 @@
 # failprint
 
 [![ci](https://github.com/pawamoy/failprint/workflows/ci/badge.svg)](https://github.com/pawamoy/failprint/actions?query=workflow%3Aci)
-[![documentation](https://img.shields.io/badge/docs-mkdocs-708FCC.svg?style=flat)](https://pawamoy.github.io/failprint/)
+[![documentation](https://img.shields.io/badge/docs-zensical-FF9100.svg?style=flat)](https://pawamoy.github.io/failprint/)
 [![pypi version](https://img.shields.io/pypi/v/failprint.svg)](https://pypi.org/project/failprint/)
 [![gitter](https://img.shields.io/badge/matrix-chat-4DB798.svg?style=flat)](https://app.gitter.im/#/room/#failprint:gitter.im)
 
@@ -27,30 +27,6 @@ The task runner [`duty`](https://github.com/pawamoy/duty) uses `failprint`,
 allowing you to define tasks in Python and run them with minimalist and beautiful output:
 
 ![demo_duty](demo_duty.svg)
-
-## Requirements
-
-failprint requires Python 3.8 or above.
-
-<details>
-<summary>To install Python 3.8, I recommend using <a href="https://github.com/pyenv/pyenv"><code>pyenv</code></a>.</summary>
-
-```bash
-# install pyenv
-git clone https://github.com/pyenv/pyenv ~/.pyenv
-
-# setup pyenv (you should also put these three lines in .bashrc or similar)
-export PATH="${HOME}/.pyenv/bin:${PATH}"
-export PYENV_ROOT="${HOME}/.pyenv"
-eval "$(pyenv init -)"
-
-# install Python 3.8.17
-pyenv install 3.8.17
-
-# make it available globally
-pyenv global system 3.8.17
-```
-</details>
 
 ## Installation
 
