@@ -1,3 +1,21 @@
+# SPDX-License-Identifier: ISC
+#
+# ISC License
+#
+# Copyright (c) 2020, Timothée Mazzucotelli and contributors
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
 # Functions to run commands and capture output.
 
 from __future__ import annotations
@@ -8,7 +26,7 @@ import sys
 import textwrap
 import traceback
 from functools import cache
-from typing import TYPE_CHECKING, Callable
+from typing import TYPE_CHECKING
 
 import colorama
 from ansimarkup import parse
@@ -27,7 +45,7 @@ from failprint._internal.lazy import LazyCallable
 from failprint._internal.process import WINDOWS, run_pty_subprocess, run_subprocess
 
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    from collections.abc import Callable, Sequence
 
     from failprint._internal.types import CmdFuncType, CmdType
 
@@ -161,14 +179,14 @@ def run_command(
     # pty can only combine, so only use pty when combining
     if pty and capture in {Capture.BOTH, Capture.NONE}:
         if shell:
-            cmd = ["sh", "-c", cmd]  # ty: ignore[invalid-assignment]
-        return run_pty_subprocess(cmd, capture=capture, stdin=stdin)  # ty: ignore[invalid-argument-type]
+            cmd = ["sh", "-c", cmd]
+        return run_pty_subprocess(cmd, capture=capture, stdin=stdin)
 
     # we are on Windows
     if WINDOWS:
         # make sure the process can find the executable
         if not shell:
-            cmd[0] = shutil.which(cmd[0]) or cmd[0]  # ty: ignore[invalid-assignment]
+            cmd[0] = shutil.which(cmd[0]) or cmd[0]
         return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)
 
     return run_subprocess(cmd, capture=capture, shell=shell, stdin=stdin)

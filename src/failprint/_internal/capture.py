@@ -1,3 +1,21 @@
+# SPDX-License-Identifier: ISC
+#
+# ISC License
+#
+# Copyright (c) 2020, Timothée Mazzucotelli and contributors
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
 # Enumeration of possible output captures.
 
 from __future__ import annotations
@@ -147,7 +165,7 @@ class CaptureManager:
         if self._capture in {Capture.BOTH, Capture.STDOUT}:
             os.dup2(fdw, self._stdout_fd)
         elif self._capture is Capture.STDERR:
-            os.dup2(self._devnull.fileno(), self._stdout_fd)  # ty: ignore[possibly-missing-attribute]
+            os.dup2(self._devnull.fileno(), self._stdout_fd)  # ty:ignore[unresolved-attribute]
 
         # Redirect stderr to temporary file or devnull.
         self._stderr_fd = sys.stderr.fileno()
@@ -155,7 +173,7 @@ class CaptureManager:
         if self._capture in {Capture.BOTH, Capture.STDERR}:
             os.dup2(fdw, self._stderr_fd)
         elif self._capture is Capture.STDOUT:
-            os.dup2(self._devnull.fileno(), self._stderr_fd)  # ty: ignore[possibly-missing-attribute]
+            os.dup2(self._devnull.fileno(), self._stderr_fd)  # ty:ignore[unresolved-attribute]
 
         return self
 

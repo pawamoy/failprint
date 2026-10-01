@@ -1,3 +1,21 @@
+# SPDX-License-Identifier: ISC
+#
+# ISC License
+#
+# Copyright (c) 2020, Timothée Mazzucotelli and contributors
+#
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
 """Tests for the `runners` module."""
 
 import os
@@ -161,7 +179,7 @@ def test_callable_capture_none(capsys: pytest.CaptureFixture) -> None:
         capsys: Pytest fixture to capture output.
     """
     msg = "out"
-    assert run(lambda: print(msg), capture=False, silent=True).code == 0
+    assert run(lambda: print(msg), capture=False, silent=True).code == 0  # noqa: T201
     outerr = capsys.readouterr()
     assert msg in outerr.out
 
@@ -307,7 +325,7 @@ def test_pass_stdin_to_function(stdin: str) -> None:
     """
 
     def print_stdin() -> None:
-        print(sys.stdin.read(), end="")
+        print(sys.stdin.read(), end="")  # noqa: T201
 
     code, output = run_function(print_stdin, stdin=stdin)
     assert code == 0
@@ -323,7 +341,7 @@ def test_run_lazy_callable(capfd: pytest.CaptureFixture) -> None:
 
     @lazy
     def greet(name: str) -> int:
-        print(f"hello {name}")
+        print(f"hello {name}")  # noqa: T201
         return 1
 
     result = run(greet("tim"))
@@ -342,7 +360,7 @@ def test_run_lazy_callable_without_calling_it(capfd: pytest.CaptureFixture) -> N
 
     @lazy
     def greet(name: str) -> int:
-        print(f"hello {name}")
+        print(f"hello {name}")  # noqa: T201
         return 1
 
     result = run(greet, args=["tim"])
@@ -360,7 +378,7 @@ def test_capture_function_and_subprocess_output(capsys: pytest.CaptureFixture) -
     """
 
     def function() -> None:
-        print("print")
+        print("print")  # noqa: T201
         sys.stdout.write("sys stdout write\n")
         os.system("echo os system")  # noqa: S605,S607  # ty: ignore[deprecated, unused-ignore-comment, unused-ignore-comment]
         subprocess.run(["sh", "-c", "echo sh -c echo"], check=False)  # noqa: S607
@@ -378,7 +396,7 @@ def test_capture_large_output() -> None:
 
     def function() -> None:
         for _ in range(300):
-            print("0" * 300)
+            print("0" * 300)  # noqa: T201
 
     with Capture.BOTH.here():
         function()
